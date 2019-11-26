@@ -1,0 +1,1026 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="算法,栈," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第三十篇原创文章
+在学习栈前，脑海中对这个词只有一个印象：客栈 (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学点算法之栈的学习与应用">
+<meta property="og:url" content="https://zhangslob.github.io/2018/02/05/学点算法之栈的学习与应用/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第三十篇原创文章
+在学习栈前，脑海中对这个词只有一个印象：客栈 (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/eCC45z9.jpg">
+<meta property="og:image" content="https://i.imgur.com/J3KWYOO.png">
+<meta property="og:image" content="https://i.imgur.com/SLZpBJ8.png">
+<meta property="og:image" content="https://i.imgur.com/M2ZtP7O.png">
+<meta property="og:updated_time" content="2018-02-05T14:12:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学点算法之栈的学习与应用">
+<meta name="twitter:description" content="这是崔斯特的第三十篇原创文章
+在学习栈前，脑海中对这个词只有一个印象：客栈 (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/eCC45z9.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/02/05/学点算法之栈的学习与应用/"/>
+
+
+
+
+
+  <title> 学点算法之栈的学习与应用 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/02/05/学点算法之栈的学习与应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                学点算法之栈的学习与应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T22:08:13+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第三十篇原创文章
+</code></pre><p>在学习<code>栈</code>前，脑海中对这个词只有一个印象：<code>客栈</code> (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/eCC45z9.jpg" alt=""></p>
+<a id="more"></a>
+<h1 id="栈是什么"><a href="#栈是什么" class="headerlink" title="栈是什么"></a>栈是什么</h1><p>栈（有时称为“后进先出栈”）是一个项的有序集合，其中添加移除新项总发生在同一端。</p>
+<p>这段话初学者是懵逼的，别急，往下看。</p>
+<p>对栈的一般操作：</p>
+<ul>
+<li>Stack() 创建一个空的新栈。 它不需要参数，并返回一个空栈。</li>
+<li>push(item)将一个新项添加到栈的顶部。它需要 item 做参数并不返回任何内容。</li>
+<li>pop() 从栈中删除顶部项。它不需要参数并返回 item 。栈被修改。</li>
+<li>peek() 从栈返回顶部项，但不会删除它。不需要参数。 不修改栈。</li>
+<li>isEmpty() 测试栈是否为空。不需要参数，并返回布尔值。</li>
+<li>size() 返回栈中的 item 数量。不需要参数，并返回一个整数。</li>
+</ul>
+<p>例如，s 是已经创建的空栈，下图展示了栈操作序列的结果。栈中，顶部项列在最右边。 </p>
+<p><img src="https://i.imgur.com/J3KWYOO.png" alt=""></p>
+<blockquote>
+<p>自己在心里过一遍就很好理解了</p>
+</blockquote>
+<h1 id="Python实现栈"><a href="#Python实现栈" class="headerlink" title="Python实现栈"></a>Python实现栈</h1><p>其实看到上面那张图，就想起了Python中 <code>list</code> 的一些用法，append、pop等，下面是使用 Python 来实现栈，也非常简单：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span>:</span></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">         self.items = []</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">isEmpty</span><span class="params">(self)</span>:</span></div><div class="line">         <span class="keyword">return</span> self.items == []</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, item)</span>:</span></div><div class="line">         self.items.append(item)</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></div><div class="line">         <span class="keyword">return</span> self.items.pop()</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">peek</span><span class="params">(self)</span>:</span></div><div class="line">         <span class="keyword">return</span> self.items[len(self.items)<span class="number">-1</span>]</div><div class="line"></div><div class="line">     <span class="function"><span class="keyword">def</span> <span class="title">size</span><span class="params">(self)</span>:</span></div><div class="line">         <span class="keyword">return</span> len(self.items)</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/bnmnetp/pythonds/blob/master/basic/stack.py" target="_blank" rel="external">pythonds/basic/stack.py</a></p>
+<h1 id="栈的应用：简单括号匹配（一）"><a href="#栈的应用：简单括号匹配（一）" class="headerlink" title="栈的应用：简单括号匹配（一）"></a>栈的应用：简单括号匹配（一）</h1><p>有一些正确匹配的括号字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(()()()())</div><div class="line"></div><div class="line">(((())))</div><div class="line"></div><div class="line">(()((())()))</div></pre></td></tr></table></figure>
+<p>对比那些不匹配的括号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">((((((())</div><div class="line"></div><div class="line">()))</div><div class="line"></div><div class="line">(()()(()</div></pre></td></tr></table></figure></p>
+<p>具有挑战的是如何编写一个算法，能够从左到右读取一串符号，并决定符号是否平衡。</p>
+<p>为了解决这个问题，我们需要做一个重要的观察。从左到右处理符号时，最近开始符号必须与下一个关闭符号相匹配。此外，处理的第一个开始符号必须等待直到其匹配最后一个符号。结束符号以相反的顺序匹配开始符号。他们从内到外匹配。这是一个可以用栈解决问题的线索。</p>
+<p><img src="https://i.imgur.com/SLZpBJ8.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pythonds.basic.stack <span class="keyword">import</span> Stack</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parChecker</span><span class="params">(symbolString)</span>:</span></div><div class="line">    s = Stack()</div><div class="line">    balanced = <span class="keyword">True</span></div><div class="line">    index = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> index &lt; len(symbolString) <span class="keyword">and</span> balanced:</div><div class="line">        symbol = symbolString[index]</div><div class="line">        <span class="keyword">if</span> symbol == <span class="string">"("</span>:</div><div class="line">            s.push(symbol)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">if</span> s.isEmpty():</div><div class="line">                balanced = <span class="keyword">False</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                s.pop()</div><div class="line"></div><div class="line">        index = index + <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> balanced <span class="keyword">and</span> s.isEmpty():</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">print(parChecker(<span class="string">'((()))'</span>))</div><div class="line">print(parChecker(<span class="string">'(()'</span>))</div></pre></td></tr></table></figure>
+<p><em>output</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">True</div><div class="line">False</div></pre></td></tr></table></figure></p>
+<p>一旦你认为栈是保存括号的恰当的数据结构，算法是很直接的。</p>
+<p>从空栈开始，从左到右处理括号字符串。如果一个符号是一个开始符号，将其作为一个信号，对应的结束符号稍后会出现。另一方面，如果符号是结束符号，弹出栈，只要弹出栈的开始符号可以匹配每个结束符号，则括号保持匹配状态。如果任何时候栈上没有出现符合开始符号的结束符号，则字符串不匹配。最后，当所有符号都被处理后，栈应该是空的。</p>
+<p><img src="https://i.imgur.com/M2ZtP7O.png" alt=""></p>
+<blockquote>
+<p>如果有和我一样不能很好理解的，使用pycharm的debug模式，可以一步步来，看看程序就近在做什么。</p>
+</blockquote>
+<h1 id="括号配对问题（二）"><a href="#括号配对问题（二）" class="headerlink" title="括号配对问题（二）"></a>括号配对问题（二）</h1><p>来看看第二种匹配问题。Python程序里存在很多括号：如圆括号、方括号和花括号，每种括号都有开括号和闭括号。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">from</span> pythonds.basic.stack <span class="keyword">import</span> Stack</div><div class="line"></div><div class="line">pares = <span class="string">"()[]&#123;&#125;"</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">pare_theses</span><span class="params">(text)</span>:</span></div><div class="line">        i, text_len = <span class="number">0</span>, len(text)</div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            <span class="keyword">while</span> i &lt; text_len <span class="keyword">and</span> text[i] <span class="keyword">not</span> <span class="keyword">in</span> pares:</div><div class="line">                i += <span class="number">1</span></div><div class="line">            <span class="keyword">if</span> i &gt;= text_len:</div><div class="line">                <span class="keyword">return</span></div><div class="line">            <span class="keyword">yield</span> text[i], i</div><div class="line">            i += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_pares</span><span class="params">(text)</span>:</span></div><div class="line">    open_pares = <span class="string">"([&#123;"</span></div><div class="line">    opposite = &#123;<span class="string">')'</span>: <span class="string">'('</span>, <span class="string">']'</span>: <span class="string">'['</span>, <span class="string">'&#125;'</span>: <span class="string">'&#123;'</span>&#125; <span class="comment"># 表示配对关系的字典</span></div><div class="line">    s = Stack()</div><div class="line">    <span class="keyword">for</span> pr, i <span class="keyword">in</span> pare_theses(text):</div><div class="line">        <span class="keyword">if</span> pr <span class="keyword">in</span> open_pares:  <span class="comment"># 开括号，压进栈并继续</span></div><div class="line">            s.push(pr)</div><div class="line">        <span class="keyword">elif</span> s.pop() != opposite[pr]:  <span class="comment"># 不匹配就是失败，退出</span></div><div class="line">            print(<span class="string">'Unmatching is found at'</span>, i, <span class="string">'for'</span>, pr)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">		<span class="comment"># else 是一次括号配对成功，什么也不做，继续</span></div><div class="line">    print(<span class="string">"All paretheses are correctly matched."</span>)</div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line">check_pares(<span class="string">'([]&#123;&#125;]'</span>)</div><div class="line">check_pares(<span class="string">'([]&#123;&#125;)'</span>)</div></pre></td></tr></table></figure>
+<p><em>output</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Unmatching is found at 5 for ]</div><div class="line">All paretheses are correctly matched.</div></pre></td></tr></table></figure>
+<p>生成器（回忆一下）：</p>
+<ul>
+<li>用 yield 语句产生结果</li>
+<li>可以用在需要迭代器的地方</li>
+<li>函数结束导致迭代结束</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="http://interactivepython.org/runestone/static/pythonds/BasicDS/TheStackAbstractDataType.html" target="_blank" rel="external">http://interactivepython.org/runestone/static/pythonds/BasicDS/TheStackAbstractDataType.html</a></li>
+<li><a href="http://www.math.pku.edu.cn/teachers/qiuzy/ds_python/courseware/index.htm" target="_blank" rel="external">http://www.math.pku.edu.cn/teachers/qiuzy/ds_python/courseware/index.htm</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/栈/" rel="tag"># 栈</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/02/为什么不推荐Selenium写爬虫/" rel="next" title="为什么不推荐Selenium写爬虫">
+                <i class="fa fa-chevron-left"></i> 为什么不推荐Selenium写爬虫
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/08/PEP8规则及Pycharm应用/" rel="prev" title="PEP8规则及Pycharm应用">
+                PEP8规则及Pycharm应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#栈是什么"><span class="nav-number">1.</span> <span class="nav-text">栈是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python实现栈"><span class="nav-number">2.</span> <span class="nav-text">Python实现栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#栈的应用：简单括号匹配（一）"><span class="nav-number">3.</span> <span class="nav-text">栈的应用：简单括号匹配（一）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#括号配对问题（二）"><span class="nav-number">4.</span> <span class="nav-text">括号配对问题（二）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1060 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java疑难点">
+<meta property="og:url" content="https://zhangslob.github.io/2019/11/11/Java疑难点/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百篇原创文章">
+<meta property="og:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
+<meta property="og:image" content="https://camo.githubusercontent.com/b1c115758fbdca06d975ccb2ea9d948184d8478f/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f426967446563696d616c2e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/26b4048f6dd0109fcbb839ab6be16a088427a16d/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545392539382542462545392538372538432545352542372542342545352542372542344a6176612545352542432538302545352538462539312545362538392538422d4172726179732e61734c69737428292545362539362542392545362542332539352e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/41587433a126cf0fb108c42d9c94df6bf40e07b3/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f666f72656163682d72656d6f76653a6164642e706e67">
+<meta property="og:updated_time" content="2019-11-11T07:44:39.165Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java疑难点">
+<meta name="twitter:description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百篇原创文章">
+<meta name="twitter:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/11/11/Java疑难点/"/>
+
+
+
+
+
+  <title> Java疑难点 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/11/11/Java疑难点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java疑难点
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-11T13:57:44+08:00">
+                2019-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>java基础知识  (๑• . •๑)</p>
+<p><a href="http://vmpic.cn/image/7gdV" target="_blank" rel="external"><img src="https://u.vmpic.cn/2019/11/04/7gdV.jpg" alt="7gdV.jpg"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第一百篇原创文章</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="正确使用-equals-方法"><a href="#正确使用-equals-方法" class="headerlink" title="正确使用 equals 方法"></a>正确使用 equals 方法</h1><p>Object的equals方法容易抛空指针异常，应使用常量或确定有值的对象来调用 equals。</p>
+<p>举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 不能使用一个值为null的引用类型变量来调用非静态方法，否则会抛出异常</span></div><div class="line">String str = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">if</span> (str.equals(<span class="string">"SnailClimb"</span>)) &#123;</div><div class="line">  ...</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  ..</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行上面的程序会抛出空指针异常，但是我们把第二行的条件判断语句改为下面这样的话，就不会抛出空指针异常，else 语句块得到执行。：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"SnailClimb"</span>.equals(str); 	<span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>不过更推荐使用 <code>java.util.Objects#equals</code>(JDK7 引入的工具类)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Objects.equals(<span class="keyword">null</span>,<span class="string">"SnailClimb"</span>);<span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>我们看一下<code>java.util.Objects#equals</code>的源码就知道原因了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object a, Object b)</span> </span>&#123;</div><div class="line">        <span class="comment">// 可以避免空指针异常。如果a==null的话此时a.equals(b)就不会得到执行，避免出现空指针异常。</span></div><div class="line">        <span class="keyword">return</span> (a == b) || (a != <span class="keyword">null</span> &amp;&amp; a.equals(b));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p>Reference:<a href="https://blog.csdn.net/tick_tock97/article/details/72824894" target="_blank" rel="external">Java中equals方法造成空指针异常的原因及解决方案</a></p>
+<ul>
+<li>每种原始类型都有默认值一样，如int默认值为 0，boolean 的默认值为 false，null 是任何引用类型的默认值，不严格的说是所有 Object 类型的默认值。</li>
+<li>可以使用 == 或者 != 操作来比较null值，但是不能使用其他算法或者逻辑操作。在Java中<code>null == null</code>将返回true。</li>
+<li>不能使用一个值为null的引用类型变量来调用非静态方法，否则会抛出异常</li>
+</ul>
+<h1 id="整型包装类值的比较"><a href="#整型包装类值的比较" class="headerlink" title="整型包装类值的比较"></a>整型包装类值的比较</h1><p>所有整型包装类对象值的比较必须使用equals方法。</p>
+<p>先看下面这个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Integer x = <span class="number">3</span>;</div><div class="line">Integer y = <span class="number">3</span>;</div><div class="line">System.out.println(x == y);<span class="comment">// true</span></div><div class="line">Integer a = <span class="keyword">new</span> Integer(<span class="number">3</span>);</div><div class="line">Integer b = <span class="keyword">new</span> Integer(<span class="number">3</span>);</div><div class="line">System.out.println(a == b);<span class="comment">//false</span></div><div class="line">System.out.println(a.equals(b));<span class="comment">//true</span></div></pre></td></tr></table></figure>
+<p>当使用自动装箱方式创建一个Integer对象时，当数值在-128 ~127时，会将创建的 Integer 对象缓存起来，当下次再出现该数值时，直接从缓存中取出对应的Integer对象。所以上述代码中，x和y引用的是相同的Integer对象。</p>
+<h1 id="BigDecimal-的用处"><a href="#BigDecimal-的用处" class="headerlink" title="BigDecimal 的用处"></a>BigDecimal 的用处</h1><p>《阿里巴巴Java开发手册》中提到：<strong>浮点数之间的等值判断，基本数据类型不能用==来比较，包装数据类型不能用 equals 来判断。</strong> 具体原理和浮点数的编码方式有关，这里就不多提了，我们下面直接上实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">float</span> a = <span class="number">1.0f</span> - <span class="number">0.9f</span>;</div><div class="line"><span class="keyword">float</span> b = <span class="number">0.9f</span> - <span class="number">0.8f</span>;</div><div class="line">System.out.println(a);<span class="comment">// 0.100000024</span></div><div class="line">System.out.println(b);<span class="comment">// 0.099999964</span></div><div class="line">System.out.println(a == b);<span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>具有基本数学知识的我们很清楚的知道输出并不是我们想要的结果（<strong>精度丢失</strong>），我们如何解决这个问题呢？一种很常用的方法是：<strong>使用使用 BigDecimal 来定义浮点数的值，再进行浮点数的运算操作。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">BigDecimal a = <span class="keyword">new</span> BigDecimal(<span class="string">"1.0"</span>);</div><div class="line">BigDecimal b = <span class="keyword">new</span> BigDecimal(<span class="string">"0.9"</span>);</div><div class="line">BigDecimal c = <span class="keyword">new</span> BigDecimal(<span class="string">"0.8"</span>);</div><div class="line">BigDecimal x = a.subtract(b);<span class="comment">// 0.1</span></div><div class="line">BigDecimal y = b.subtract(c);<span class="comment">// 0.1</span></div><div class="line">System.out.println(x.equals(y));<span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h1 id="BigDecimal-的大小比较"><a href="#BigDecimal-的大小比较" class="headerlink" title="BigDecimal 的大小比较"></a>BigDecimal 的大小比较</h1><p><code>a.compareTo(b)</code> : 返回 -1 表示小于，0 表示 等于， 1表示 大于。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">BigDecimal a = <span class="keyword">new</span> BigDecimal(<span class="string">"1.0"</span>);</div><div class="line">BigDecimal b = <span class="keyword">new</span> BigDecimal(<span class="string">"0.9"</span>);</div><div class="line">System.out.println(a.compareTo(b));<span class="comment">// 1</span></div></pre></td></tr></table></figure>
+<h1 id="BigDecimal-保留几位小数"><a href="#BigDecimal-保留几位小数" class="headerlink" title="BigDecimal 保留几位小数"></a>BigDecimal 保留几位小数</h1><p>通过 <code>setScale</code>方法设置保留几位小数以及保留规则。保留规则有挺多种，不需要记，IDEA会提示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">BigDecimal m = <span class="keyword">new</span> BigDecimal(<span class="string">"1.255433"</span>);</div><div class="line">BigDecimal n = m.setScale(<span class="number">3</span>,BigDecimal.ROUND_HALF_DOWN);</div><div class="line">System.out.println(n);<span class="comment">// 1.255</span></div></pre></td></tr></table></figure>
+<h1 id="BigDecimal-的使用注意事项"><a href="#BigDecimal-的使用注意事项" class="headerlink" title="BigDecimal 的使用注意事项"></a>BigDecimal 的使用注意事项</h1><p>注意：我们在使用BigDecimal时，为了防止精度丢失，推荐使用它的 <strong>BigDecimal(String)</strong> 构造方法来创建对象。《阿里巴巴Java开发手册》对这部分内容也有提到如下图所示。</p>
+<p><a href="https://camo.githubusercontent.com/b1c115758fbdca06d975ccb2ea9d948184d8478f/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f426967446563696d616c2e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/b1c115758fbdca06d975ccb2ea9d948184d8478f/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f426967446563696d616c2e706e67" alt="《阿里巴巴Java开发手册》对这部分BigDecimal的描述"></a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>BigDecimal 主要用来操作（大）浮点数，BigInteger 主要用来操作大整数（超过 long 类型）。</p>
+<p>BigDecimal 的实现利用到了 BigInteger, 所不同的是 BigDecimal 加入了小数位的概念</p>
+<h1 id="基本数据类型与包装数据类型的使用标准"><a href="#基本数据类型与包装数据类型的使用标准" class="headerlink" title="基本数据类型与包装数据类型的使用标准"></a>基本数据类型与包装数据类型的使用标准</h1><p>Reference:《阿里巴巴Java开发手册》</p>
+<ul>
+<li>【强制】所有的 POJO 类属性必须使用包装数据类型。</li>
+<li>【强制】RPC 方法的返回值和参数必须使用包装数据类型。</li>
+<li>【推荐】所有的局部变量使用基本数据类型。</li>
+</ul>
+<p>比如我们如果自定义了一个Student类,其中有一个属性是成绩score,如果用Integer而不用int定义,一次考试,学生可能没考,值是null,也可能考了,但考了0分,值是0,这两个表达的状态明显不一样.</p>
+<p><strong>说明</strong> :POJO 类属性没有初值是提醒使用者在需要使用时，必须自己显式地进行赋值，任何 NPE 问题，或者入库检查，都由使用者来保证。</p>
+<p><strong>正例</strong> : 数据库的查询结果可能是 null，因为自动拆箱，用基本数据类型接收有 NPE 风险。</p>
+<p><strong>反例</strong> : 比如显示成交总额涨跌情况，即正负 x%，x 为基本数据类型，调用的 RPC 服务，调用不成功时，返回的是默认值，页面显示为 0%，这是不合理的，应该显示成中划线。所以包装数据类型的 null 值，能够表示额外的信息，如:远程调用失败，异常退出。</p>
+<h1 id="Arrays-asList-使用指南"><a href="#Arrays-asList-使用指南" class="headerlink" title="Arrays.asList()使用指南"></a>Arrays.asList()使用指南</h1><p>最近使用<code>Arrays.asList()</code>遇到了一些坑，然后在网上看到这篇文章：<a href="http://javadevnotes.com/java-array-to-list-examples" target="_blank" rel="external">Java Array to List Examples</a> 感觉挺不错的，但是还不是特别全面。所以，自己对于这块小知识点进行了简单的总结。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>Arrays.asList()</code>在平时开发中还是比较常见的，我们可以使用它将一个数组转换为一个List集合。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String[] myArray = &#123; <span class="string">"Apple"</span>, <span class="string">"Banana"</span>, <span class="string">"Orange"</span> &#125;； </div><div class="line">List&lt;String&gt; myList = Arrays.asList(myArray);</div><div class="line"><span class="comment">//上面两个语句等价于下面一条语句</span></div><div class="line">List&lt;String&gt; myList = Arrays.asList(<span class="string">"Apple"</span>,<span class="string">"Banana"</span>, <span class="string">"Orange"</span>);</div></pre></td></tr></table></figure>
+<p>JDK 源码对于这个方法的说明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *返回由指定数组支持的固定大小的列表。此方法作为基于数组和基于集合的API之间的桥梁，与           Collection.toArray()结合使用。返回的List是可序列化并实现RandomAccess接口。</div><div class="line"> */ </div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">asList</span><span class="params">(T... a)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;&gt;(a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="阿里巴巴Java-开发手册》对其的描述"><a href="#阿里巴巴Java-开发手册》对其的描述" class="headerlink" title="阿里巴巴Java 开发手册》对其的描述"></a>阿里巴巴Java 开发手册》对其的描述</h2><p><code>Arrays.asList()</code>将数组转换为集合后,底层其实还是数组，《阿里巴巴Java 开发手册》对于这个方法有如下描述：</p>
+<p><a href="https://camo.githubusercontent.com/26b4048f6dd0109fcbb839ab6be16a088427a16d/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545392539382542462545392538372538432545352542372542342545352542372542344a6176612545352542432538302545352538462539312545362538392538422d4172726179732e61734c69737428292545362539362542392545362542332539352e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/26b4048f6dd0109fcbb839ab6be16a088427a16d/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545392539382542462545392538372538432545352542372542342545352542372542344a6176612545352542432538302545352538462539312545362538392538422d4172726179732e61734c69737428292545362539362542392545362542332539352e706e67" alt="阿里巴巴Java开发手-Arrays.asList()方法"></a></p>
+<h2 id="使用时的注意事项总结"><a href="#使用时的注意事项总结" class="headerlink" title="使用时的注意事项总结"></a>使用时的注意事项总结</h2><p><strong>传递的数组必须是对象数组，而不是基本类型。</strong></p>
+<p><code>Arrays.asList()</code>是泛型方法，传入的对象必须是对象数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span>[] myArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</div><div class="line">List myList = Arrays.asList(myArray);</div><div class="line">System.out.println(myList.size());<span class="comment">//1</span></div><div class="line">System.out.println(myList.get(<span class="number">0</span>));<span class="comment">//数组地址值</span></div><div class="line">System.out.println(myList.get(<span class="number">1</span>));<span class="comment">//报错：ArrayIndexOutOfBoundsException</span></div><div class="line"><span class="keyword">int</span> [] array=(<span class="keyword">int</span>[]) myList.get(<span class="number">0</span>);</div><div class="line">System.out.println(array[<span class="number">0</span>]);<span class="comment">//1</span></div></pre></td></tr></table></figure>
+<p>当传入一个原生数据类型数组时，<code>Arrays.asList()</code> 的真正得到的参数就不是数组中的元素，而是数组对象本身！此时List 的唯一元素就是这个数组，这也就解释了上面的代码。</p>
+<p>我们使用包装类型数组就可以解决这个问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Integer[] myArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</div></pre></td></tr></table></figure>
+<p><strong>使用集合的修改方法:add()、remove()、clear()会抛出异常。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">List myList = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line">myList.add(<span class="number">4</span>);<span class="comment">//运行时报错：UnsupportedOperationException</span></div><div class="line">myList.remove(<span class="number">1</span>);<span class="comment">//运行时报错：UnsupportedOperationException</span></div><div class="line">myList.clear();<span class="comment">//运行时报错：UnsupportedOperationException</span></div></pre></td></tr></table></figure>
+<p><code>Arrays.asList()</code> 方法返回的并不是 <code>java.util.ArrayList</code> ，而是 <code>java.util.Arrays</code> 的一个内部类,这个内部类并没有实现集合的修改方法或者说并没有重写这些方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">List myList = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</div><div class="line">System.out.println(myList.getClass());<span class="comment">//class java.util.Arrays$ArrayList</span></div></pre></td></tr></table></figure>
+<p>下图是<code>java.util.Arrays$ArrayList</code>的简易源码，我们可以看到这个类重写的方法有哪些。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line">      <span class="keyword">implements</span> <span class="title">RandomAccess</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></div><div class="line">  &#123;</div><div class="line">      ...</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>&#123;</div><div class="line">         ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">forEach</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> E&gt; action)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">replaceAll</span><span class="params">(UnaryOperator&lt;E&gt; operator)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparator&lt;? <span class="keyword">super</span> E&gt; c)</span> </span>&#123;</div><div class="line">        ...</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>我们再看一下<code>java.util.AbstractList</code>的<code>remove()</code>方法，这样我们就明白为啥会抛出<code>UnsupportedOperationException</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="如何正确的将数组转换为ArrayList"><a href="#如何正确的将数组转换为ArrayList" class="headerlink" title="如何正确的将数组转换为ArrayList"></a>如何正确的将数组转换为ArrayList</h2><p>stackoverflow：<a href="https://dwz.cn/vcBkTiTW" target="_blank" rel="external">https://dwz.cn/vcBkTiTW</a></p>
+<p><strong>1. 自己动手实现（教育目的）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//JDK1.5+</span></div><div class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">List&lt;T&gt; <span class="title">arrayToList</span><span class="params">(<span class="keyword">final</span> T[] array)</span> </span>&#123;</div><div class="line">  <span class="keyword">final</span> List&lt;T&gt; l = <span class="keyword">new</span> ArrayList&lt;T&gt;(array.length);</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">final</span> T s : array) &#123;</div><div class="line">    l.add(s);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> (l);</div><div class="line">&#125;</div><div class="line">Integer [] myArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</div><div class="line">System.out.println(arrayToList(myArray).getClass());<span class="comment">//class java.util.ArrayList</span></div></pre></td></tr></table></figure>
+<p><strong>2. 最简便的方法(推荐)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List list = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>))</div></pre></td></tr></table></figure>
+<p><strong>3. 使用 Java8 的Stream(推荐)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Integer [] myArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</div><div class="line">List myList = Arrays.stream(myArray).collect(Collectors.toList());</div><div class="line"><span class="comment">//基本类型也可以实现转换（依赖boxed的装箱操作）</span></div><div class="line"><span class="keyword">int</span> [] myArray2 = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</div><div class="line">List myList = Arrays.stream(myArray2).boxed().collect(Collectors.toList());</div></pre></td></tr></table></figure>
+<p><strong>4. 使用 Guava(推荐)</strong></p>
+<p>对于不可变集合，你可以使用<a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java" target="_blank" rel="external"><code>ImmutableList</code></a>类及其<a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java#L101" target="_blank" rel="external"><code>of()</code></a>与<a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java#L225" target="_blank" rel="external"><code>copyOf()</code></a>工厂方法：（参数不能为空）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; il = ImmutableList.of(<span class="string">"string"</span>, <span class="string">"elements"</span>);  <span class="comment">// from varargs</span></div><div class="line">List&lt;String&gt; il = ImmutableList.copyOf(aStringArray);      <span class="comment">// from array</span></div></pre></td></tr></table></figure>
+<p>对于可变集合，你可以使用<a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/Lists.java" target="_blank" rel="external"><code>Lists</code></a>类及其<a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/Lists.java#L87" target="_blank" rel="external"><code>newArrayList()</code></a>工厂方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; l1 = Lists.newArrayList(anotherListOrCollection);    <span class="comment">// from collection</span></div><div class="line">List&lt;String&gt; l2 = Lists.newArrayList(aStringArray);               <span class="comment">// from array</span></div><div class="line">List&lt;String&gt; l3 = Lists.newArrayList(<span class="string">"or"</span>, <span class="string">"string"</span>, <span class="string">"elements"</span>); <span class="comment">// from varargs</span></div></pre></td></tr></table></figure>
+<p><strong>5. 使用 Apache Commons Collections</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">CollectionUtils.addAll(list, str);</div></pre></td></tr></table></figure>
+<h1 id="Collection-toArray-方法使用的坑-amp-如何反转数组"><a href="#Collection-toArray-方法使用的坑-amp-如何反转数组" class="headerlink" title="Collection.toArray()方法使用的坑&amp;如何反转数组"></a>Collection.toArray()方法使用的坑&amp;如何反转数组</h1><p>该方法是一个泛型方法：<code>&lt;T&gt; T[] toArray(T[] a);</code> 如果<code>toArray</code>方法中没有传递任何参数的话返回的是<code>Object</code>类型数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String[] s = <span class="keyword">new</span> String[]&#123;</div><div class="line">    <span class="string">"dog"</span>, <span class="string">"lazy"</span>, <span class="string">"a"</span>, <span class="string">"over"</span>, <span class="string">"jumps"</span>, <span class="string">"fox"</span>, <span class="string">"brown"</span>, <span class="string">"quick"</span>, <span class="string">"A"</span></div><div class="line">&#125;;</div><div class="line">List&lt;String&gt; list = Arrays.asList(s);</div><div class="line">Collections.reverse(list);</div><div class="line">s=list.toArray(<span class="keyword">new</span> String[<span class="number">0</span>]);<span class="comment">//没有指定类型的话会报错</span></div></pre></td></tr></table></figure>
+<p>由于JVM优化，<code>new String[0]</code>作为<code>Collection.toArray()</code>方法的参数现在使用更好，<code>new String[0]</code>就是起一个模板的作用，指定了返回数组的类型，0是为了节省空间，因为它只是为了说明返回的类型。详见：<a href="https://shipilev.net/blog/2016/arrays-wisdom-ancients/" target="_blank" rel="external">https://shipilev.net/blog/2016/arrays-wisdom-ancients/</a></p>
+<h1 id="不要在-foreach-循环里进行元素的-remove-add-操作"><a href="#不要在-foreach-循环里进行元素的-remove-add-操作" class="headerlink" title="不要在 foreach 循环里进行元素的 remove/add 操作"></a>不要在 foreach 循环里进行元素的 remove/add 操作</h1><p>如果要进行<code>remove</code>操作，可以调用迭代器的 <code>remove</code>方法而不是集合类的 remove 方法。因为如果列表在任何时间从结构上修改创建迭代器之后，以任何方式除非通过迭代器自身<code>remove/add</code>方法，迭代器都将抛出一个<code>ConcurrentModificationException</code>,这就是单线程状态下产生的 <strong>fail-fast 机制</strong>。</p>
+<blockquote>
+<p><strong>fail-fast 机制</strong> ：多个线程对 fail-fast 集合进行修改的时，可能会抛出ConcurrentModificationException，单线程下也会出现这种情况，上面已经提到过。</p>
+</blockquote>
+<p><code>java.util</code>包下面的所有的集合类都是fail-fast的，而<code>java.util.concurrent</code>包下面的所有的类都是fail-safe的。</p>
+<p><a href="https://camo.githubusercontent.com/41587433a126cf0fb108c42d9c94df6bf40e07b3/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f666f72656163682d72656d6f76653a6164642e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/41587433a126cf0fb108c42d9c94df6bf40e07b3/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392f372f666f72656163682d72656d6f76653a6164642e706e67" alt="不要在 foreach 循环里进行元素的 remove/add 操作"></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/04/Java基础知识/" rel="next" title="Java基础知识">
+                <i class="fa fa-chevron-left"></i> Java基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/11/Java集合框架常见面试题/" rel="prev" title="Java集合框架常见面试题">
+                Java集合框架常见面试题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正确使用-equals-方法"><span class="nav-number">1.</span> <span class="nav-text">正确使用 equals 方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整型包装类值的比较"><span class="nav-number">2.</span> <span class="nav-text">整型包装类值的比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BigDecimal-的用处"><span class="nav-number">3.</span> <span class="nav-text">BigDecimal 的用处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BigDecimal-的大小比较"><span class="nav-number">4.</span> <span class="nav-text">BigDecimal 的大小比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BigDecimal-保留几位小数"><span class="nav-number">5.</span> <span class="nav-text">BigDecimal 保留几位小数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BigDecimal-的使用注意事项"><span class="nav-number">6.</span> <span class="nav-text">BigDecimal 的使用注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本数据类型与包装数据类型的使用标准"><span class="nav-number">8.</span> <span class="nav-text">基本数据类型与包装数据类型的使用标准</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Arrays-asList-使用指南"><span class="nav-number">9.</span> <span class="nav-text">Arrays.asList()使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">9.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阿里巴巴Java-开发手册》对其的描述"><span class="nav-number">9.2.</span> <span class="nav-text">阿里巴巴Java 开发手册》对其的描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用时的注意事项总结"><span class="nav-number">9.3.</span> <span class="nav-text">使用时的注意事项总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何正确的将数组转换为ArrayList"><span class="nav-number">9.4.</span> <span class="nav-text">如何正确的将数组转换为ArrayList</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection-toArray-方法使用的坑-amp-如何反转数组"><span class="nav-number">10.</span> <span class="nav-text">Collection.toArray()方法使用的坑&如何反转数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不要在-foreach-循环里进行元素的-remove-add-操作"><span class="nav-number">11.</span> <span class="nav-text">不要在 foreach 循环里进行元素的 remove/add 操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

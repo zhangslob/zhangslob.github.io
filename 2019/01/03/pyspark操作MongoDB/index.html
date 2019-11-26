@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="-pyspark," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="pyspark对mongo数据库的基本操作  (๑• . •๑)
+
+1这是崔斯特的第八十一篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pyspark操作MongoDB">
+<meta property="og:url" content="https://zhangslob.github.io/2019/01/03/pyspark操作MongoDB/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="pyspark对mongo数据库的基本操作  (๑• . •๑)
+
+1这是崔斯特的第八十一篇原创文章">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fytrgust8kj318i0u0q8c.jpg">
+<meta property="og:updated_time" content="2019-01-03T14:23:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pyspark操作MongoDB">
+<meta name="twitter:description" content="pyspark对mongo数据库的基本操作  (๑• . •๑)
+
+1这是崔斯特的第八十一篇原创文章">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1fytrgust8kj318i0u0q8c.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/01/03/pyspark操作MongoDB/"/>
+
+
+
+
+
+  <title> pyspark操作MongoDB | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/01/03/pyspark操作MongoDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pyspark操作MongoDB
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-03T18:31:23+08:00">
+                2019-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>pyspark对mongo数据库的基本操作  (๑• . •๑)</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fytrgust8kj318i0u0q8c.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第八十一篇原创文章</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>有几点需要注意的：</p>
+<ol>
+<li>不要安装最新的pyspark版本，请安装<code>pip3 install pyspark==2.3.2</code></li>
+<li><code>spark-connector</code>与平常的MongoDB写法不同，格式是：<code>mongodb://127.0.0.1:database.collection</code></li>
+<li>如果计算数据量比较大，你的电脑可能会比较卡，^_^</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python  </span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">@author: zhangslob</div><div class="line">@file: spark_count.py </div><div class="line">@time: 2019/01/03</div><div class="line">@desc:</div><div class="line">    不要安装最新的pyspark版本</div><div class="line">    `pip3 install pyspark==2.3.2`</div><div class="line">    更多pyspark操作MongoDB请看https://docs.mongodb.com/spark-connector/master/python-api/</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</div><div class="line"></div><div class="line"><span class="comment"># set PYSPARK_PYTHON to python36</span></div><div class="line">os.environ[<span class="string">'PYSPARK_PYTHON'</span>] = <span class="string">'/usr/bin/python36'</span></div><div class="line"></div><div class="line"><span class="comment"># load mongodb data</span></div><div class="line"><span class="comment"># 格式是："mongodb://127.0.0.1:database.collection"</span></div><div class="line">input_uri = <span class="string">"mongodb://127.0.0.1:27017/spark.spark_test"</span></div><div class="line">output_uri = <span class="string">"mongodb://127.0.0.1:27017/spark.spark_test"</span></div><div class="line"></div><div class="line"><span class="comment"># 创建spark，默认使用本地环境，或者"spark://master:7077"</span></div><div class="line">spark = SparkSession \</div><div class="line">    .builder \</div><div class="line">    .master(<span class="string">"local"</span>) \</div><div class="line">    .appName(<span class="string">"MyApp"</span>) \</div><div class="line">    .config(<span class="string">"spark.mongodb.input.uri"</span>, input_uri) \</div><div class="line">    .config(<span class="string">"spark.mongodb.output.uri"</span>, output_uri) \</div><div class="line">    .config(<span class="string">'spark.jars.packages'</span>, <span class="string">'org.mongodb.spark:mongo-spark-connector_2.11:2.2.0'</span>) \</div><div class="line">    .getOrCreate()</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">except_id</span><span class="params">(collection_1, collection_2, output_collection, pipeline)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    计算表1与表2中不同的数据</div><div class="line">    :param collection_1: 导入表1</div><div class="line">    :param collection_2: 导入表2</div><div class="line">    :param output_collection: 保存的表</div><div class="line">    :param pipeline: MongoDB查询语句 str</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    <span class="comment"># 可以在这里指定想要导入的数据库，将会覆盖上面配置中的input_uri。下面保存数据也一样</span></div><div class="line">    <span class="comment"># .option("collection", "mongodb://127.0.0.1:27017/spark.spark_test")</span></div><div class="line">    <span class="comment"># .option("database", "people").option("collection", "contacts")</span></div><div class="line"></div><div class="line">    df_1 = spark.read.format(<span class="string">'com.mongodb.spark.sql.DefaultSource'</span>).option(<span class="string">"collection"</span>, collection_1) \</div><div class="line">        .option(<span class="string">"pipeline"</span>, pipeline).load()</div><div class="line"></div><div class="line">    df_2 = spark.read.format(<span class="string">'com.mongodb.spark.sql.DefaultSource'</span>).option(<span class="string">"collection"</span>, collection_2) \</div><div class="line">        .option(<span class="string">"pipeline"</span>, pipeline).load()</div><div class="line"></div><div class="line">    <span class="comment"># df_1有但是不在 df_2，同理可以计算df_2有，df_1没有</span></div><div class="line">    df = df_1.subtract(df_2)</div><div class="line">    df.show()</div><div class="line"></div><div class="line">    <span class="comment"># mode 参数可选范围</span></div><div class="line">    <span class="comment"># * `append`: Append contents of this :class:`DataFrame` to existing data.</span></div><div class="line">    <span class="comment"># * `overwrite`: Overwrite existing data.</span></div><div class="line">    <span class="comment"># * `error` or `errorifexists`: Throw an exception if data already exists.</span></div><div class="line">    <span class="comment"># * `ignore`: Silently ignore this operation if data already exists.</span></div><div class="line"></div><div class="line">    df.write.format(<span class="string">"com.mongodb.spark.sql.DefaultSource"</span>).option(<span class="string">"collection"</span>, output_collection).mode(<span class="string">"append"</span>).save()</div><div class="line">    spark.stop()</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment"># mongodb query, MongoDB查询语句，可以减少导入数据量</span></div><div class="line">    pipeline = <span class="string">"[&#123;'$project': &#123;'uid': 1, '_id': 0&#125;&#125;]"</span></div><div class="line"></div><div class="line">    collection_1 = <span class="string">"spark_1"</span></div><div class="line">    collection_2 = <span class="string">"spark_2"</span></div><div class="line">    output_collection = <span class="string">'diff_uid'</span></div><div class="line">    except_id(collection_1, collection_2, output_collection, pipeline)</div><div class="line">    print(<span class="string">'success'</span>)</div></pre></td></tr></table></figure>
+<p>完整代码地址：<a href="https://github.com/zhangslob/learning-spark/blob/master/code/Python/spark_count_diff_uid.py" target="_blank" rel="external">spark_count_diff_uid.py</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pyspark/" rel="tag"># -pyspark</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/21/Chrome断点JS寻找淘宝签名sign/" rel="next" title="Chrome断点JS寻找淘宝签名sign">
+                <i class="fa fa-chevron-left"></i> Chrome断点JS寻找淘宝签名sign
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/14/Python重试的多重方法/" rel="prev" title="Python重试的多重方法">
+                Python重试的多重方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1071 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1这是崔斯特的第九十八篇原创文章
+了解下redis的更多用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis SCAN的使用">
+<meta property="og:url" content="https://zhangslob.github.io/2019/09/25/Redis-SCAN的使用/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="1这是崔斯特的第九十八篇原创文章
+了解下redis的更多用法">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhangslob/oss/master/carbon.png">
+<meta property="og:updated_time" content="2019-09-25T02:18:29.746Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis SCAN的使用">
+<meta name="twitter:description" content="1这是崔斯特的第九十八篇原创文章
+了解下redis的更多用法">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhangslob/oss/master/carbon.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/09/25/Redis-SCAN的使用/"/>
+
+
+
+
+
+  <title> Redis SCAN的使用 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/09/25/Redis-SCAN的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis SCAN的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T10:09:09+08:00">
+                2019-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/zhangslob/oss/master/carbon.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第九十八篇原创文章</div></pre></td></tr></table></figure>
+<p>了解下redis的更多用法</p>
+<a id="more"></a>
+<h1 id="SCAN"><a href="#SCAN" class="headerlink" title="SCAN"></a>SCAN</h1><p>有时候需要从 Redis 实例成千上万的 key 中找出特定前缀的 key 列表来手动处理数据，可能是修改它的值，也可能是删除 key。这里就有一个问题，如何从海量的 key 中找出满足特定前缀的 key 列表来？</p>
+<p>Redis 提供了一个简单暴力的指令 keys 用来列出所有满足特定正则字符串规则的 key。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli keys key67*</div><div class="line">  1) <span class="string">"key6764"</span></div><div class="line">  2) <span class="string">"key6738"</span></div><div class="line">  3) <span class="string">"key6774"</span></div><div class="line">  4) <span class="string">"key673"</span></div><div class="line">  5) <span class="string">"key6710"</span></div><div class="line">  6) <span class="string">"key6759"</span></div><div class="line">  7) <span class="string">"key6715"</span></div><div class="line">  8) <span class="string">"key6746"</span></div><div class="line">  9) <span class="string">"key6796"</span></div></pre></td></tr></table></figure>
+<p>这个指令使用非常简单，提供一个简单的正则字符串即可，但是有很明显的两个缺点。</p>
+<ul>
+<li><p>没有 offset、limit 参数，一次性吐出所有满足条件的 key，万一实例中有几百 w 个 key 满足条件，</p>
+<p>当你看到满屏的字符串刷的没有尽头时，你就知道难受了。</p>
+</li>
+<li><p>keys 算法是遍历算法，复杂度是 O(n)，如果实例中有千万级以上的 key，这个指令就会导致 Redis 服务卡顿，</p>
+<p>所有读写 Redis 的其它的指令都会被延后甚至会超时报错，</p>
+<p>因为 Redis 是单线程程序，顺序执行所有指令，其它指令必须等到当前的 keys 指令执行完了才可以继续。</p>
+</li>
+<li><p>建议生产环境屏蔽keys命令</p>
+</li>
+</ul>
+<p>Redis 为了解决这个问题，它在 2.8 版本中加入了指令——scan。</p>
+<p>scan 相比 keys 具备有以下特点:</p>
+<ul>
+<li>复杂度虽然也是 O(n)，但是它是通过游标分步进行的，不会阻塞线程;</li>
+<li>提供 limit 参数，可以控制每次返回结果的最大条数，limit 只是对增量式迭代命令的一种提示(hint)，返回的结果可多可少;</li>
+<li>同 keys 一样，它也提供模式匹配功能;</li>
+<li>服务器不需要为游标保存状态，游标的唯一状态就是 scan 返回给客户端的游标整数;</li>
+<li>返回的结果可能会有重复，需要客户端去重复，这点非常重要;</li>
+<li>遍历的过程中如果有数据修改，改动后的数据能不能遍历到是不确定的;</li>
+<li>单次返回的结果是空的并不意味着遍历结束，而要看返回的游标值是否为零</li>
+</ul>
+<h1 id="scan-基础使用"><a href="#scan-基础使用" class="headerlink" title="scan 基础使用"></a>scan 基础使用</h1><p><strong>SCAN cursor [MATCH pattern] [COUNT count]</strong></p>
+<p>初始执行scan命令例如scan 0。SCAN命令是一个基于游标的迭代器。</p>
+<p>这意味着命令每次被调用都需要使用上一次这个调用返回的游标作为该次调用的游标参数，以此来延续之前的迭代过程。</p>
+<p>当SCAN命令的游标参数被设置为0时，服务器将开始一次新的迭代，而当redis服务器向用户返回值为0的游标时，</p>
+<p>表示迭代已结束，这是唯一迭代结束的判定方式，而不能通过返回结果集是否为空判断迭代结束。</p>
+<blockquote>
+<p>scan 参数提供了三个参数，第一个是 cursor 整数值，第二个是 key 的正则模式，第三个是遍历的 limit hint。</p>
+<p>第一次遍历时，cursor 值为 0，然后将返回结果中第一个整数值作为下一次遍历的 cursor。</p>
+<p>一直遍历到返回的 cursor 值为 0 时结束。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli scan 0 match key99* count 1000</div><div class="line">1) <span class="string">"13912"</span></div><div class="line">2)  1) <span class="string">"key997"</span></div><div class="line">    2) <span class="string">"key9906"</span></div><div class="line">    3) <span class="string">"key9957"</span></div><div class="line">    4) <span class="string">"key9902"</span></div><div class="line">    5) <span class="string">"key9971"</span></div><div class="line">    6) <span class="string">"key9935"</span></div><div class="line">    7) <span class="string">"key9958"</span></div><div class="line">    8) <span class="string">"key9928"</span></div><div class="line">    9) <span class="string">"key9931"</span></div><div class="line">   10) <span class="string">"key9961"</span></div><div class="line">   11) <span class="string">"key9948"</span></div><div class="line">   12) <span class="string">"key9965"</span></div><div class="line">   13) <span class="string">"key9937"</span></div><div class="line">   </div><div class="line"><span class="variable">$redis</span>-cli scan 13912 match key99* count 1000</div><div class="line">1) <span class="string">"5292"</span></div><div class="line">2)  1) <span class="string">"key996"</span></div><div class="line">    2) <span class="string">"key9960"</span></div><div class="line">    3) <span class="string">"key9973"</span></div><div class="line">    4) <span class="string">"key9978"</span></div><div class="line">    5) <span class="string">"key9927"</span></div><div class="line">    6) <span class="string">"key995"</span></div><div class="line">    7) <span class="string">"key9992"</span></div><div class="line">    8) <span class="string">"key9993"</span></div><div class="line">    9) <span class="string">"key9964"</span></div><div class="line">   10) <span class="string">"key9934"</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>返回结果分为两个部分：第一部分即 1) 就是下一次迭代游标，第二部分即 2) 就是本次迭代结果集。</p>
+</blockquote>
+<p>从上面的过程可以看到虽然提供的 limit 是 1000，但是返回的结果只有 10 个左右。</p>
+<p>因为这个 limit 不是限定返回结果的数量，而是限定服务器单次遍历的字典槽位数量(约等于)。</p>
+<p>如果将 limit 设置为 10，你会发现返回结果是空的，但是游标值不为零，意味着遍历还没结束。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli scan 0 match key99* count 10</div><div class="line">1) <span class="string">"15360"</span></div><div class="line">2) (empty list or <span class="built_in">set</span>)</div><div class="line"></div><div class="line"><span class="variable">$redis</span>-cli scan 15360 match key99* count 10</div><div class="line">1) <span class="string">"2304"</span></div><div class="line">2) (empty list or <span class="built_in">set</span>)</div></pre></td></tr></table></figure>
+<h1 id="更多的-scan-指令"><a href="#更多的-scan-指令" class="headerlink" title="更多的 scan 指令"></a>更多的 scan 指令</h1><p>scan 指令是一系列指令，除了可以遍历所有的 key 之外，还可以对指定的容器集合进行遍历。</p>
+<p>zscan 遍历 zset 集合元素，</p>
+<p>hscan 遍历 hash 字典的元素、</p>
+<p>sscan 遍历 set 集合的元素。</p>
+<p><strong>注意点：</strong></p>
+<p>SSCAN 命令、 HSCAN 命令和 ZSCAN 命令的第一个参数总是一个数据库键。</p>
+<p>而 SCAN 命令则不需要在第一个参数提供任何数据库键 —— 因为它迭代的是当前数据库中的所有数据库键。</p>
+<h1 id="大-key-扫描"><a href="#大-key-扫描" class="headerlink" title="大 key 扫描"></a>大 key 扫描</h1><p>有时候会因为业务人员使用不当，在 Redis 实例中会形成很大的对象，比如一个很大的 hash，一个很大的 zset 这都是经常出现的。</p>
+<p>这样的对象对 Redis 的集群数据迁移带来了很大的问题，因为在集群环境下，如果某个 key 太大，会让数据导致迁移卡顿。</p>
+<p>另外在内存分配上，如果一个 key 太大，那么当它需要扩容时，会一次性申请更大的一块内存，这也会导致卡顿。</p>
+<p>如果这个大 key 被删除，内存会一次性回收，卡顿现象会再一次产生。</p>
+<p><strong>在平时的业务开发中，要尽量避免大 key 的产生。</strong></p>
+<p>如果你观察到 Redis 的内存大起大落，这极有可能是因为大 key 导致的，这时候你就需要定位出具体是那个 key，</p>
+<p>进一步定位出具体的业务来源，然后再改进相关业务代码设计。</p>
+<p><strong>那如何定位大 key 呢？</strong></p>
+<p>为了避免对线上 Redis 带来卡顿，这就要用到 scan 指令，对于扫描出来的每一个 key，使用 type 指令获得 key 的类型，</p>
+<p>然后使用相应数据结构的 size 或者 len 方法来得到它的大小，对于每一种类型，保留大小的前 N 名作为扫描结果展示出来。</p>
+<p>上面这样的过程需要编写脚本，比较繁琐，不过 Redis 官方已经在 redis-cli 指令中提供了这样的扫描功能，我们可以直接拿来即用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli  --bigkeys</div><div class="line"><span class="comment"># Scanning the entire keyspace to find biggest keys as well as</span></div><div class="line"><span class="comment"># average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec</span></div><div class="line"><span class="comment"># per 100 SCAN commands (not usually needed).</span></div><div class="line"></div><div class="line">[00.00%] Biggest string found so far <span class="string">'key316'</span> with 3 bytes</div><div class="line">[00.00%] Biggest string found so far <span class="string">'key7806'</span> with 4 bytes</div><div class="line">[12.79%] Biggest zset   found so far <span class="string">'salary'</span> with 1 members</div><div class="line">[13.19%] Biggest string found so far <span class="string">'counter:__rand_int__'</span> with 6 bytes</div><div class="line">[13.50%] Biggest <span class="built_in">hash</span>   found so far <span class="string">'websit'</span> with 2 fields</div><div class="line">[14.37%] Biggest <span class="built_in">set</span>    found so far <span class="string">'bbs'</span> with 3 members</div><div class="line">[14.67%] Biggest <span class="built_in">hash</span>   found so far <span class="string">'website'</span> with 3 fields</div><div class="line">[30.41%] Biggest list   found so far <span class="string">'mylist'</span> with 100000 items</div><div class="line">[95.53%] Biggest zset   found so far <span class="string">'page_rank'</span> with 3 members</div><div class="line"></div><div class="line">-------- summary -------</div><div class="line"></div><div class="line">Sampled 10019 keys <span class="keyword">in</span> the keyspace!</div><div class="line">Total key length <span class="keyword">in</span> bytes is 68990 (avg len 6.89)</div><div class="line"></div><div class="line">Biggest string found <span class="string">'counter:__rand_int__'</span> has 6 bytes</div><div class="line">Biggest   list found <span class="string">'mylist'</span> has 100000 items</div><div class="line">Biggest    <span class="built_in">set</span> found <span class="string">'bbs'</span> has 3 members</div><div class="line">Biggest   <span class="built_in">hash</span> found <span class="string">'website'</span> has 3 fields</div><div class="line">Biggest   zset found <span class="string">'page_rank'</span> has 3 members</div><div class="line"></div><div class="line">10011 strings with 38919 bytes (99.92% of keys, avg size 3.89)</div><div class="line">3 lists with 100003 items (00.03% of keys, avg size 33334.33)</div><div class="line">1 sets with 3 members (00.01% of keys, avg size 3.00)</div><div class="line">2 hashs with 5 fields (00.02% of keys, avg size 2.50)</div><div class="line">2 zsets with 4 members (00.02% of keys, avg size 2.00)</div></pre></td></tr></table></figure>
+<p>如果你担心这个指令会大幅抬升 Redis 的 ops 导致线上报警，还可以增加一个休眠参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli  --bigkeys -i 0.1</div><div class="line"><span class="comment"># Scanning the entire keyspace to find biggest keys as well as</span></div><div class="line"><span class="comment"># average sizes per key type.  You can use -i 0.1 to sleep 0.1 sec</span></div><div class="line"><span class="comment"># per 100 SCAN commands (not usually needed).</span></div><div class="line"></div><div class="line">[00.00%] Biggest string found so far <span class="string">'key316'</span> with 3 bytes</div><div class="line">[00.00%] Biggest string found so far <span class="string">'key7806'</span> with 4 bytes</div><div class="line">[12.79%] Biggest zset   found so far <span class="string">'salary'</span> with 1 members</div><div class="line">[13.19%] Biggest string found so far <span class="string">'counter:__rand_int__'</span> with 6 bytes</div><div class="line">[13.50%] Biggest <span class="built_in">hash</span>   found so far <span class="string">'websit'</span> with 2 fields</div><div class="line">[14.37%] Biggest <span class="built_in">set</span>    found so far <span class="string">'bbs'</span> with 3 members</div><div class="line">[14.67%] Biggest <span class="built_in">hash</span>   found so far <span class="string">'website'</span> with 3 fields</div><div class="line">[30.41%] Biggest list   found so far <span class="string">'mylist'</span> with 100000 items</div><div class="line">[95.53%] Biggest zset   found so far <span class="string">'page_rank'</span> with 3 members</div><div class="line"></div><div class="line">-------- summary -------</div><div class="line"></div><div class="line">Sampled 10019 keys <span class="keyword">in</span> the keyspace!</div><div class="line">Total key length <span class="keyword">in</span> bytes is 68990 (avg len 6.89)</div><div class="line"></div><div class="line">Biggest string found <span class="string">'counter:__rand_int__'</span> has 6 bytes</div><div class="line">Biggest   list found <span class="string">'mylist'</span> has 100000 items</div><div class="line">Biggest    <span class="built_in">set</span> found <span class="string">'bbs'</span> has 3 members</div><div class="line">Biggest   <span class="built_in">hash</span> found <span class="string">'website'</span> has 3 fields</div><div class="line">Biggest   zset found <span class="string">'page_rank'</span> has 3 members</div><div class="line"></div><div class="line">10011 strings with 38919 bytes (99.92% of keys, avg size 3.89)</div><div class="line">3 lists with 100003 items (00.03% of keys, avg size 33334.33)</div><div class="line">1 sets with 3 members (00.01% of keys, avg size 3.00)</div><div class="line">2 hashs with 5 fields (00.02% of keys, avg size 2.50)</div><div class="line">2 zsets with 4 members (00.02% of keys, avg size 2.00)</div></pre></td></tr></table></figure>
+<p>上面这个指令每隔 100 条 scan 指令就会休眠 0.1s，ops 就不会剧烈抬升，但是扫描的时间会变长。</p>
+<p>需要注意的是，这个bigkeys得到的最大，不一定是最大。</p>
+<p>说明原因前，首先说明bigkeys的原理，非常简单，通过scan命令遍历，各种不同数据结构的key，分别通过不同的命令得到最大的key：</p>
+<ul>
+<li>如果是string结构，通过strlen判断；</li>
+<li>如果是list结构，通过llen判断；</li>
+<li>如果是hash结构，通过hlen判断；</li>
+<li>如果是set结构，通过scard判断；</li>
+<li>如果是sorted set结构，通过zcard判断。</li>
+</ul>
+<blockquote>
+<p>正因为这样的判断方式，虽然string结构肯定可以正确的筛选出最占用缓存，也可以说最大的key。</p>
+<p>但是list不一定，例如，现在有两个list类型的key，分别是：numberlist–[0,1,2]，stringlist–[“123456789123456789”]，</p>
+<p>由于通过llen判断，所以numberlist要大于stringlist。</p>
+<p>而事实上stringlist更占用内存。其他三种数据结构hash，set，sorted set都会存在这个问题。</p>
+<p>使用bigkeys一定要注意这一点。</p>
+</blockquote>
+<h3 id="slowlog命令"><a href="#slowlog命令" class="headerlink" title="slowlog命令"></a>slowlog命令</h3><p>上面提到不能使用keys命令，如果就有开发这么做了呢，我们如何得知？</p>
+<p>与其他任意存储系统例如mysql，mongodb可以查看慢日志一样，redis也可以，即通过命令slowlog。</p>
+<p>用法如下</p>
+<p><strong>SLOWLOG subcommand [argument]</strong></p>
+<p>subcommand主要有：</p>
+<ul>
+<li>get，用法：slowlog get [argument]，获取argument参数指定数量的慢日志。</li>
+<li>len，用法：slowlog len，总慢日志数量。</li>
+<li>reset，用法：slowlog reset，清空慢日志。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$redis</span>-cli slowlog get 5</div><div class="line">1) 1) (<span class="built_in">integer</span>) 2</div><div class="line">   2) (<span class="built_in">integer</span>) 1537786953</div><div class="line">   3) (<span class="built_in">integer</span>) 17980</div><div class="line">   4) 1) <span class="string">"scan"</span></div><div class="line">      2) <span class="string">"0"</span></div><div class="line">      3) <span class="string">"match"</span></div><div class="line">      4) <span class="string">"key99*"</span></div><div class="line">      5) <span class="string">"count"</span></div><div class="line">      6) <span class="string">"1000"</span></div><div class="line">   5) <span class="string">"127.0.0.1:50129"</span></div><div class="line">   6) <span class="string">""</span></div><div class="line">2) 1) (<span class="built_in">integer</span>) 1</div><div class="line">   2) (<span class="built_in">integer</span>) 1537785886</div><div class="line">   3) (<span class="built_in">integer</span>) 39537</div><div class="line">   4) 1) <span class="string">"keys"</span></div><div class="line">      2) <span class="string">"*"</span></div><div class="line">   5) <span class="string">"127.0.0.1:49701"</span></div><div class="line">   6) <span class="string">""</span></div><div class="line">3) 1) (<span class="built_in">integer</span>) 0</div><div class="line">   2) (<span class="built_in">integer</span>) 1537681701</div><div class="line">   3) (<span class="built_in">integer</span>) 18276</div><div class="line">   4) 1) <span class="string">"ZADD"</span></div><div class="line">      2) <span class="string">"page_rank"</span></div><div class="line">      3) <span class="string">"10"</span></div><div class="line">      4) <span class="string">"google.com"</span></div><div class="line">   5) <span class="string">"127.0.0.1:52334"</span></div><div class="line">   6) <span class="string">""</span></div></pre></td></tr></table></figure>
+<p>命令耗时超过多少才会保存到slowlog中，可以通过命令config set slowlog-log-slower-than 2000配置并且不需要重启redis。</p>
+<p>注意：单位是微妙，2000微妙即2毫秒。</p>
+<h3 id="rename-command"><a href="#rename-command" class="headerlink" title="rename-command"></a>rename-command</h3><p>为了防止把问题带到生产环境，我们可以通过配置文件重命名一些危险命令，</p>
+<p>例如keys等一些高危命令。操作非常简单，</p>
+<p>只需要在conf配置文件增加如下所示配置即可：</p>
+<blockquote>
+<p>rename-command flushdb flushddbb</p>
+<p>rename-command flushall flushallall</p>
+<p>rename-command keys keysys</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/16/25岁/" rel="next" title="25岁">
+                <i class="fa fa-chevron-left"></i> 25岁
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/29/移动端真机调试指南/" rel="prev" title="移动端真机调试指南">
+                移动端真机调试指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SCAN"><span class="nav-number">1.</span> <span class="nav-text">SCAN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scan-基础使用"><span class="nav-number">2.</span> <span class="nav-text">scan 基础使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更多的-scan-指令"><span class="nav-number">3.</span> <span class="nav-text">更多的 scan 指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大-key-扫描"><span class="nav-number">4.</span> <span class="nav-text">大 key 扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#slowlog命令"><span class="nav-number">4.0.1.</span> <span class="nav-text">slowlog命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rename-command"><span class="nav-number">4.0.2.</span> <span class="nav-text">rename-command</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

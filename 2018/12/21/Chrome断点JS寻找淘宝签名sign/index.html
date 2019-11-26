@@ -1,0 +1,1045 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Chrome,签名," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第八十篇原创文章
+Chrome断点JS寻找淘宝签名sign  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chrome断点JS寻找淘宝签名sign">
+<meta property="og:url" content="https://zhangslob.github.io/2018/12/21/Chrome断点JS寻找淘宝签名sign/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第八十篇原创文章
+Chrome断点JS寻找淘宝签名sign  (๑• . •๑)">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fyekf65za5j30eb08kt9f.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fyekbvh8fvj30xc0q9108.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fyekf65za5j30eb08kt9f.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fyekq8h0arj30ty0rvn3m.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fyel45wopoj310v0jqn29.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fyela3fgx5j30tk0lytcd.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwly1fyeldlmty4j30ip0aodhn.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNbRwly1fyeleevcbnj30ku0g7djk.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwly1fyet1ngv80j314m0jyn35.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwly1fyet5n1d0xj31d40r8wm0.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fyetio1mvkj317e0qk7co.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwly1fyetm2ifjgj31e80regrt.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fyetptnaiuj31dq0twagy.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fyetv9l1fkj317y0u049g.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fyetx6u3hij31c20u0dps.jpg">
+<meta property="og:image" content="https://zhangslob.github.io/Users/zaoshu/Library/Application Support/typora-user-images/image-20181222003045612.png">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwly1fyeua1dj9bj319f0u0gqz.jpg">
+<meta property="og:updated_time" content="2018-12-21T17:01:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chrome断点JS寻找淘宝签名sign">
+<meta name="twitter:description" content="这是崔斯特的第八十篇原创文章
+Chrome断点JS寻找淘宝签名sign  (๑• . •๑)">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNbRwly1fyekf65za5j30eb08kt9f.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/12/21/Chrome断点JS寻找淘宝签名sign/"/>
+
+
+
+
+
+  <title> Chrome断点JS寻找淘宝签名sign | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/12/21/Chrome断点JS寻找淘宝签名sign/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Chrome断点JS寻找淘宝签名sign
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-21T18:45:00+08:00">
+                2018-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解密/" itemprop="url" rel="index">
+                    <span itemprop="name">解密</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第八十篇原创文章
+</code></pre><p>Chrome断点JS寻找淘宝签名sign  (๑• . •๑)</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fyekf65za5j30eb08kt9f.jpg" alt=""></p>
+<a id="more"></a>
+<p>写了这篇文章<a href="https://zhangslob.github.io/2018/08/14/%E6%B7%98%E5%AE%9Dsign%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/">淘宝sign加密算法</a>之后，很多人问我Chrome断点调试怎么做，今天会尽量详细聊聊。如果你用使用过Pycharm的断点，会更好理解。</p>
+<p>我们还是以淘宝为例，使用Chrome的移动请求头打开这个网站，<code>https://s.m.taobao.com/h5?q=%E9%9E%8B%E6%9E%B6</code>，然后打开开发者工具。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fyekbvh8fvj30xc0q9108.jpg" alt=""></p>
+<p>可以看到数据都在这里:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl 'https://acs.m.taobao.com/h5/mtop.taobao.wsearch.h5search/1.0/?jsv=2.3.16&amp;appKey=12574478&amp;t=1545389573843&amp;sign=b7d69692d1cc16adec65502f0bac2018&amp;api=mtop.taobao.wsearch.h5search&amp;v=1.0&amp;H5Request=true&amp;ecode=1&amp;type=jsonp&amp;dataType=jsonp&amp;callback=mtopjsonp1&amp;data=%7B%22q%22%3A%22%E9%9E%8B%E6%9E%B6%22%2C%22sst%22%3A%221%22%2C%22n%22%3A20%2C%22buying%22%3A%22buyitnow%22%2C%22m%22%3A%22api4h5%22%2C%22token4h5%22%3A%22%22%2C%22abtest%22%3A%2214%22%2C%22wlsort%22%3A%2214%22%2C%22page%22%3A1%7D' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: zh-CN,zh;q=0.9' -H 'user-agent: Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1' -H 'accept: */*' -H 'referer: https://s.m.taobao.com/h5?q=%E9%9E%8B%E6%9E%B6' -H 'authority: acs.m.taobao.com' -H 'cookie: _m_h5_tk=2d819f0b9e7ed54e22c296a4d0a2ad24_1545397060981; _m_h5_tk_enc=1337c23b9d98086e735af8c00bdeeea1; t=6b9cfdffa68f4d6ea189913d5288bde7; cna=vbOjFJRUeAYCAd3aK4xZQfic; l=aBVCFdFpyHMPonDmBMaOIX41pVt4SOZzuUwM1MazniYktO-39Z2vPjYb-VwWK_qC5B7y_jt5F; isg=BC8v8gXjr7rLXauG9FFT5HkjvkUz3onQo3vs1UG8yx6lkE-SSaQTRi1BFoau6Ftu' --compressed</div></pre></td></tr></table></figure>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fyekf65za5j30eb08kt9f.jpg" alt=""></p>
+<p>重要参数是这些，简单看看，很多都是固定值，可能会变的有时间戳、<code>data</code>中的搜索关键词、页码等信息。重要的就是sign是怎么来的。</p>
+<p>下面开始一步步介绍。</p>
+<p>首先搜索sign数值，看看在其他地方时候是否出现过</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fyekq8h0arj30ty0rvn3m.jpg" alt=""></p>
+<p>接着搜索方法名。选择一个冷门的变量名可能会有帮助，如下图，一个个地点进去看看，搜索<code>sign</code>，看是否有匹配。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fyel45wopoj310v0jqn29.jpg" alt=""></p>
+<p>最终确定关键代码在第二个，也就是<code>https://g.alicdn.com/mtb/lib-mtop/2.3.16/mtop.js</code></p>
+<p>格式化代码，并搜索sign，确定代码位置。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fyela3fgx5j30tk0lytcd.jpg" alt=""></p>
+<p>直接贴出来</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">      <span class="keyword">if</span> (d.H5Request === !<span class="number">0</span>) &#123;</div><div class="line">          <span class="keyword">var</span> f = <span class="string">"//"</span> + (d.prefix ? d.prefix + <span class="string">"."</span> : <span class="string">""</span>) + (d.subDomain ? d.subDomain + <span class="string">"."</span> : <span class="string">""</span>) + d.mainDomain + <span class="string">"/h5/"</span> + c.api.toLowerCase() + <span class="string">"/"</span> + c.v.toLowerCase() + <span class="string">"/"</span></div><div class="line">            , g = c.appKey || (<span class="string">"waptest"</span> === d.subDomain ? <span class="string">"4272"</span> : <span class="string">"12574478"</span>)</div><div class="line">            , i = (<span class="keyword">new</span> <span class="built_in">Date</span>).getTime()</div><div class="line">            , j = h(d.token + <span class="string">"&amp;"</span> + i + <span class="string">"&amp;"</span> + g + <span class="string">"&amp;"</span> + c.data)</div><div class="line">            , k = &#123;</div><div class="line">              <span class="attr">jsv</span>: x,</div><div class="line">              <span class="attr">appKey</span>: g,</div><div class="line">              <span class="attr">t</span>: i,</div><div class="line">              <span class="attr">sign</span>: j</div><div class="line">          &#125;</div><div class="line">            , l = &#123;</div><div class="line">              <span class="attr">data</span>: c.data,</div><div class="line">              <span class="attr">ua</span>: c.ua</div><div class="line">          &#125;;</div><div class="line"><span class="comment">///</span></div><div class="line">      &#125;</div></pre></td></tr></table></figure>
+<p>可以看到sign等于j，j等于<code>h(d.token + &quot;&amp;&quot; + i + &quot;&amp;&quot; + g + &quot;&amp;&quot; + c.data)</code>，感觉是一些字符串通过“&amp;”连接起来，下一步就可以对js代码打断点去看看具体数据是什么。如下图位置。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fyeldlmty4j30ip0aodhn.jpg" alt=""></p>
+<p>此时我们再次刷新网页，稍等片刻。会出现各个变量的信息</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNbRwly1fyeleevcbnj30ku0g7djk.jpg" alt=""></p>
+<p>我们把鼠标放到变量的位置就可以看到相关信息。我们关注的是如下参数：</p>
+<ul>
+<li>d.token</li>
+<li>i</li>
+<li>g</li>
+<li>c.data</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fyet1ngv80j314m0jyn35.jpg" alt=""></p>
+<h3 id="获取d-token"><a href="#获取d-token" class="headerlink" title="获取d.token"></a>获取d.token</h3><p>我们一一来看这些是什么。我这里的token是<code>c2b90ff4dd1405aa02fda3b5a2ee72c0</code>，先去搜索下，发现在请求网页时返回的。可是这里是Request Cookies。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fyet5n1d0xj31d40r8wm0.jpg" alt=""></p>
+<p>我们清空缓存，再来。发现第一次token是空的</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fyetio1mvkj317e0qk7co.jpg" alt=""></p>
+<p>继续往下走，直到在Network中看到请求发出去了</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fyetm2ifjgj31e80regrt.jpg" alt=""></p>
+<p>直接复制Curl在命令行，结果是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mtopjsonp1(&#123;<span class="string">"api"</span>:<span class="string">"mtop.taobao.wsearch.h5search"</span>,<span class="string">"data"</span>:&#123;&#125;,<span class="string">"ret"</span>:[<span class="string">"FAIL_SYS_TOKEN_EMPTY::令牌为空"</span>],<span class="string">"v"</span>:<span class="string">"1.0"</span>&#125;)</div></pre></td></tr></table></figure>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fyetptnaiuj31dq0twagy.jpg" alt=""></p>
+<p>我们接着往下走，发现终于有返回的Cookies了，而且对比发现下个请求使用的就是这里的Cookies，token就分号处理了。</p>
+<p>首先无cookie状态下去访问该请求：<code>https://acs.m.taobao.com/h5/mtop.taobao.wsearch.h5search/1.0</code>，对方会返回关键Cookies信息，<code>_m_h5_tk</code>和<code>_m_h5_tk_enc</code>，接下来会用到。</p>
+<h3 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h3><p>接下来的就比较简单了，i很明显就是时间戳，g是定值：12574478，那么data是什么呢，我们可以直接打印到console</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fyetv9l1fkj317y0u049g.jpg" alt=""></p>
+<p>发现就是Query String 里的data</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fyetx6u3hij31c20u0dps.jpg" alt=""></p>
+<p>好了我们现在已经可以找到所有的参数了，如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; d.token + <span class="string">"&amp;"</span> + i + <span class="string">"&amp;"</span> + g + <span class="string">"&amp;"</span> + c.data</div><div class="line">&lt; <span class="string">"59e8d998ee8b36a04b6e9d8037ac22b7&amp;1545409677267&amp;12574478&amp;&#123;"</span>q<span class="string">":"</span>鞋架<span class="string">","</span>sst<span class="string">":"</span>1<span class="string">","</span>n<span class="string">":20,"</span>buying<span class="string">":"</span>buyitnow<span class="string">","</span>m<span class="string">":"</span>api4h5<span class="string">","</span>token4h5<span class="string">":"</span><span class="string">","</span>abtest<span class="string">":"</span>15<span class="string">","</span>wlsort<span class="string">":"</span>15<span class="string">","</span>page<span class="string">":1&#125;"</span></div></pre></td></tr></table></figure>
+<p>最后sign是<code>11a08dbbaa04aa6f9e4b35f6d9213242</code>，看起来像。复制字符串到在线网站里测试，发现结果是正确的。</p>
+<p><img src="/Users/zaoshu/Library/Application Support/typora-user-images/image-20181222003045612.png" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>sign生成公式是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">md5Hex(token&amp;t&amp;appKey&amp;data)</div></pre></td></tr></table></figure>
+<p>公式可能会发生变化，只要掌握了断点调试的方法，分析起来会简单很多。想学更多搜索Chrome调试技巧。</p>
+<p>本文还有些地方没有说清楚，比如如何清空缓存，最佳方法是Application中的Storage，将下面的所有Value清空。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fyeua1dj9bj319f0u0gqz.jpg" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Chrome/" rel="tag"># Chrome</a>
+          
+            <a href="/tags/签名/" rel="tag"># 签名</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/18/MongoDB保存数据的优化方法/" rel="next" title="MongoDB保存数据的优化方法">
+                <i class="fa fa-chevron-left"></i> MongoDB保存数据的优化方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/03/pyspark操作MongoDB/" rel="prev" title="pyspark操作MongoDB">
+                pyspark操作MongoDB <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取d-token"><span class="nav-number">1.</span> <span class="nav-text">获取d.token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一步"><span class="nav-number">2.</span> <span class="nav-text">下一步</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

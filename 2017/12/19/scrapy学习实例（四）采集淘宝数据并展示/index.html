@@ -1,0 +1,1042 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="爬虫,Scrapy,淘宝,Flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第二十篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scrapy学习实例（四）采集淘宝数据并展示">
+<meta property="og:url" content="https://zhangslob.github.io/2017/12/19/scrapy学习实例（四）采集淘宝数据并展示/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第二十篇原创文章">
+<meta property="og:image" content="https://i.imgur.com/IzOzuZz.png">
+<meta property="og:image" content="https://i.imgur.com/IzOzuZz.png">
+<meta property="og:image" content="https://i.imgur.com/aDqbnMU.png">
+<meta property="og:image" content="https://i.imgur.com/snWOQbo.png">
+<meta property="og:image" content="https://i.imgur.com/UBmhKoG.png">
+<meta property="og:updated_time" content="2017-12-19T14:36:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scrapy学习实例（四）采集淘宝数据并展示">
+<meta name="twitter:description" content="这是崔斯特的第二十篇原创文章">
+<meta name="twitter:image" content="https://i.imgur.com/IzOzuZz.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2017/12/19/scrapy学习实例（四）采集淘宝数据并展示/"/>
+
+
+
+
+
+  <title> scrapy学习实例（四）采集淘宝数据并展示 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2017/12/19/scrapy学习实例（四）采集淘宝数据并展示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                scrapy学习实例（四）采集淘宝数据并展示
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T21:09:07+08:00">
+                2017-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scrapy/" itemprop="url" rel="index">
+                    <span itemprop="name">Scrapy</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第二十篇原创文章
+</code></pre><p><img src="https://i.imgur.com/IzOzuZz.png" alt=""></p>
+<a id="more"></a>
+<p>本节代码 ： <a href="https://github.com/zhangslob/Taobao_duoshou" target="_blank" rel="external">zhangslob/Taobao_duoshou</a> <strong>万水千山总是情，给个star行不行</strong></p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=28830411&auto=1&height=66"></iframe>
+
+<p>铛铛铛，懒惰了一段时间，咱接着学Scrapy。这一期玩点新花样，使用<a href="http://flask.pocoo.org/" target="_blank" rel="external">Flask</a>展示我们的数据。效果如下图：</p>
+<p><img src="https://i.imgur.com/IzOzuZz.png" alt=""></p>
+<p><img src="https://i.imgur.com/aDqbnMU.png" alt=""></p>
+<blockquote>
+<p>有些重复的 ╮(╯Д╰)╭</p>
+</blockquote>
+<p>过程简单来说有两步：</p>
+<ol>
+<li>使用Scrapy采集淘宝数据</li>
+<li>使用Flask展示数据</li>
+</ol>
+<h1 id="采集数据"><a href="#采集数据" class="headerlink" title="采集数据"></a>采集数据</h1><h2 id="抓包分析"><a href="#抓包分析" class="headerlink" title="抓包分析"></a>抓包分析</h2><p>其实采集淘宝数据的方法真的很多很多，这里不讨论Selenium，只说如何抓包分析，先提供几个接口，供观众老爷观赏：</p>
+<ol>
+<li><a href="https://s.taobao.com/list?seller_type=taobao&amp;json=on" target="_blank" rel="external">https://s.taobao.com/list?seller_type=taobao&amp;json=on</a></li>
+<li><a href="https://s.m.taobao.com/search?event_submit_do_new_search_auction=1&amp;_input_charset=utf-8&amp;topSearch=1&amp;atype=b&amp;searchfrom=1&amp;action=home%3Aredirect_app_action&amp;from=1&amp;q=%E6%B0%B4%E6%9E%9C&amp;sst=1&amp;n=44&amp;buying=buyitnow&amp;m=api4h5&amp;abtest=25&amp;wlsort=25&amp;page=1" target="_blank" rel="external">https://s.m.taobao.com/search?event_submit_do_new_search_auction=1&amp;_input_charset=utf-8&amp;topSearch=1&amp;atype=b&amp;searchfrom=1&amp;action=home%3Aredirect_app_action&amp;from=1&amp;q=%E6%B0%B4%E6%9E%9C&amp;sst=1&amp;n=44&amp;buying=buyitnow&amp;m=api4h5&amp;abtest=25&amp;wlsort=25&amp;page=1</a></li>
+<li><a href="http://h5.m.taobao.com/app/selectassistant/www/choiceness/index.html?m=select&amp;vm=nw&amp;ttid=null&amp;utd_id=null&amp;page=2&amp;n=44&amp;q=%E6%B0%B4%E6%9E%9C" target="_blank" rel="external">http://h5.m.taobao.com/app/selectassistant/www/choiceness/index.html?m=select&amp;vm=nw&amp;ttid=null&amp;utd_id=null&amp;page=2&amp;n=44&amp;q=%E6%B0%B4%E6%9E%9C</a></li>
+</ol>
+<p>这三种接口都可以采集数据，别问我怎么知道的，经历过千百次失败。<br>这里选择的是第二种，大家可以试试这几种的区别。</p>
+<p>使用第二种去采集数据时，返回的是json数据，数据量已经很多。</p>
+<p><img src="https://i.imgur.com/snWOQbo.png" alt=""></p>
+<p>其中有<strong>几点坑</strong>，分享下。</p>
+<ol>
+<li>URL不同。淘宝和天猫的链接是不同的，移动端和网页端是不同的。</li>
+<li>这里显示的 <code>commentCount</code> （评论数量）并不是真实的，你可以打开详情页对比</li>
+<li>评论数量的接口。淘宝和天猫的都可以使用 <code>https://rate.taobao.com/detailCount.do?itemId=商品ID</code>，每件商品都有自己的唯一ID</li>
+</ol>
+<h2 id="代码实战"><a href="#代码实战" class="headerlink" title="代码实战"></a>代码实战</h2><p>这里直接把主代码贴出来，使用 <code>Mongo</code> 保存数据。 </p>
+<p><code>taobao.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> copy</div><div class="line"><span class="keyword">import</span> scrapy</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">from</span> ..items <span class="keyword">import</span> TaobaoInfoItem</div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">from</span> traceback <span class="keyword">import</span> format_exc</div><div class="line"></div><div class="line">kw = [<span class="string">'网络服务'</span>, <span class="string">'装潢'</span>, <span class="string">'护理'</span>, <span class="string">'速食'</span>, <span class="string">'运动鞋'</span>, <span class="string">'运动服'</span>, <span class="string">'男装'</span>, <span class="string">'配件'</span>, <span class="string">'蔬果'</span>, <span class="string">'干货'</span>, <span class="string">'攻略'</span>, <span class="string">'地毯'</span>, <span class="string">'文具'</span>, <span class="string">'书籍'</span>, <span class="string">'人偶'</span>, <span class="string">'饰品'</span>, <span class="string">'报纸'</span>, <span class="string">'时尚饰品'</span>, <span class="string">'美发'</span>, <span class="string">'运动包'</span>, <span class="string">'粮油'</span>, <span class="string">'吃喝玩乐折扣券'</span>, <span class="string">'工具'</span>, <span class="string">'彩妆'</span>, <span class="string">'演出'</span>, <span class="string">'童装'</span>, <span class="string">'个性定制'</span>, <span class="string">'数码相机'</span>, <span class="string">'日化'</span>, <span class="string">'游戏'</span>, <span class="string">'尿片'</span>, <span class="string">'安防'</span>, <span class="string">'摄像机'</span>, <span class="string">'厨房电器'</span>, <span class="string">'办公设备'</span>, <span class="string">'网店'</span>, <span class="string">'ZIPPO'</span>, <span class="string">'杂志'</span>, <span class="string">'礼品'</span>, <span class="string">'摄影器材'</span>, <span class="string">'喂哺等用品'</span>, <span class="string">'软件'</span>, <span class="string">'笔记本电脑'</span>, <span class="string">'明星'</span>, <span class="string">'登山'</span>, <span class="string">'居家日用'</span>, <span class="string">'户外'</span>, <span class="string">'电脑硬件'</span>, <span class="string">'流行首饰'</span>, <span class="string">'娃娃'</span>, <span class="string">'收纳'</span>, <span class="string">'影视'</span>, <span class="string">'音乐'</span>, <span class="string">'电玩'</span>, <span class="string">'音像'</span>, <span class="string">'香水'</span>, <span class="string">'水产'</span>, <span class="string">'热销女包'</span>, <span class="string">'大家电'</span>, <span class="string">'其他保健营养品'</span>, <span class="string">'箱包皮具'</span>, <span class="string">'瑞士军刀'</span>, <span class="string">'3C数码配件市场'</span>, <span class="string">'电脑周边'</span>, <span class="string">'男包'</span>, <span class="string">'玩具'</span>, <span class="string">'U盘'</span>, <span class="string">'模型'</span>, <span class="string">'孕妇装'</span>, <span class="string">'窗帘'</span>, <span class="string">'眼镜'</span>, <span class="string">'促销店铺'</span>, <span class="string">'五金'</span>, <span class="string">'旅行'</span>, <span class="string">'洗护'</span>, <span class="string">'清洁'</span>, <span class="string">'移动存储'</span>, <span class="string">'卫浴'</span>, <span class="string">'野营'</span>, <span class="string">'颈环配件'</span>, <span class="string">'童鞋'</span>, <span class="string">'家装饰品'</span>, <span class="string">'显示器'</span>, <span class="string">'闪存卡'</span>, <span class="string">'传统滋补品'</span>, <span class="string">'耗材'</span>, <span class="string">'灯具'</span>]</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaobaoSpider</span><span class="params">(scrapy.Spider)</span>:</span></div><div class="line">    name = <span class="string">'taobao'</span></div><div class="line">    allowed_domains = [<span class="string">'taobao.com'</span>]</div><div class="line">    start_urls = [<span class="string">'https://s.m.taobao.com/search?event_submit_do_new_search_auction=1&amp;_input_charset=utf-8&amp;topSearch=1&amp;atype=b&amp;searchfrom=1&amp;action=home%3Aredirect_app_action&amp;from=1&amp;q=&#123;&#125;&amp;sst=1&amp;n=44&amp;buying=buyitnow&amp;m=api4h5&amp;abtest=25&amp;wlsort=25&amp;page=&#123;&#125;'</span>.format(i, y) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">101</span>) <span class="keyword">for</span> y <span class="keyword">in</span> kw]</div><div class="line"></div><div class="line">    <span class="comment"># 其他接口 http://h5.m.taobao.com/app/selectassistant/www/choiceness/index.html?m=select&amp;vm=nw&amp;ttid=null&amp;utd_id=null&amp;page=2&amp;n=44&amp;q=%E6%B0%B4%E6%9E%9C</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        item = TaobaoInfoItem()</div><div class="line">        ListItem = json.loads(response.text)[<span class="string">'listItem'</span>]</div><div class="line"></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> ListItem:</div><div class="line">            item[<span class="string">'name'</span>] = i[<span class="string">'name'</span>]</div><div class="line">            item[<span class="string">'title'</span>] = i[<span class="string">'title'</span>]</div><div class="line">            item[<span class="string">'area'</span>] = i[<span class="string">'area'</span>]</div><div class="line"></div><div class="line">            <span class="comment"># 处理不同的URL</span></div><div class="line">            url = []</div><div class="line">            <span class="keyword">if</span> <span class="string">'https:'</span> <span class="keyword">not</span> <span class="keyword">in</span> i[<span class="string">'url'</span>]:</div><div class="line">                <span class="keyword">if</span> <span class="string">'detail.m.tmall.com'</span> <span class="keyword">in</span> i[<span class="string">'url'</span>]:</div><div class="line">                    url.append(<span class="string">'https:'</span> + i[<span class="string">'url'</span>].replace(<span class="string">'.m'</span>,<span class="string">''</span>))</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    url.append(<span class="string">'https:'</span> + i[<span class="string">'url'</span>])</div><div class="line">            <span class="keyword">if</span> <span class="string">'https:'</span>  <span class="keyword">in</span> i[<span class="string">'url'</span>]:</div><div class="line">                url.append(i[<span class="string">'url'</span>])</div><div class="line">            item[<span class="string">'url'</span>] = url</div><div class="line">            print(item[<span class="string">'url'</span>])</div><div class="line"></div><div class="line">            <span class="comment"># 评论网址</span></div><div class="line">            comment_url = []</div><div class="line">            ur = item[<span class="string">'url'</span>]</div><div class="line">            comment_url.append(ur[<span class="number">0</span>] + <span class="string">'#J_Reviews'</span>)</div><div class="line">            item[<span class="string">'comment_url'</span>] = comment_url</div><div class="line"></div><div class="line">            item[<span class="string">'fastPostFee'</span>] = i[<span class="string">'fastPostFee'</span>]</div><div class="line">            item[<span class="string">'sales'</span>] = i[<span class="string">'act'</span>]</div><div class="line">            item[<span class="string">'price'</span>] = i[<span class="string">'price'</span>]</div><div class="line">            item[<span class="string">'originalPrice'</span>] = i[<span class="string">'originalPrice'</span>]</div><div class="line">            item[<span class="string">'nick'</span>] = i[<span class="string">'nick'</span>]</div><div class="line">            item[<span class="string">'id'</span>] = i[<span class="string">'item_id'</span>]</div><div class="line">            item[<span class="string">'loc'</span>] = i[<span class="string">'sellerLoc'</span>]</div><div class="line"></div><div class="line">            <span class="comment"># 图片链接</span></div><div class="line">            img_url = []</div><div class="line">            img_url.append(<span class="string">'http:'</span> + i[<span class="string">'img2'</span>])</div><div class="line">            item[<span class="string">'img_url'</span>] = img_url</div><div class="line"></div><div class="line">            count_url = []</div><div class="line">            count_url.append(<span class="string">'https://rate.taobao.com/detailCount.do?itemId='</span> + i[<span class="string">'item_id'</span>])</div><div class="line"></div><div class="line">            <span class="keyword">for</span> url <span class="keyword">in</span> count_url:</div><div class="line">                <span class="keyword">yield</span> scrapy.Request(</div><div class="line">                    url,</div><div class="line">                    callback=self.detail_parse,</div><div class="line">                    meta=&#123;<span class="string">'item'</span>: copy.deepcopy(item)&#125;, <span class="comment"># 使用copy.deepcopy深复制，否则数据不对啊</span></div><div class="line">                    dont_filter=<span class="keyword">True</span>,</div><div class="line">                    errback=self.error_back</div><div class="line">                )</div><div class="line"></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detail_parse</span><span class="params">(self, response)</span>:</span></div><div class="line">        item = response.meta[<span class="string">'item'</span>]</div><div class="line">        pat_count = <span class="string">'&#123;"count":(.*?)&#125;'</span></div><div class="line">        item[<span class="string">'count'</span>] = re.findall(pat_count, str(response.body))</div><div class="line"></div><div class="line">        <span class="keyword">yield</span> item</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">error_back</span><span class="params">(self, e)</span>:</span></div><div class="line">        _ = e</div><div class="line">        self.logger.error(format_exc())</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="string">'''</span></div><div class="line">['羽绒服', '毛呢大衣', '毛衣', '冬季外套', '新品', '裤子', '连衣裙', '腔调', '秋冬新品', '淘特莱斯', '淘先生', '拾货', '秋冬外套', '时尚套装', '潮牌', '爸爸装', '春新品', '性感诱惑', '甜美清新', '简约优雅', '奢华高贵', '运动风', '塑身', '基础内衣', '轻薄款', '长款', '短款', '毛领', '加厚', '被子', '鹅绒', '新品', '秋款', '夹克', '卫衣', '西装', '风衣', '皮衣', '毛呢外套', '薄羽绒', '无钢圈', '无痕文胸', '蕾丝内衣', '运动文胸', '聚拢文胸', '大码文胸', '抹胸式', '隐形', '廓形', '双面呢', '羊绒', '中长款', '短款', '毛领', '设计师款', '系带', 'T恤', '长袖T', '打底衫', '纯色', '衬衫', '长袖款', '商务款', '时尚款', '睡衣套装', '睡裙', '睡袍浴袍', '外穿家居', '女士睡衣', '男士睡衣', '情侣睡衣', '亲子睡衣', '马海毛', '貂绒', '羊绒', '羊毛', '开衫', '中长款', '短款', '卡通', '休闲裤', '工装裤', '运动裤', '长裤', '牛仔裤', '小脚裤', '哈伦裤', '直筒裤', '女士内裤', '男士内裤', '三角裤', '平角裤', '丁字裤', '阿罗裤', '星期裤', '低腰', '外套', '套装', '风衣', '卫衣', '真皮皮衣', '马甲', '小西装', '唐装', '中老年', '薄毛衣', '针织开衫', '圆领毛衣', 'V领毛衣', '纯色毛衣', '民族风', '羊毛衫', '羊绒衫', '船袜', '男人袜', '连裤袜', '隐形袜', '收腹裤', '塑身衣', '美体裤', '收腹带', '帆布鞋', '高帮', '低帮', '内增高', '懒人鞋', '厚底', '韩版', '系带', '情侣款', '运动风鞋', '厚底', '内增高', '星星鞋', '系带', '上新', '人气款', '单肩包', '斜挎包', '手提包', '迷你包', '手拿包', '小方包', '棒球帽', '鸭舌帽', '遮阳帽', '渔夫帽', '草帽', '平顶帽', '嘻哈帽', '贝雷帽', '牛仔帽', '爵士帽', '高跟', '平底', '厚底', '中跟', '粗跟', '坡跟', '浅口', '尖头', '圆头', '运动款', '头层牛皮', '内增高', '松糕鞋', '豆豆鞋', '商务', '休闲', '潮范', '胸包', '腰包', '单肩', '斜跨', '手提', '手拿', '帆布', '牛皮', '女士腰带', '男士皮带', '帆布腰带', '腰封', '腰链', '针扣头', '平滑扣', '自动扣', '真皮', '正品', '厚底', '内增高', '星星鞋', '系带', '一脚蹬', '魔术贴', '气垫', '网状', '印花', '铆钉', '水洗皮', '卡通', '原宿', '糖果色', '商务', '运动', '帆布', '牛皮', '女士围巾', '男士围巾', '披肩', '丝巾', '假领', '小方巾', '三角巾', '大方巾', '真丝', '雪纺', '棉质', '亚麻', '蕾丝', '青春潮流', '商务皮鞋', '休闲皮鞋', '正装皮鞋', '商务休闲', '布洛克', '内增高', '反绒皮', '真皮', '潮流低帮', '韩版', '英伦', '复古', '铆钉', '编织', '豹纹', '大头', '拉杆箱', '密码箱', '学生箱', '子母箱', '拉杆包', '万向轮', '飞机轮', '航空箱', '铝框', '女士手套', '男士手套', '真皮手套', '蕾丝手套', '防晒手套', '半指手套', '分指手套', '连指手套', '短款手套', '长款手套', '皮鞋', '低帮', '反绒皮', '大头鞋', '豆豆鞋', '帆船鞋', '懒人鞋', '帆布/板鞋', '高帮', '凉鞋/拖鞋', '沙滩鞋', '人字拖', '皮凉鞋', '洞洞鞋', '钱包', '潮包馆', '真皮包', '手机包', '大牌', 'coach', 'MK', 'MCM', '毛线', '鞋垫', '鞋带', '领带', '领结', '袖扣', '手帕', '布面料', '耳套', '领带夹', '婚纱配件', '皮带扣', '英国牛栏', '英国爱他美', '美赞臣', '雅培', '澳洲爱他美', '可瑞康', '惠氏', '贝因美', '推车', '驱蚊器', '婴儿床', '理发器', '奶瓶', '餐椅', '背带腰凳', '安全座椅', '内衣', '内裤', '喂奶枕', '收腹带', '妈咪包', '待产包', '防辐射服', '储奶袋', '米粉', '肉松', '磨牙棒', '果泥', '益生菌', '清火开胃', '钙铁锌', '维生素', '花王', 'moony', '大王', '帮宝适', '雀氏', '好奇', '妈咪宝贝', '安儿乐', '海淘奶粉', '海淘辅食', '海淘营养品', '直邮花王', '海淘洗护', '海淘奶瓶', '海淘餐具', '海淘孕产', 'T恤', '连衣裙', '泳装', '套装', '衬衫', '防晒服', '半身裙', '短裤', '凉鞋', '沙滩鞋', '洞洞鞋', '网鞋', '学步鞋', '拖鞋', '帆布鞋', '宝宝鞋', '母女裙', '父子装', '亲子T恤', '亲子衬衫', '亲子套装', '母女鞋', '父子鞋', '家庭鞋', '沙滩戏水', '早教启蒙', '拼插益智', '遥控模型', '运动户外', '学习爱好', '卡通公仔', '亲子互动', '电动车', '自行车', '学步车', '手推车', '三轮车', '滑板车', '扭扭车', '儿童轮滑', '早教机', '点读机', '健身架', '布书', '串/绕珠', '床/摇铃', '爬行垫', '木质拼图', '卸妆', '面膜', '洁面', '防晒', '面霜', '爽肤水', '眼霜', '乳液', '补水', '美白', '收缩毛孔', '控油', '祛痘', '祛斑', '去黑眼圈', '去黑头', 'BB霜', '粉底液', '唇膏', '隔离', '遮瑕', '指甲油', '粉饼', '彩妆套装', '女士香水', '男士香水', '中性香水', '淡香水', '古龙水', '香精', '复方精油', '香体乳', '洗发水', '护发素', '染发', '烫发', '造型', '假发', '洗护套装', '假发配件', '美胸', '纤体', '胸部护理', '身体护理', '塑身', '脱毛', '手部保养', '足部护理', '眼线', '睫毛膏', '眼影', '眉笔', '假睫毛', '眼霜', '双眼皮贴', '眼部护理', '劲能醒肤', '清洁面膜', '男性主义', '剃须膏', '男士套装', '男士防晒', '火山岩', '爽身走珠', '抗皱', '抗敏感', '保湿', '去眼袋', '滋润', '抗氧化', '深层清洁', '雅诗兰黛', '兰蔻', '资生堂', '自然乐园', 'SK-II', '悦诗风吟', '水宝宝', '契尔氏', '芦荟胶', '彩妆盘', '腮红', '香氛', '高光棒', '修容', 'V脸', '去角质', '洁面', '爽肤水', '精华', '乳液', '鼻贴', '马油', '牛肉干', '鲜花饼', '红枣', '糖果', '巧克力', '山核桃', '松子', '卤味', '饼干', '话梅', '蔓越莓', '薯片', '奇异果', '芒果', '樱桃', '橙子', '秋葵', '苹果', '番茄', '柠檬', '椰子', '榴莲', '大米', '橄榄油', '小米', '黄豆', '赤豆', '火腿', '香肠', '木耳', '香菇', '豆瓣酱', '海参', '龙虾', '瑶柱', '土鸡', '牛排', '三文鱼', '咸鸭蛋', '皮蛋', '五花肉', '北极贝', '鸡尾酒', '红酒', '啤酒', '白酒', '梅酒', '洋酒', '清酒', '滋补酒', '茅台', '五粮液', '麦片', '咖啡', '牛奶', '柚子茶', '酸梅汤', '矿泉水', '酵素', '藕粉', '姜茶', '酸奶粉', '铁观音', '红茶', '花草茶', '龙井', '普洱', '黑茶', '碧螺春', '毛峰', '袋泡茶', '白茶', '枸杞', '人参', '石斛', '燕窝', '雪蛤', '蜂蜜', '天麻', '花粉', '党参', '红花', '芒果干', '鱼子酱', '咖啡', '橄榄油', '薯片', '巧克力', '咖喱', '方便面', '红酒', '麦片', '项链', '手链', '戒指', '发饰', '银饰', '水晶', '耳饰', '手镯', '翡翠', '彩宝', '蜜蜡', '裸钻', '珍珠', '黄金', '钻石', '金条', '和田玉', '翡翠', '水晶/佛珠', '黄金', '手表', '眼镜', '瑞士表', '机械表', '时装表', '儿童表', '电子表', '情侣表', '石英表', '手表配件', '太阳镜', '偏光镜', '近视镜', '司机镜', '护目镜', '眼镜配件', '运动镜', '老花镜', 'zippo', '电子烟', '烟斗', '瑞士军刀', '绝美酒具', '风格男表', '佛珠', '水晶', '碧玺', '925银', '施华洛', '翡翠', '珍珠', '黄金', '银项链', '流行风格', '天然水晶', '锆石水晶', '佛珠项链', '人造水晶', '925银', '翡翠', '和田玉', '复古泰银', '粉晶手镯', '黄金手镯', '日韩', '甜美', '复古/宫廷', '欧美', '瑞丽', '波西米亚', '民族风', '发饰', '项链', '套装', '耳饰', '韩式', '头饰', '三件套', '合金配件', '银饰', '水晶配珠', '琉璃', '珍珠母贝', '有机玻璃', '人造水晶', '设计师', '半包装修', '全包装修', '全案装修', '装修监理', '清包施工', '局部装修', '验房量房', '装修空气质量检测', '装修污染治理', '整体橱柜', '定制衣柜', '定制吊顶', '定制淋浴房', '门', '窗', '定制柜', '楼梯', '榻榻米定制', '地暖', '吸顶灯', '吊灯', '吸吊两用灯', '筒灯', '射灯', '台灯', '落地灯', '室外灯', '壁灯', '小夜灯', '浴室柜', '普通马桶', '花洒套装', '一体智能马桶', '智能马桶盖板', '淋浴房', '面盆龙头', '地漏', '五金挂件', '浴霸', 'PVC墙纸', '无纺布墙纸', '纯纸墙纸', '墙布', '沙粒墙纸', '绒面墙纸', '定制壁画', '3D墙纸', '实木地板', '实木复合地板', '强化复合地板', '竹地板', '户外地板', 'PVC地板', '防静电地板', '防潮膜', '踢脚线', '地板龙骨', '仿古砖', '釉面砖', '玻化砖', '微晶石', '马赛克', '抛晶砖', '通体砖', '花片', '腰线', '瓷砖背景墙', '插座', '开关', '电线', '监控器材', '智能家居', '防盗报警器材', '消防报警设备', '接线板插头', '布线箱', '断路器', '涂料乳胶漆', '油漆', '水管', '板材', '木方', '阳光房', '线条', '天然大理石', '人造大理石', '防水涂料', '实木床', '布艺床', '皮艺床', '床垫', '衣柜', '斗柜', '梳妆台', '子母床', '床头柜', '儿童床', '皮艺沙发', '布艺沙发', '沙发床', '实木沙发', '懒人沙发', '电视柜', '茶几', '鞋柜', '玄关厅', '衣帽架', '餐桌', '折叠餐桌', '欧式餐桌', '实木餐桌', '大理石餐桌', '餐椅', '餐边柜', '换鞋凳', '角柜', '屏风', '餐桌', '折叠餐桌', '欧式餐桌', '实木餐桌', '大理石餐桌', '餐椅', '餐边柜', '换鞋凳', '角柜', '屏风', '蚊帐', '三开蚊帐', '凉席', '凉席套件', '冰丝席', '藤席', '牛皮席', '夏凉被', '空调被', '天丝套件', '床单', '床笠', '四件套', '全棉套件', '被套', '蚕丝被', '羽绒被', '枕头', '乳胶枕', '记忆枕', '床褥', '毛毯', '定制窗帘', '地毯', '沙发垫', '靠垫', '桌布桌旗', '飘窗垫', '地垫', '餐垫', '防尘罩', '椅垫', '成品窗帘', '沙发罩', '摆件', '花瓶', '仿真花', '台钟闹钟', '香薰炉', '储物罐', '装饰碗盘', '木雕', '烟灰缸', '纸巾盒', '蜡烛烛台', '仿真饰品', '现代装饰画', '无框画', '后现代画', '油画', '挂钟', '照片墙', '新中式', '北欧家饰', '美式乡村', '挂钩搁板', '装饰挂钩', '壁饰', '扇子', '毛巾', '浴巾', '口罩', '隔音耳塞', '竹炭包', '眼罩', '夏季凉拖', '居家鞋', '夏季清凉', '湿巾', '晴雨伞', '驱蚊灯', '驱蚊液', '冰格', '保鲜产品', '密封罐', '防潮制品', '电扇/冰垫', '5元小物', '被子防尘袋', '收纳盒', '收纳袋', '大衣/西服罩', '护洗袋', '收纳凳', '鞋柜', '置物架', '桌用收纳', '内衣收纳', '洗发护发', '沐浴露', '漱口水', '卫生巾', '洗手液', '牙膏', '纸巾', '香皂', '沐浴球/浴擦/浴刷', '指甲刀', '剃须刮毛刀', '沐浴球', '浴室角架', '浴帘杆', '拖把', '垃圾桶', '梳子镜子', '围裙', '百洁布', '海绵擦', '餐具', '锅具', '刀具', '炖锅', '蒸锅', '汤锅', '煎锅', '压力锅', '炒锅', '菜板砧板', '一次性餐桌用品', '酒杯酒具', '咖啡器具', '碗盘碟', '刀叉勺', '餐具瓷器套装', '餐桌小物', '饭盒', '厨房储物', '一次性餐桌用品', '茶具', '茶壶', '飘逸杯', '功夫茶杯', '玻璃杯', '杯垫', '保温杯', '马克杯', '保温壶', '情侣杯', '晒衣篮', '晾衣杆', '脏衣篮', '衣架', '家庭清洁剂', '蓝泡泡', '管道疏通器', '塑胶手套', '医药箱', '垃圾袋', '汽车首页', '新车先购', '车海淘', '二手车', '爱车估价', 'suv', '别克', '大众', '宝马', '座垫', '座套', '脚垫', '香水', '旅行床', '遮阳挡', '挂件摆件', '安全座椅', '专车专用座垫', '脚垫', '安全座椅', '香水', '钥匙包', '挂件', '座套', '后备箱垫', '置物箱', '智能车机', '后视镜', '安卓导航', '便携GPS', 'DVD导航', '电子狗', '流动测速', '导航软件', '记录仪', '预警仪', 'GPS', '车机', '倒车雷达', '智能后视镜', '蓝牙', '防盗器', 'MP3', '4S保养', '电瓶安装', '配件安装', '隔热膜', '洗车卡', '镀晶镀膜', '连锁保养', '上门服务', '行车记录仪', '逆变器', '跟踪器', '充电器', '充气泵', '胎压监测', '车载冰箱', '空气净化', '车衣', 'SUV踏板', '晴雨挡', '改色膜', '汽车车标', '车牌架', '轮胎', '雨刮器', '机油滤芯', '空气滤芯', '空调滤芯', '减震', '刹车片', '火花塞', '轮胎', '雨刮', '机油', '高亮大灯', '挡泥板', '保险杠', '车顶架', '轮眉', '轮毂', '排气', '保险杠', '汽车包围', '氙气灯', '车顶架', '脚踏板', '大灯总成', '尾翼', '轮毂', '汽车装饰灯', '排气筒', '尾喉', '车身饰条', '添加剂', '防冻液', '玻璃水', '车蜡', '补漆笔', '洗车机', '洗车水枪', '车掸蜡拖', '车蜡', '洗车机', '补漆笔', '抛光机', '打蜡海绵', '车用水桶', '擦车巾', '车刷', '装饰条', '车贴', '尾喉', '改色膜', '防爆膜', '晴雨挡', '日行灯', '车衣', '夏季座垫', '遮阳挡', '防眩蓝镜', '防晒手套', 'iPhone', '小米', '华为', '三星', '魅族', '纽扣', '酷派', 'VIVO', 'iPad', '小米', '三星', '10寸', '台电', 'win8', '蓝魔', '华为', 'DIY电脑', '一体机', '路由器', '显示器', '学生', 'CPU', '移动硬盘', '无线鼠标', '苹果', '联想', 'Thinkpad', '戴尔', '华硕', 'Acer', '神州', '三星', '单反', '自拍神器', '拍立得', '佳能', '微单', '镜头', '卡西欧', '尼康', '充电宝', '智能穿戴', '蓝牙耳机', 'iPhone6壳', '电脑包', '手机贴膜', '手机壳套', '三脚架', '保护壳套', '炫彩贴膜', '移动电源', '相机配件', '手机零件', '自拍神器', '移动POS支付', '电池', '儿童手表', 'Apple Watch', '智能手表', '智能手环', '智能配饰', '智能健康', '智能排插', '智能眼镜', '游戏掌机', '家用游戏机', '游戏手柄', 'PS主机', 'XBOX', '任天堂配件', 'PS主机配件', 'XBOX配件', '路由器', '网关', '交换机', '光纤设备', '网络存储设备', '无线上网卡', 'TP-LINK', '小米路由器', 'MP3', 'MP4', '录音笔', '索尼', '飞利浦', 'ipod', '爱国者', '耳机', 'U盘', '闪存卡', '记忆棒', '移动硬盘', '希捷', '三星', 'Sandisk', '金士顿', '电磁炉', '电水壶', '料理机', '电饭煲', '榨汁机', '净水器', '豆浆机', '烤箱', '电风扇', '空调扇', '挂烫机', '扫地机', '吸尘器', '加湿器', '除湿机', '对讲机', '空气净化', '理发器', '电子称', '美容仪', '按摩椅', '按摩披肩', '血压计', '足浴器', '电动牙刷', '剃须刀', '耳机', '音响', '网络机顶盒', '麦克风', '扩音器', 'HiFi套装', '蓝光DVD', '低音炮', '打印机', '投影仪', '硒鼓墨盒', 'A4纸', '一体机', '学生文具', '保险柜', '电纸书', '学习机', '冰箱', '空调', '平板电视', '油烟机', '燃气灶', '消毒柜', '厨电套装', '热水器', '洗衣机', '包装设备', '包装纸箱', '塑料袋', '包装胶带', '铭牌', '快递袋', '气泡膜', '真空机', '笔记本', '文件袋', '钢笔', '胶粘用品', '铅笔', '计算器', '白板', '台历', '设计定制', '企业用品定制', 'T恤印制', '杯子定制', 'ppt模板', '班服定制', '洗照片', '人偶定制', '电子电工', '气动元件', '水泵', '阀门', '电钻', '焊接设备', '万用表', '雕刻机', '办公家具', '商业设施', '办公桌', '陈列柜', '货架', '广告牌', '文件柜', '沙发', '网络设备', '电子元器件', '路由器', '交换机', '光纤设备', '视频会议', '无线安全保密', '机柜', '餐饮美食', '冰淇淋', '火锅', '购物卡券', '体检配镜', '美容美甲', '保险理财', '婚纱摄影', '旅行团购', '住在帝都', '住在魔都', '住在杭州', '住在南京', '住在广州', '住在青岛', '住在宁波', '住在成都', '少儿英语', '小学教育', '潜能开发', '家长训练', '孕产育儿', '少儿绘画', '婴幼早教', '音乐', 'Q币充值', '点卡充值', '充游戏币', '游戏代练', '超值账号', '手游充值', '电竞比赛', '游戏帮派', '潇洒一室', '靠谱二室', '舒适三房', '大四室', '私藏别墅', '景观居所', '轨道沿线', '学区房', '实用英语', '网站制作', 'IT技能', '会计职称', '一对一', '办公软件', '日语', '编程', '英雄联盟', '剑侠情缘3', '征途2', '魔域', '我叫MT', '刀塔传奇', 'DOTA2', 'DNF', '魔兽世界', '自助餐', '个性写真', '儿童写真', '电影票团购', '上门服务', '周边旅游', '境外旅游', '基金理财', '魅力健身', '时尚美妆', '手工DIY', '舞蹈', '减肥瑜伽', '个人形象', '美剧英语', '摄影', '美女陪练', '轻松甩肉', '基金理财', '淘宝美工', '办公技能', '婚纱摄影', '婚礼策划', '三亚婚拍', '厦门婚拍', '青岛婚拍', '北京婚拍', '杭州婚拍', '上海婚拍', '新娘跟妆', '婚礼跟拍', '婚礼司仪', '婚车租赁', '任意洗', '洗外套', '洗西装', '洗鞋', '洗四件套', '洗烫衬衫', '皮包护理', '洗窗帘', '洗地毯', '在线洗衣', '洗礼服', '洗玩具', '开荒保洁', '厨房保洁', '公司保洁', '家电清洗', '空调清洗', '洗油烟机', '冰箱清洗', '擦玻璃', '家政服务', '家庭保洁', '保洁服务', '钟点工', '洗衣机清洗', '卫生间保洁', '上门养车', '洗车', '封釉镀膜', '内饰清洗', '空调清洗', '汽车维修', '充加油卡', '年检代办', '玻璃贴膜', '汽车装饰', '底盘装甲', '四轮定位', '汽车改装', '违章代办', '汽车隔音', '上门按摩', '常规体检', '入职体检', '老人体检', '四维彩超', '孕前检查', '体检报告', '专业洗牙', '烤瓷牙', '胃部检测', '月嫂', '催乳师', '育儿嫂', '营养师', '普通保姆', '涉外保姆', '产后陪护', '临时看护', '管家', '烧饭阿姨', '宠物寄养', '宠物美容', '宠物配种', '宠物洗澡', '宠物摄影', '宠物托运', '宠物训练', '宠物医疗', '水族服务', '宠物绝育', '宠物洗牙', '宠物造型', '宠物体检', '居家搬家', '公司搬运', '空调拆装', '家电搬运', '家具搬运', '打孔', '电路维修', '甲醛测试', '开锁换锁', '杀虫消毒', '高空清洁', '除尘除螨', '网上办事', '代缴费', '代排队', '交罚单', '叫醒服务', '宝宝起名', '学车报名', '代邮代取', '话费充值', '代送鲜花', '水电煤缴费', '同城速递', '代办档案', '宽带费', '机场停车', '专利申请', '法律咨询', '专业翻译', '开发建站', '图片处理', '视频制作', '名片制作', '商标转让', '打印', '复印', '商标注册', '私人律师', '合同文书', '出国翻译', '手机维修', 'pad维修', '修台式机', '相机维修', '修笔记本', '修复印机', '修游戏机', '修导航仪', '软件服务', '延保服务', '硬件维修', '苹果维修', '小米维修', '三星维修', '安卓刷机', '数据恢复', '电脑维修', 'ipad维修', '华为维修', '重装系统', '家电维修', '相机维修', '硬盘维修', '苹果换屏', '换主板', '名企招聘', '高薪岗位', '文案编辑', '网店推广', '开发技术', '活动策划', '美工设计', '金牌客服', '大促客服', '网页设计', '人才认证', '图片设计', '摄影师', '店长', '运营主管', '客服主管', '美工主管', '跑步鞋', '篮球鞋', '休闲鞋', '足球鞋', '帆布鞋', '训练鞋', '徒步鞋', '登山鞋', '限量版', '板鞋', 'Rosherun', '运动套装', '运动卫衣', '长裤', '皮肤风衣', '健身服', '球服', '耐克', '阿迪达斯', '三叶草', '美津浓', '彪马', '狼爪', '山地车', '公路车', '骑行服', '头盔', '装备', '零件', '工具', '护具', '折叠车', '死飞', '水壶架', '行李架', '羽毛球拍', '羽毛球服', '羽毛球', '网球拍', '篮球', '篮球服', '足球', '足球服', '乒乓球拍', '橄榄球', '台球', '高尔夫', '吊床', '头灯', '遮阳棚', '望远镜', '照明', '野营帐篷', '野外照明', '烧烤炉', '望远镜', '潜水镜', '防潮垫', '皮划艇', '皮肤衣', '防晒衣', '冲锋衣', '探路者', '速干裤', '迷彩服', '战术靴', '登山鞋', 'crocs', '溯溪鞋', '户外鞋', '麻将机', '轮滑', '麻将', '象棋', '雀友', '飞镖', '桌上足球', '风筝', '陀螺', '空竹', '沙袋', '太极服', '甩脂机', '轮滑装备', '跑步机', '舞蹈', '瑜伽', '哑铃', '仰卧板', '踏步机', '划船机', '卧推器', '健身车', '呼啦圈', '舞蹈', '瑜伽', '广场舞', '舞蹈鞋', '拉丁鞋', '广场舞套装', '肚皮舞服装', '瑜伽垫', '瑜伽球', '瑜伽服', '鱼饵', '套装', '路亚', '附件', '鱼钩', '钓鱼工具', '船/艇', '台钓竿', '海钓竿', '溪流竿', '路亚竿', '矶钓杆', '单肩背包', '旅行包', '双肩背包', '挎包', '户外摄影包', '头巾', '运动水壶', '防水包', '电池', '电自行车', '平衡车', '滑板车', '头盔', '摩托车', '老年代步', '独轮车', '遮阳伞', '扭扭车', '折叠车', '仿真植物', '干花', 'DIY花', '手捧花', '鲜果蓝', '仿真蔬果', '开业花篮', '花瓶', '绿植同城', '园艺方案', '多肉植物', '桌面盆栽', '蔬菜种子', '水培花卉', '苔藓景观', '空气凤梨', '肥料', '花盆花器', '花卉药剂', '营养土', '园艺工具', '洒水壶', '花架', '铺面石', '热带鱼', '孔雀鱼', '底栖鱼', '虾螺', '龙鱼', '罗汉鱼', '锦鲤', '金鱼', '水母', '灯科鱼', '乌龟', '水草', '底砂', '水草泥', '沉木', '仿真水草', '假山', '氧气泵', '过滤器', '水草灯', '加热棒', '鱼粮', '水质维护', '硝化细菌', '除藻剂', '龟粮', '兔兔', '仓鼠', '龙猫', '雪貂', '粮食零食', '医疗保健', '笼子', '鹦鹉', '鸟笼', '观赏鸟', '蚂蚁工坊', '蜘蛛', '蚕', '大牌狗粮', '宠物服饰', '狗厕所', '宠物窝', '航空箱', '海藻粉', '羊奶粉', '宠物笼', '储粮桶', '剃毛器', '营养膏', '上门服务', '全新钢琴', '智能钢琴', '中古钢琴', '尤克里里', '民谣吉他', '萨克斯风', '口琴', '小提琴', '高达', '手办', '盒蛋', '兵人', '变形金刚', '圣衣神话', '钢铁侠', 'BJD', '拼装', '人偶', '猫砂', '猫粮', '猫爬架', '猫窝', '猫砂盆', '化毛膏', '猫罐头', '喂食器', '折耳猫', '猫抓板', '猫玩具', '猫笼', '古筝', '二胡', '葫芦丝', '战鼓', '古琴', '陶笛', '琵琶', '笛子', '动漫T恤', '动漫抱枕', 'COS', '背包', '项链', '颜文字', '哆啦A梦', '大白', '手表', '盗墓笔记', '海贼', '火影', 'LOL', '杀菌剂', '杀虫剂', '除草剂', '调节剂', '杀螨剂', '杀鼠剂', '敌敌畏', '草甘膦', '园林种苗', '动物种苗', '蔬菜种苗', '水果种苗', '粮油种子', '药材种苗', '食用菌种', '辣木籽', '氮肥', '磷肥', '钾肥', '叶面肥', '新型肥料', '复合肥', '生物肥料', '有机肥', '耕种机械', '收割机械', '农机配件', '植保机械', '拖拉机', '施肥机械', '粮油设备', '微耕机', '塑料薄膜', '大棚膜', '防渗膜', '鱼塘专用', '薄膜', '遮阳网', '篷布', '防虫网', '镰刀', '锹', '高压水枪', '锨', '镐', '耙子', '锄头', '叉', '猪饲料', '羊饲料', '牛饲料', '预混料', '饲料原料', '全价料', '饲料添加剂', '浓缩料', '加工设备', '养殖器械', '渔业用具', '养殖服务', '配种服务', '养鸡设备', '挤奶机', '母猪产床', '化学药', '中兽药', '抗生素', '驱虫', '消毒剂', '疫苗', '阿莫西林', '氟苯尼考']</div><div class="line"></div><div class="line">'''</div></pre></td></tr></table></figure>
+<p>说明几点：</p>
+<ol>
+<li>在使用 <code>meta</code> 传递数据的时候，要使用 <code>copy.deepcopy</code> 深复制，详情查阅 <a href="http://blog.csdn.net/bestbzw/article/details/52894883" target="_blank" rel="external">【scrapy】item传递出错</a></li>
+<li>关于搜索词。因为淘宝对搜索结果只会返回100页，所以我们这里增加索引词，来获得更多数据。可以在代码末尾发现更多关键词，有1000多个，这个list是从这里获得 <a href="https://www.taobao.com/markets/tbhome/market-list" target="_blank" rel="external">淘宝首页行业市场</a></li>
+</ol>
+<h2 id="反爬处理"><a href="#反爬处理" class="headerlink" title="反爬处理"></a>反爬处理</h2><p>呃呃，有意思的是，自己跑了一会获得了几万条数据，并没有任何的异常，没有在 <code>middlewares.py</code> 加代理，连 <code>UA</code> 都是固定的，好奇怪。</p>
+<p><strong>可能长得帅的人品都比较好吧。</strong></p>
+<h1 id="展示数据"><a href="#展示数据" class="headerlink" title="展示数据"></a>展示数据</h1><p>mongo 中的数据</p>
+<p><img src="https://i.imgur.com/UBmhKoG.png" alt=""> </p>
+<p>数据并不直观，所以我们选择展示出来，做一个小小的聚合搜索</p>
+<p>同样看看主文件 <code>server.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, session, g, redirect, url_for, \</div><div class="line">    abort, render_template, flash</div><div class="line"><span class="keyword">from</span> bson <span class="keyword">import</span> json_util</div><div class="line"><span class="keyword">from</span> bson.objectid <span class="keyword">import</span> ObjectId</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> pymongo</div><div class="line"></div><div class="line">conn = pymongo.MongoClient(<span class="string">'localhost'</span>, <span class="number">27017</span>)</div><div class="line">db = conn[<span class="string">'taobao'</span>]</div><div class="line">goods_coll = db[<span class="string">'search'</span>]</div><div class="line">cate_coll = db[<span class="string">'categories'</span>]</div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">toJson</span><span class="params">(data)</span>:</span></div><div class="line">    <span class="keyword">return</span> json.dumps(</div><div class="line">               data,</div><div class="line">               default=json_util.default,</div><div class="line">               ensure_ascii=<span class="keyword">False</span></div><div class="line">           )</div><div class="line"></div><div class="line"><span class="meta">@app.errorhandler(404)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">page_not_found</span><span class="params">(e)</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">'404.html'</span>), <span class="number">404</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/', methods=['GET'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</div><div class="line">        total = goods_coll.count()</div><div class="line">        <span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, total=total)</div><div class="line">    <span class="comment">#if request.form['key']:</span></div><div class="line">    <span class="comment">#    key = request.form['key']</span></div><div class="line">    <span class="comment">#    return redirect(url_for('get_goods', key=key, page=1))</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app.route('/search', methods=['GET'])</span></div><div class="line"><span class="meta">@app.route('/search/&lt;item&gt;', methods=['GET'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_goods</span><span class="params">(item=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> request.method == <span class="string">'GET'</span>:</div><div class="line">        page = request.args.get(<span class="string">'page'</span>, <span class="number">1</span>, type=int)</div><div class="line">        limit = request.args.get(<span class="string">'limit'</span>, <span class="number">30</span>, type=int)</div><div class="line">        p = (page - <span class="number">1</span>) * limit</div><div class="line">        offset = request.args.get(<span class="string">'offset'</span>, p, type=int)</div><div class="line">        catid = request.args.get(<span class="string">'catid'</span>, <span class="keyword">None</span>, type=str)</div><div class="line">        jsons = request.args.get(<span class="string">'json'</span>, <span class="string">'off'</span>)</div><div class="line">        keyword = request.args.get(<span class="string">'key'</span>, <span class="string">''</span>)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> keyword:</div><div class="line">            keyword = item</div><div class="line"></div><div class="line">        <span class="keyword">if</span> catid:</div><div class="line">            cursor = goods_coll.find(&#123;<span class="string">'categories.catid'</span>: catid&#125;)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            cursor = goods_coll.find(&#123;<span class="string">'title'</span>: &#123;<span class="string">'$regex'</span>: keyword&#125; &#125;)</div><div class="line">        <span class="comment">#total = cursor.count()</span></div><div class="line">        <span class="comment">#flash('已查询到 %d 个结果.'%total)</span></div><div class="line">        results = cursor.skip(offset).limit(limit)</div><div class="line">        resultList = []</div><div class="line">        <span class="keyword">for</span> result <span class="keyword">in</span> results:</div><div class="line">            resultList.append(result)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> jsons == <span class="string">'off'</span>:</div><div class="line">            <span class="keyword">return</span> render_template(<span class="string">'search.html'</span>, entries=resultList)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> toJson(resultList)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment">#app.run(host='0.0.0.0')</span></div><div class="line">    app.run(debug=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+<p>这里是借鉴了别人的项目，地址在这 <a href="https://github.com/1dot75cm/taobaobao" target="_blank" rel="external">1dot75cm/taobaobao</a></p>
+<p>您可以自定义在 <code>\templates</code>目录下修改对应的html文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">λ ls</div><div class="line">404.html  categories.html  index.html  layout.html  search.html</div></pre></td></tr></table></figure>
+<p>直接运行  <code>server.py</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">λ piython server.py</div><div class="line"> * Restarting with <span class="built_in">stat</span></div><div class="line"> * Debugger is active!</div><div class="line"> * Debugger PIN: 503-651-032</div><div class="line"> * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</div></pre></td></tr></table></figure>
+<p>打开 <a href="http://127.0.0.1:5000/" target="_blank" rel="external">http://127.0.0.1:5000/</a> 即可查看结果</p>
+<h1 id="To-Do"><a href="#To-Do" class="headerlink" title="To Do"></a>To Do</h1><ul>
+<li>数据去重</li>
+<li>价格及销量可视化展示</li>
+<li>速度太慢，应使用分布式</li>
+<li>评论采集</li>
+<li>加强爬虫的反爬措施</li>
+</ul>
+<p>Github ： <a href="https://github.com/zhangslob/Taobao_duoshou" target="_blank" rel="external">zhangslob/Taobao_duoshou</a> <strong>万水千山总是情，给个star行不行</strong></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/1dot75cm/taobaobao" target="_blank" rel="external">1dot75cm/taobaobao</a></li>
+<li><a href="http://blog.csdn.net/bestbzw/article/details/52894883" target="_blank" rel="external">【scrapy】item传递出错</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/Scrapy/" rel="tag"># Scrapy</a>
+          
+            <a href="/tags/淘宝/" rel="tag"># 淘宝</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/12/Scrapy学习实例（三）采集批量网页/" rel="next" title="Scrapy学习实例（三）采集批量网页">
+                <i class="fa fa-chevron-left"></i> Scrapy学习实例（三）采集批量网页
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/20/【RNG-vs-SKT】弹幕的自然语言的初步分析/" rel="prev" title="【RNG vs SKT】弹幕的自然语言的初步分析">
+                【RNG vs SKT】弹幕的自然语言的初步分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#采集数据"><span class="nav-number">1.</span> <span class="nav-text">采集数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抓包分析"><span class="nav-number">1.1.</span> <span class="nav-text">抓包分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实战"><span class="nav-number">1.2.</span> <span class="nav-text">代码实战</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反爬处理"><span class="nav-number">1.3.</span> <span class="nav-text">反爬处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#展示数据"><span class="nav-number">2.</span> <span class="nav-text">展示数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#To-Do"><span class="nav-number">3.</span> <span class="nav-text">To Do</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

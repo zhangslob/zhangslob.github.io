@@ -1,0 +1,1016 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="爬虫,scrapy," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第四十一篇原创文章
+分布式爬虫  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scrapy-redis 和 scrapy 有什么区别？">
+<meta property="og:url" content="https://zhangslob.github.io/2018/04/21/有什么区别？/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第四十一篇原创文章
+分布式爬虫  (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/1uic8Qk.jpg">
+<meta property="og:image" content="https://camo.githubusercontent.com/de76115b295d30222fa0d6a1b79ffc9b31fb04e5/687474703a2f2f7777772e6b656861772e636f6d2f696d616765732f73637265656e73686f742e706e67">
+<meta property="og:updated_time" content="2018-04-21T10:09:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scrapy-redis 和 scrapy 有什么区别？">
+<meta name="twitter:description" content="这是崔斯特的第四十一篇原创文章
+分布式爬虫  (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/1uic8Qk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/04/21/有什么区别？/"/>
+
+
+
+
+
+  <title> scrapy-redis 和 scrapy 有什么区别？ | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/04/21/有什么区别？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                scrapy-redis 和 scrapy 有什么区别？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T18:03:14+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/scrapy/" itemprop="url" rel="index">
+                    <span itemprop="name">scrapy</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第四十一篇原创文章
+</code></pre><p>分布式爬虫  (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/1uic8Qk.jpg" alt=""></p>
+<a id="more"></a>
+<p>最近在工作中一直使用 <code>redis</code> 来管理分发爬虫任务，让我对 <code>scrapy-redis</code> 有很深刻的理解，下面让我慢慢说来。</p>
+<blockquote>
+<p>在所有的问题开始之前，要先有一个前提：你使用 <code>Scrapy</code> 框架做开发</p>
+</blockquote>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p><code>scrapy-redis</code> 与 <code>Scrapy</code>的关系就像电脑与固态硬盘一样，是电脑中的一个插件，能让电脑更快的运行。</p>
+<p><code>Scrapy</code> 是一个爬虫框架，<code>scrapy-redis</code> 则是这个框架上可以选择的插件，它可以让爬虫跑的更快。</p>
+<h1 id="为什么使用-scrapy-redis"><a href="#为什么使用-scrapy-redis" class="headerlink" title="为什么使用 scrapy-redis"></a>为什么使用 <code>scrapy-redis</code></h1><p>首先，在实际开发中，我们总会对爬虫速度表示不满，为啥这么慢，能不能跑快点。除了爬虫本身的优化，我们就要引入<code>分布式爬虫</code>的概念。</p>
+<p>我自己对<code>分布式爬虫</code>的理解就是：<strong>多个爬虫执行同一个任务</strong></p>
+<blockquote>
+<p>这里说下，<code>Scrapy</code>本身是不支持分布式的，因为它的任务管理和去重全部是在机器内存中实现的。</p>
+</blockquote>
+<p>在 <code>Scrapy</code> 中最出名的分布式插件就是<code>scrapy-redis</code>了，<code>scrapy-redis</code>的作用就是让你的爬虫快、更快、超级快。</p>
+<h1 id="scrapy-redis-如何工作"><a href="#scrapy-redis-如何工作" class="headerlink" title="scrapy-redis 如何工作"></a><code>scrapy-redis</code> 如何工作</h1><p>最简单的方式是使用<code>redis</code>替换机器内存，那么具体如何操作呢？非常简单，你只需要在 <code>settings.py</code> 中加上三代码，就能让你的爬虫变为分布式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SCHEDULER = <span class="string">"scrapy_redis.scheduler.Scheduler"</span></div><div class="line"></div><div class="line">DUPEFILTER_CLASS = <span class="string">"scrapy_redis.dupefilter.RFPDupeFilter"</span></div><div class="line"></div><div class="line">REDIS_START_URLS_AS_SET = <span class="keyword">True</span></div></pre></td></tr></table></figure>
+<p><code>SCHEDULER</code> 是任务分发与调度，把所有的爬虫开始的请求都放在redis里面，所有爬虫都去redis里面读取请求。<br><code>DUPEFILTER_CLASS</code> 是去重队列，负责所有请求的去重，<code>REDIS_START_URLS_AS_SET</code>指的是使用redis里面的set类型（简单完成去重），如果你没有设置，默认会选用list。</p>
+<p>如果你现在运行你的爬虫，你可以在redis中看到出现了这两个key:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">spider_name:dupefilter</div><div class="line">spider_name:requests</div></pre></td></tr></table></figure>
+<p>格式是set，即不会有重复数据。前者就是redis的去重队列，对应<code>DUPEFILTER_CLASS</code>，后者是redis的请求调度，把里面的请求分发给爬虫，对应<code>SCHEDULER</code>。（里面的数据不会自动删除，如果你第二次跑，需要提前清空里面的数据）</p>
+<h1 id="scrapy-redis-优点"><a href="#scrapy-redis-优点" class="headerlink" title="scrapy-redis 优点"></a><code>scrapy-redis</code> 优点</h1><h3 id="速度快"><a href="#速度快" class="headerlink" title="速度快"></a>速度快</h3><p><code>scrapy-redis</code> 使用redis这个速度非常快的非关系型（NoSQL）内存键值数据库，<strong>速度快</strong>是最重要原因（但是也会产生负面想过，下面会说到）。</p>
+<p>为什么是<code>scrapy-redis</code>而不是<code>scrapy-mongo</code>呢，大家可以仔细想想。</p>
+<h3 id="用法简单"><a href="#用法简单" class="headerlink" title="用法简单"></a>用法简单</h3><p>前人已经造好轮子了，<a href="https://github.com/rmax/scrapy-redis" target="_blank" rel="external">scrapy-redis</a>。<br>我们直接拿来用就好，而用法也像上面提到的在 <code>settings.py</code> 文件中配置。在文档中还有另一种用法，即<code>Feeding a Spider from Redis</code></p>
+<ol>
+<li>run the spider:<br><code>scrapy runspider myspider.py</code></li>
+<li>push urls to redis:<br><code>redis-cli lpush myspider:start_urls http://google.com</code>（建议把<code>lpush</code>换为<code>zset</code>）</li>
+</ol>
+<p>其实这种用法就是先打开一个爬虫，他会一直在redis里面寻找key为 <code>myspider:start_urls</code>，如果存在，就提取里面的url。当然你也可以在爬虫中指定<code>redis_key</code>，默认的是爬虫的名字加上<code>:start_urls</code></p>
+<h3 id="去重简单"><a href="#去重简单" class="headerlink" title="去重简单"></a>去重简单</h3><p>爬虫中去重是一件大事，使用了<code>scrapy-redis</code>后就很简单了。上面提到过使用redis的set类型就可以很容易达到这个目标了，即<code>REDIS_START_URLS_AS_SET = True</code>。</p>
+<h1 id="scrapy-redis-缺点"><a href="#scrapy-redis-缺点" class="headerlink" title="scrapy-redis 缺点"></a><code>scrapy-redis</code> 缺点</h1><h3 id="内存问题"><a href="#内存问题" class="headerlink" title="内存问题"></a>内存问题</h3><p>为什么使用分布式爬虫，当然是因为会有很多链接需要跑，或者说会存放很多个<code>myspider:start_urls</code>到redis中，Redis是key-value数据库，面对key的内存搜索，优势明显，但是Redis吃的是纯内存，<code>myspider:start_urls</code>是一个有一个像<code>https://www.zhihu.com/people/cuishite</code>的链接，会占用大量的内存空间。之前就因为这个原因redis崩溃过无数次，那么如何优化？</p>
+<p>网络上有的方法是 <a href="https://blog.csdn.net/bone_ace/article/details/53099042" target="_blank" rel="external"> scrapy_redis去重优化（已有7亿条数据），附Demo福利</a>，可以参考下。如果你有好的解决方法，欢迎私信告诉我。（保密原因就不介绍我们的处理方法了）</p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><p>这个其实不算做问题，只是官方文档上我觉得的小BUG，在这里 <a href="https://github.com/rmax/scrapy-redis#usage" target="_blank" rel="external">Usage</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Store scraped item in redis for post-processing.</span></div><div class="line">ITEM_PIPELINES = &#123;</div><div class="line">    <span class="string">'scrapy_redis.pipelines.RedisPipeline'</span>: <span class="number">300</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Pipeline是这样写的<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_process_item</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">    key = self.item_key(item, spider)</div><div class="line">    data = self.serialize(item)</div><div class="line">    self.server.rpush(key, data)</div><div class="line">    <span class="keyword">return</span> item</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">item_key</span><span class="params">(self, item, spider)</span>:</span></div><div class="line">    <span class="string">"""Returns redis key based on given spider.</span></div><div class="line"></div><div class="line">    Override this function to use a different key depending on the item</div><div class="line">    and/or spider.</div><div class="line"></div><div class="line">    """</div><div class="line">    <span class="keyword">return</span> self.key % &#123;<span class="string">'spider'</span>: spider.name&#125;</div></pre></td></tr></table></figure></p>
+<p>看不懂为什么要把数据储存在redis里面，这不又加大redis储存负担吗？对于新手来说真的不友好，或许可以考虑提一个pr。</p>
+<h1 id="redis可视化工具"><a href="#redis可视化工具" class="headerlink" title="redis可视化工具"></a>redis可视化工具</h1><p>最后介绍两个redis可视化工具</p>
+<ol>
+<li><a href="https://github.com/uglide/RedisDesktopManager" target="_blank" rel="external">RedisDesktopManager</a> 比较出名的工具，但是经常会崩溃</li>
+<li><a href="https://github.com/uniorder/kedis" target="_blank" rel="external">kedis</a> 国人开发的免费工具，这个界面还是可以的</li>
+</ol>
+<p><img src="https://camo.githubusercontent.com/de76115b295d30222fa0d6a1b79ffc9b31fb04e5/687474703a2f2f7777772e6b656861772e636f6d2f696d616765732f73637265656e73686f742e706e67" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/scrapy/" rel="tag"># scrapy</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/12/来codewars与我一起玩耍吧/" rel="next" title="来codewars与我一起玩耍吧">
+                <i class="fa fa-chevron-left"></i> 来codewars与我一起玩耍吧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/01/awesome-crawl-一-：腾讯新闻/" rel="prev" title="awesome_crawl(一)：腾讯新闻">
+                awesome_crawl(一)：腾讯新闻 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">1.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么使用-scrapy-redis"><span class="nav-number">2.</span> <span class="nav-text">为什么使用 scrapy-redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scrapy-redis-如何工作"><span class="nav-number">3.</span> <span class="nav-text">scrapy-redis 如何工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scrapy-redis-优点"><span class="nav-number">4.</span> <span class="nav-text">scrapy-redis 优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#速度快"><span class="nav-number">4.0.1.</span> <span class="nav-text">速度快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用法简单"><span class="nav-number">4.0.2.</span> <span class="nav-text">用法简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#去重简单"><span class="nav-number">4.0.3.</span> <span class="nav-text">去重简单</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scrapy-redis-缺点"><span class="nav-number">5.</span> <span class="nav-text">scrapy-redis 缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存问题"><span class="nav-number">5.0.1.</span> <span class="nav-text">内存问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage"><span class="nav-number">5.0.2.</span> <span class="nav-text">Usage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis可视化工具"><span class="nav-number">6.</span> <span class="nav-text">redis可视化工具</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

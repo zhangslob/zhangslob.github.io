@@ -1,0 +1,1066 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="统计学,数据," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第十六篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统计学学习笔记（一）">
+<meta property="og:url" content="https://zhangslob.github.io/2017/11/30/统计学学习笔记（一）/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第十六篇原创文章">
+<meta property="og:image" content="https://i.imgur.com/gmL4oSK.jpg">
+<meta property="og:image" content="https://i.imgur.com/poRqKVo.png">
+<meta property="og:image" content="https://i.imgur.com/FLfwzDU.png">
+<meta property="og:updated_time" content="2017-12-01T14:48:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="统计学学习笔记（一）">
+<meta name="twitter:description" content="这是崔斯特的第十六篇原创文章">
+<meta name="twitter:image" content="https://i.imgur.com/gmL4oSK.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2017/11/30/统计学学习笔记（一）/"/>
+
+
+
+
+
+  <title> 统计学学习笔记（一） | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2017/11/30/统计学学习笔记（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                统计学学习笔记（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-30T23:45:14+08:00">
+                2017-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/统计学/" itemprop="url" rel="index">
+                    <span itemprop="name">统计学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第十六篇原创文章
+</code></pre><p><img src="https://i.imgur.com/gmL4oSK.jpg" alt=""></p>
+<a id="more"></a>
+<p>这是学习统计学的第一篇笔记，以后尽量都放在这里吧。</p>
+<p>发现使用hexo发文章的快捷键：</p>
+<p><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></p>
+<p>下面是正文：</p>
+<hr>
+<h1 id="1、统计中的基本概念"><a href="#1、统计中的基本概念" class="headerlink" title="1、统计中的基本概念"></a>1、统计中的基本概念</h1><ol>
+<li><strong>总体和样本</strong>。总体：所研究的全部个体；样本：总体中的一部分</li>
+<li><strong>参数和统计量</strong>。参数：用来描述<strong>总体</strong>特征的概括性数字度量；统计量：用来描述<strong>样本</strong>特征的概括性数字度量。</li>
+<li><strong>变量</strong>。变量、分类变量（事物类别的一个名称）、顺序变量（事物有序类别的一个名称）、数值型变量、离散型变量（只能取可数值的变量）、连续性变量。</li>
+</ol>
+<h1 id="2、数据的收集"><a href="#2、数据的收集" class="headerlink" title="2、数据的收集"></a>2、数据的收集</h1><h3 id="1、数据的间接来源"><a href="#1、数据的间接来源" class="headerlink" title="1、数据的间接来源"></a>1、数据的间接来源</h3><p><strong>二手数据</strong>：公开出版的或公开报道的数据。</p>
+<h3 id="2、数据的直接来源"><a href="#2、数据的直接来源" class="headerlink" title="2、数据的直接来源"></a>2、数据的直接来源</h3><h4 id="（1）统计调查方式"><a href="#（1）统计调查方式" class="headerlink" title="（1）统计调查方式"></a>（1）统计调查方式</h4><ol>
+<li>抽样调查：经济性、时效性强、适应面广、准确性高。</li>
+<li>普查：一次性或周期性、规定调查时间、数据比较准确、范围比较狭窄。</li>
+</ol>
+<h4 id="（2）数据的收集方法"><a href="#（2）数据的收集方法" class="headerlink" title="（2）数据的收集方法"></a>（2）数据的收集方法</h4><ol>
+<li>询问调查：访问调查、邮寄调查、电话调查、计算机辅助调查、座谈会、个别深度访问。</li>
+<li>观察与实验：观察法、实验法。</li>
+</ol>
+<blockquote>
+<p>竟然没网络爬虫，嘤嘤嘤</p>
+</blockquote>
+<h3 id="3、调查设计"><a href="#3、调查设计" class="headerlink" title="3、调查设计"></a>3、调查设计</h3><h4 id="（1）调查方案设计"><a href="#（1）调查方案设计" class="headerlink" title="（1）调查方案设计"></a>（1）调查方案设计</h4><ol>
+<li>调查目的</li>
+<li>调查对象和调查单位</li>
+<li>调查项目和调查表</li>
+</ol>
+<h4 id="（2）调查问卷设计"><a href="#（2）调查问卷设计" class="headerlink" title="（2）调查问卷设计"></a>（2）调查问卷设计</h4><h5 id="a-调查问卷的基本结构："><a href="#a-调查问卷的基本结构：" class="headerlink" title="a.调查问卷的基本结构："></a>a.调查问卷的基本结构：</h5><ul>
+<li>开头部分（问候语、填表说明、问卷编号 ）</li>
+<li>甄别部分：过滤——筛选掉不需要的部分——针对特定人群</li>
+<li>主体部分：调查的全部问题</li>
+<li>背景部分：被调查者的背景资料</li>
+</ul>
+<h5 id="b-提问项目的设计："><a href="#b-提问项目的设计：" class="headerlink" title="b.提问项目的设计："></a>b.提问项目的设计：</h5><ul>
+<li>提问的内容尽可能短</li>
+<li>用词要确切、通俗</li>
+<li>一个项目只包含一项内容</li>
+<li>避免诱导性提问</li>
+<li>避免否定式提问</li>
+<li>避免敏感性问题</li>
+</ul>
+<h5 id="c-回答项目的设计"><a href="#c-回答项目的设计" class="headerlink" title="c.回答项目的设计"></a>c.回答项目的设计</h5><ul>
+<li>开放性问题：灵活；整理资料困难</li>
+<li>封闭性问题：两项选择法、多项选择法（单项选择型、多项选择型、限制选择型）</li>
+<li>顺序选择法：按顺序排列</li>
+<li>评定尺度法：和NPS有点像哦</li>
+<li>双向列联法：表格表现</li>
+</ul>
+<h5 id="d-问题顺序的设计"><a href="#d-问题顺序的设计" class="headerlink" title="d.问题顺序的设计"></a>d.问题顺序的设计</h5><ul>
+<li>问题的安排硬具有逻辑性</li>
+<li>问题的顺序应先难后易</li>
+<li>能引起被调查者兴趣的问题放在最前面</li>
+<li>开放性问题放在后面</li>
+</ul>
+<h4 id="（3）统计数据的质量"><a href="#（3）统计数据的质量" class="headerlink" title="（3）统计数据的质量"></a>（3）统计数据的质量</h4><h5 id="a-统计数据的误差"><a href="#a-统计数据的误差" class="headerlink" title="a.统计数据的误差"></a>a.统计数据的误差</h5><h5 id="b-统计数据的误差"><a href="#b-统计数据的误差" class="headerlink" title="b.统计数据的误差"></a>b.统计数据的误差</h5><ul>
+<li>精度</li>
+<li>准确性</li>
+<li>关联性</li>
+<li>及时性</li>
+<li>一致性</li>
+<li><p>最低成本</p>
+<hr>
+</li>
+</ul>
+<p>这是统计学基础 第三版 (贾俊平)的记录，看了前两章，感觉受益匪浅，尤其是问卷的设计，比较系统、完整，可以应用在以后的工作中。</p>
+<blockquote>
+<p>书名：统计学基础 第三版</p>
+<p>作者：贾俊平</p>
+<p>出版社：中国人民大学出版社</p>
+</blockquote>
+<h1 id="最后说一说为什么要学统计学"><a href="#最后说一说为什么要学统计学" class="headerlink" title="最后说一说为什么要学统计学"></a>最后说一说为什么要学统计学</h1><p>最直接原因是<strong>工资高</strong>。可以去拉勾上看看“数据分析”、“数据挖掘”、“数据科学家”等职位，他们对学历的要求基本上都会有“统计学”。</p>
+<p>对于我这种文科生来说，学习统计学是必经之路。<strong>敲门砖啊！</strong></p>
+<p>最后记录下最近学习的数据科学的流程：</p>
+<ol>
+<li>业务理解</li>
+<li>分析方法</li>
+<li>数据要求</li>
+<li>收集数据</li>
+<li>数据理解</li>
+<li>数据准备</li>
+<li>建模（use and test）</li>
+<li>模型评估</li>
+<li>部署与反馈</li>
+</ol>
+<p>自己判断，缺少的是业务理解，对相关的业务知识了解太少；分析方法知道的太少了，接下来会着重学习一些常见的算法；数据准备也是一个大坑，不过好在自己有一些Python基础；建模才是最难的，慢慢来吧。</p>
+<p><strong>最近几天需要个自己定一个学习任务，内容主要包括：统计学基础、常见算法、pandas处理数据及可视化、业务理解、Scrapy框架学习、前端（没错，学点前端很有必要）</strong></p>
+<p>欢迎加我微信，一起来学习，嘤嘤嘤</p>
+<blockquote>
+<p>下面是常见的分析方法</p>
+</blockquote>
+<p><img src="https://i.imgur.com/poRqKVo.png" alt=""></p>
+<p><img src="https://i.imgur.com/FLfwzDU.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/统计学/" rel="tag"># 统计学</a>
+          
+            <a href="/tags/数据/" rel="tag"># 数据</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/29/Scrapy学习实例（一）/" rel="next" title="Scrapy学习实例（一）">
+                <i class="fa fa-chevron-left"></i> Scrapy学习实例（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/03/Scrapy学习实例（二）采集无限滚动页面/" rel="prev" title="Scrapy学习实例（二）采集无限滚动页面">
+                Scrapy学习实例（二）采集无限滚动页面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、统计中的基本概念"><span class="nav-number">1.</span> <span class="nav-text">1、统计中的基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、数据的收集"><span class="nav-number">2.</span> <span class="nav-text">2、数据的收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、数据的间接来源"><span class="nav-number">2.0.1.</span> <span class="nav-text">1、数据的间接来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、数据的直接来源"><span class="nav-number">2.0.2.</span> <span class="nav-text">2、数据的直接来源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）统计调查方式"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">（1）统计调查方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）数据的收集方法"><span class="nav-number">2.0.2.2.</span> <span class="nav-text">（2）数据的收集方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、调查设计"><span class="nav-number">2.0.3.</span> <span class="nav-text">3、调查设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）调查方案设计"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">（1）调查方案设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）调查问卷设计"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">（2）调查问卷设计</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-调查问卷的基本结构："><span class="nav-number">2.0.3.2.1.</span> <span class="nav-text">a.调查问卷的基本结构：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b-提问项目的设计："><span class="nav-number">2.0.3.2.2.</span> <span class="nav-text">b.提问项目的设计：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#c-回答项目的设计"><span class="nav-number">2.0.3.2.3.</span> <span class="nav-text">c.回答项目的设计</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#d-问题顺序的设计"><span class="nav-number">2.0.3.2.4.</span> <span class="nav-text">d.问题顺序的设计</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（3）统计数据的质量"><span class="nav-number">2.0.3.3.</span> <span class="nav-text">（3）统计数据的质量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-统计数据的误差"><span class="nav-number">2.0.3.3.1.</span> <span class="nav-text">a.统计数据的误差</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b-统计数据的误差"><span class="nav-number">2.0.3.3.2.</span> <span class="nav-text">b.统计数据的误差</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后说一说为什么要学统计学"><span class="nav-number">3.</span> <span class="nav-text">最后说一说为什么要学统计学</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

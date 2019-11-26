@@ -1,0 +1,1030 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="爬虫,Scrapy," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第三十三篇原创文章
+开始学习Scrapy源码  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy源码（2）——爬虫开始的地方">
+<meta property="og:url" content="https://zhangslob.github.io/2018/02/26/Scrapy源码（2）——爬虫开始的地方/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第三十三篇原创文章
+开始学习Scrapy源码  (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/5wP0fKB.png">
+<meta property="og:image" content="https://i.imgur.com/bG560BG.png">
+<meta property="og:updated_time" content="2018-02-26T15:14:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scrapy源码（2）——爬虫开始的地方">
+<meta name="twitter:description" content="这是崔斯特的第三十三篇原创文章
+开始学习Scrapy源码  (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/5wP0fKB.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/02/26/Scrapy源码（2）——爬虫开始的地方/"/>
+
+
+
+
+
+  <title> Scrapy源码（2）——爬虫开始的地方 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/02/26/Scrapy源码（2）——爬虫开始的地方/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Scrapy源码（2）——爬虫开始的地方
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T22:48:13+08:00">
+                2018-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Scrapy/" itemprop="url" rel="index">
+                    <span itemprop="name">Scrapy</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第三十三篇原创文章
+</code></pre><p>开始学习<code>Scrapy</code>源码  (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/5wP0fKB.png" alt=""></p>
+<a id="more"></a>
+<h1 id="Scrapy运行命令"><a href="#Scrapy运行命令" class="headerlink" title="Scrapy运行命令"></a>Scrapy运行命令</h1><p>一般来说，运行Scrapy项目的写法有，（这里不考虑从脚本运行Scrapy）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Usage examples:</div><div class="line"></div><div class="line">$ scrapy crawl myspider</div><div class="line">[ ... myspider starts crawling ... ]</div><div class="line"></div><div class="line">$ scrapy runspider myspider.py</div><div class="line">[ ... spider starts crawling ... ]</div></pre></td></tr></table></figure>
+<p>但是更好的写法是，新建一个Python文件，如下，（便于调试）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</div><div class="line"></div><div class="line">cmdline.execute(<span class="string">"scrapy crawl myspider"</span>.split())</div></pre></td></tr></table></figure></p>
+<p>很容易就发现，Scrapy运行文件是<code>cmdline.py</code>文件里面的<code>execute()</code>函数，下面学习下这个函数在做什么。</p>
+<h1 id="分析源码"><a href="#分析源码" class="headerlink" title="分析源码"></a>分析源码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute</span><span class="params">(argv=None, settings=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> argv <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        argv = sys.argv</div><div class="line"></div><div class="line">    <span class="comment"># --- backwards compatibility for scrapy.conf.settings singleton ---</span></div><div class="line">    <span class="keyword">if</span> settings <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> <span class="string">'scrapy.conf'</span> <span class="keyword">in</span> sys.modules:</div><div class="line">        <span class="keyword">from</span> scrapy <span class="keyword">import</span> conf</div><div class="line">        <span class="keyword">if</span> hasattr(conf, <span class="string">'settings'</span>):</div><div class="line">            settings = conf.settings</div><div class="line">    <span class="comment"># ------------------------------------------------------------------</span></div></pre></td></tr></table></figure>
+<p>寻找 <code>scrapy.conf</code>配置文件，argv直接取sys.argv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> settings <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">    settings = get_project_settings()</div><div class="line">    <span class="comment"># set EDITOR from environment if available</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        editor = os.environ[<span class="string">'EDITOR'</span>]</div><div class="line">    <span class="keyword">except</span> KeyError: <span class="keyword">pass</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        settings[<span class="string">'EDITOR'</span>] = editor</div><div class="line">check_deprecated_settings(settings)</div><div class="line"></div><div class="line"><span class="comment"># --- backwards compatibility for scrapy.conf.settings singleton ---</span></div><div class="line"><span class="keyword">import</span> warnings</div><div class="line"><span class="keyword">from</span> scrapy.exceptions <span class="keyword">import</span> ScrapyDeprecationWarning</div><div class="line"><span class="keyword">with</span> warnings.catch_warnings():</div><div class="line">    warnings.simplefilter(<span class="string">"ignore"</span>, ScrapyDeprecationWarning)</div><div class="line">    <span class="keyword">from</span> scrapy <span class="keyword">import</span> conf</div><div class="line">    conf.settings = settings</div><div class="line"><span class="comment"># ------------------------------------------------------------------</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>set EDITOR from environment if available</p>
+</blockquote>
+<p>读取<code>settings</code>设置文件，导入项目，调用<code>get_project_settings()</code>函数，此处为<code>utils</code>文件夹下的<code>project.py</code>文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_project_settings</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">if</span> ENVVAR <span class="keyword">not</span> <span class="keyword">in</span> os.environ:</div><div class="line">        project = os.environ.get(<span class="string">'SCRAPY_PROJECT'</span>, <span class="string">'default'</span>)</div><div class="line">        init_env(project)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>project.py</p>
+</blockquote>
+<p><code>init_env()</code> 函数如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_env</span><span class="params">(project=<span class="string">'default'</span>, set_syspath=True)</span>:</span></div><div class="line">    <span class="string">"""Initialize environment to use command-line tool from inside a project</span></div><div class="line">    dir. This sets the Scrapy settings module and modifies the Python path to</div><div class="line">    be able to locate the project module.</div><div class="line">    """</div><div class="line">    cfg = get_config()</div><div class="line">    <span class="keyword">if</span> cfg.has_option(<span class="string">'settings'</span>, project):</div><div class="line">        os.environ[<span class="string">'SCRAPY_SETTINGS_MODULE'</span>] = cfg.get(<span class="string">'settings'</span>, project)</div><div class="line">    closest = closest_scrapy_cfg()</div><div class="line">    <span class="keyword">if</span> closest:</div><div class="line">        projdir = os.path.dirname(closest)</div><div class="line">        <span class="keyword">if</span> set_syspath <span class="keyword">and</span> projdir <span class="keyword">not</span> <span class="keyword">in</span> sys.path:</div><div class="line">            sys.path.append(projdir)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>conf.py</p>
+</blockquote>
+<p>如注释所说，初始化环境,循环递归找到用户项目中的配置文件<code>settings.py</code>,并且将其设置到环境变量<code>Scrapy settings module</code>中。然后修改Python路径，确保能找到项目模块。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">settings = Settings()</div><div class="line">settings_module_path = os.environ.get(ENVVAR)</div><div class="line"><span class="keyword">if</span> settings_module_path:</div><div class="line">    settings.setmodule(settings_module_path, priority=<span class="string">'project'</span>)</div><div class="line"></div><div class="line"><span class="comment"># <span class="doctag">XXX:</span> remove this hack</span></div><div class="line">pickled_settings = os.environ.get(<span class="string">"SCRAPY_PICKLED_SETTINGS_TO_OVERRIDE"</span>)</div><div class="line"><span class="keyword">if</span> pickled_settings:</div><div class="line">    settings.setdict(pickle.loads(pickled_settings), priority=<span class="string">'project'</span>)</div><div class="line"></div><div class="line"><span class="comment"># <span class="doctag">XXX:</span> deprecate and remove this functionality</span></div><div class="line">env_overrides = &#123;k[<span class="number">7</span>:]: v <span class="keyword">for</span> k, v <span class="keyword">in</span> os.environ.items() <span class="keyword">if</span></div><div class="line">                 k.startswith(<span class="string">'SCRAPY_'</span>)&#125;</div><div class="line"><span class="keyword">if</span> env_overrides:</div><div class="line">    settings.setdict(env_overrides, priority=<span class="string">'project'</span>)</div><div class="line"></div><div class="line"><span class="keyword">return</span> settings</div></pre></td></tr></table></figure>
+<blockquote>
+<p>project.py</p>
+</blockquote>
+<p>至此，<code>get_project_settings()</code>该函数结束，如函数名字一样，最后返回项目配置，到此为止，接着往下看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">inproject = inside_project()</div><div class="line">cmds = _get_commands_dict(settings, inproject)</div><div class="line">cmdname = _pop_command_name(argv)</div><div class="line">parser = optparse.OptionParser(formatter=optparse.TitledHelpFormatter(), \</div><div class="line">    conflict_handler=<span class="string">'resolve'</span>)</div><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> cmdname:</div><div class="line">    _print_commands(settings, inproject)</div><div class="line">    sys.exit(<span class="number">0</span>)</div><div class="line"><span class="keyword">elif</span> cmdname <span class="keyword">not</span> <span class="keyword">in</span> cmds:</div><div class="line">    _print_unknown_command(settings, cmdname, inproject)</div><div class="line">    sys.exit(<span class="number">2</span>)</div></pre></td></tr></table></figure>
+<p>导入相应的module爬虫模块（inside_project）</p>
+<p>执行环境是否在项目中，主要检查scrapy.cfg配置文件是否存在，读取commands文件夹，把所有的命令类转换为<code>{cmd_name: cmd_instance}</code>的字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">cmd = cmds[cmdname]</div><div class="line">parser.usage = <span class="string">"scrapy %s %s"</span> % (cmdname, cmd.syntax())</div><div class="line">parser.description = cmd.long_desc()</div><div class="line">settings.setdict(cmd.default_settings, priority=<span class="string">'command'</span>)</div><div class="line">cmd.settings = settings</div><div class="line">cmd.add_options(parser)</div><div class="line">opts, args = parser.parse_args(args=argv[<span class="number">1</span>:])</div><div class="line">_run_print_help(parser, cmd.process_options, args, opts)</div></pre></td></tr></table></figure>
+<p>根据命令名称找到对应的命令实例，设置项目配置和级别为command，添加解析规则，解析命令参数，并交由Scrapy命令实例处理。</p>
+<p>最后，看看下面这段代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cmd.crawler_process = CrawlerProcess(settings)</div><div class="line">_run_print_help(parser, _run_command, cmd, args, opts)</div><div class="line">sys.exit(cmd.exitcode)</div></pre></td></tr></table></figure>
+<p>初始化<code>CrawlerProcess</code>实例，将对应的命令执行，这里是<code>crawl</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_run_command</span><span class="params">(cmd, args, opts)</span>:</span></div><div class="line">    <span class="keyword">if</span> opts.profile:</div><div class="line">        _run_command_profiled(cmd, args, opts)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        cmd.run(args, opts)</div></pre></td></tr></table></figure>
+<p>看到这，想起了文档中的介绍 <a href="https://doc.scrapy.org/en/latest/topics/practices.html#run-scrapy-from-a-script" target="_blank" rel="external">Run Scrapy from a script</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Here’s an example showing how to run a single spider with it.</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> scrapy</div><div class="line"><span class="keyword">from</span> scrapy.crawler <span class="keyword">import</span> CrawlerProcess</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySpider</span><span class="params">(scrapy.Spider)</span>:</span></div><div class="line">    <span class="comment"># Your spider definition</span></div><div class="line">    ...</div><div class="line"></div><div class="line">process = CrawlerProcess(&#123;</div><div class="line">    <span class="string">'USER_AGENT'</span>: <span class="string">'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line">process.crawl(MySpider)</div><div class="line">process.start() <span class="comment"># the script will block here until the crawling is finished</span></div></pre></td></tr></table></figure>
+<p>所以Scrapy爬虫运行都有用使用到<code>CrawlerProcess</code>，想要深入了解可以去看看源码 <a href="https://github.com/scrapy/scrapy/blob/1.5/scrapy/crawler.py#L225" target="_blank" rel="external">scrapy/scrapy/crawler.py</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line">A class to run multiple scrapy crawlers in a process simultaneously.</div><div class="line"></div><div class="line">This class extends :class:`~scrapy.crawler.CrawlerRunner` by adding support</div><div class="line">for starting a Twisted `reactor`_ and handling shutdown signals, like the</div><div class="line">keyboard interrupt command Ctrl-C. It also configures top-level logging.</div><div class="line"></div><div class="line">This utility should be a better fit than</div><div class="line">:class:`~scrapy.crawler.CrawlerRunner` if you aren't running another</div><div class="line">Twisted `reactor`_ within your application.</div><div class="line"></div><div class="line">The CrawlerProcess object must be instantiated with a</div><div class="line">:class:`~scrapy.settings.Settings` object.</div><div class="line"></div><div class="line">:param install_root_handler: whether to install root logging handler</div><div class="line">    (default: True)</div><div class="line"></div><div class="line">This class shouldn't be needed (since Scrapy is responsible of using it</div><div class="line">accordingly) unless writing scripts that manually handle the crawling</div><div class="line">process. See :ref:`run-from-script` for an example.</div><div class="line">"""</div></pre></td></tr></table></figure>
+<p>最后，附上Scrapy的路径图</p>
+<p><img src="https://i.imgur.com/bG560BG.png" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>简单来说，有这么几步：</p>
+<ol>
+<li>读取配置文件，应用到爬虫中</li>
+<li>把所有的命令类转换名称与实例字典</li>
+<li>初始化<code>CrawlerProcess</code>实例，运行爬虫</li>
+</ol>
+<p>(看的头疼，好多函数名记不住)</p>
+<p>回顾：</p>
+<ol>
+<li><a href="https://zhangslob.github.io/2018/02/24/Scrapy%E6%BA%90%E7%A0%81%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E7%88%AC%E8%99%AB%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A7%88/">Scrapy源码（1）——爬虫流程概览</a></li>
+<li>Scrapy源码（2）——爬虫开始的地方</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/Scrapy/" rel="tag"># Scrapy</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/24/Scrapy源码（1）——爬虫流程概览/" rel="next" title="Scrapy源码（1）——爬虫流程概览">
+                <i class="fa fa-chevron-left"></i> Scrapy源码（1）——爬虫流程概览
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/学点算法之队列的学习及应用/" rel="prev" title="学点算法之队列的学习及应用">
+                学点算法之队列的学习及应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scrapy运行命令"><span class="nav-number">1.</span> <span class="nav-text">Scrapy运行命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析源码"><span class="nav-number">2.</span> <span class="nav-text">分析源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

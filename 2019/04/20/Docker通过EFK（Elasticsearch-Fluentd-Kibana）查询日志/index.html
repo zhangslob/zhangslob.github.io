@@ -1,0 +1,1052 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Docker,EFK," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第九十三篇原创文章
+部署相关  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志">
+<meta property="og:url" content="https://zhangslob.github.io/2019/04/20/Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第九十三篇原创文章
+部署相关  (๑• . •๑)">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g28xq6oyz5j31c00u0qly.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g25rfedkj4j31c00u07pg.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g28vhz1565j30ka07rq3m.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g28w82fugwj31c00u07gi.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1g28w95rg94j31ij0u0dma.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1g28w9pb14cj31c00u0nk7.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1g28wo5q9s5j31c00u0wui.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g28xp9fmb1j30rs0pm0ux.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g28xq6oyz5j31c00u0qly.jpg">
+<meta property="og:updated_time" content="2019-04-20T12:52:36.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志">
+<meta name="twitter:description" content="这是崔斯特的第九十三篇原创文章
+部署相关  (๑• . •๑)">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1g28xq6oyz5j31c00u0qly.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/04/20/Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志/"/>
+
+
+
+
+
+  <title> Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/04/20/Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T20:47:51+08:00">
+                2019-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第九十三篇原创文章
+</code></pre><p>部署相关  (๑• . •๑)</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g28xq6oyz5j31c00u0qly.jpg" alt=""></p>
+<a id="more"></a>
+<h1 id="Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志"><a href="#Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志" class="headerlink" title="Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志"></a>Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志</h1><p>这篇文章主要是参考<a href="https://docs.fluentd.org/v0.12/articles/docker-logging-efk-compose" target="_blank" rel="external">Docker Logging via EFK (Elasticsearch + Fluentd + Kibana) Stack with Docker Compose</a>，并在其基础上做了一些修改。</p>
+<p>Elasticsearch是一个开源搜索引擎，以易用性着称。kibana是一个图形界面，可以在上面条件检索存储在<em>ElasticSearch</em>里数据，相当于提供了<em>ES</em>的可视化操作管理器。截图如下：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g25rfedkj4j31c00u07pg.jpg" alt=""></p>
+<p>这里基本的架构是这样的</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g28vhz1565j30ka07rq3m.jpg" alt=""></p>
+<p>这里主要解决的问题是日志查询，日志来源是docker。我们使用docker部署任务时，可以使用<code>docker logs -f &lt;容器id&gt;</code>查看日志，也可以去<code>/var/lib/docker/containers/&lt;容器id&gt;/&lt;容器id&gt;-json.log</code>查看日志文件。但是这都很难去做查询，本文介绍的EFK就可以解决这个问题。</p>
+<p>我们会创建四个容器：</p>
+<ul>
+<li><a href="https://hub.docker.com/_/httpd/" target="_blank" rel="external">httpd</a> (发送日志给EFK)</li>
+<li><a href="https://hub.docker.com/r/fluent/fluentd/" target="_blank" rel="external">Fluentd</a></li>
+<li><a href="https://hub.docker.com/_/elasticsearch/" target="_blank" rel="external">Elasticsearch</a></li>
+<li><a href="https://hub.docker.com/_/kibana/" target="_blank" rel="external">Kibana</a></li>
+</ul>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>请安装最新的docker及docker-compose，老版本会有些问题。</p>
+<p>这里是我的版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker version</div><div class="line">Client: Docker Engine - Community</div><div class="line"> Version:           18.09.2</div><div class="line"> API version:       1.39</div><div class="line"> Go version:        go1.10.8</div><div class="line"> Git commit:        6247962</div><div class="line"> Built:             Sun Feb 10 04:12:39 2019</div><div class="line"> OS/Arch:           darwin/amd64</div><div class="line"> Experimental:      <span class="literal">false</span></div><div class="line"></div><div class="line">Server: Docker Engine - Community</div><div class="line"> Engine:</div><div class="line">  Version:          18.09.2</div><div class="line">  API version:      1.39 (minimum version 1.12)</div><div class="line">  Go version:       go1.10.6</div><div class="line">  Git commit:       6247962</div><div class="line">  Built:            Sun Feb 10 04:13:06 2019</div><div class="line">  OS/Arch:          linux/amd64</div><div class="line">  Experimental:     <span class="literal">false</span></div><div class="line">➜  ~ docker-compose version</div><div class="line">docker-compose version 1.23.2, build 1110ad01</div><div class="line">docker-py version: 3.6.0</div><div class="line">CPython version: 3.6.6</div><div class="line">OpenSSL version: OpenSSL 1.1.0h  27 Mar 2018</div></pre></td></tr></table></figure>
+<h1 id="编写docker-compose-yml"><a href="#编写docker-compose-yml" class="headerlink" title="编写docker-compose.yml"></a>编写docker-compose.yml</h1><p>Docker Compose是一个用于定义和运行多容器Docker应用程序的工具。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="attr">version:</span> <span class="string">'2'</span></div><div class="line"><span class="attr">services:</span></div><div class="line"><span class="attr">  web:</span></div><div class="line"><span class="attr">    image:</span> httpd</div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"1080:80"</span> <span class="comment">#避免和默认的80端口冲突</span></div><div class="line"><span class="attr">    links:</span></div><div class="line"><span class="bullet">      -</span> fluentd</div><div class="line"><span class="attr">    logging:</span></div><div class="line"><span class="attr">      driver:</span> <span class="string">"fluentd"</span></div><div class="line"><span class="attr">      options:</span></div><div class="line"><span class="attr">        fluentd-address:</span> localhost:<span class="number">24224</span></div><div class="line"><span class="attr">        tag:</span> httpd.access</div><div class="line"></div><div class="line"><span class="attr">  fluentd:</span></div><div class="line"><span class="attr">    build:</span> ./fluentd</div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> ./fluentd/conf:/fluentd/etc</div><div class="line"><span class="attr">    links:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"elasticsearch"</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"24224:24224"</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"24224:24224/udp"</span></div><div class="line"></div><div class="line"><span class="attr">  elasticsearch:</span></div><div class="line"><span class="attr">    image:</span> elasticsearch:<span class="number">5.3</span><span class="number">.0</span></div><div class="line"><span class="attr">    expose:</span></div><div class="line"><span class="bullet">      -</span> <span class="number">9200</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"9200:9200"</span></div><div class="line"></div><div class="line"><span class="attr">  kibana:</span></div><div class="line"><span class="attr">    image:</span> kibana:<span class="number">5.3</span><span class="number">.0</span></div><div class="line"><span class="attr">    links:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"elasticsearch"</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">"5601:5601"</span></div></pre></td></tr></table></figure>
+<p>所有<code>web</code>里的日志会自动发送到<code>fluentd-address: localhost:24224</code>，也就是<code>fluentd</code>容器。</p>
+<p>Elasticsearch 和 Kibana并不支持最新的版本，这里选择的是5.3.0，如果想要选择更新的，可以去这里查看</p>
+<ul>
+<li><a href="https://hub.docker.com/_/elasticsearch?tab=tags" target="_blank" rel="external">Elasticsearch image tags in DockerHub</a></li>
+<li><a href="https://hub.docker.com/_/kibana?tab=tags" target="_blank" rel="external">Kibana image tags in DockerHub</a></li>
+</ul>
+<h1 id="Fluentd的配置和插件"><a href="#Fluentd的配置和插件" class="headerlink" title="Fluentd的配置和插件"></a>Fluentd的配置和插件</h1><p>新建文件<code>fluentd/Dockerfile</code>，使用官方镜像Fluentd’s <a href="https://hub.docker.com/r/fluent/fluentd/" target="_blank" rel="external">official Docker image</a>，安装需要的插件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># fluentd/Dockerfile</span></div><div class="line"><span class="keyword">FROM</span> fluent/fluentd:v0.<span class="number">12</span>-debian</div><div class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">"gem"</span>, <span class="string">"install"</span>, <span class="string">"fluent-plugin-elasticsearch"</span>, <span class="string">"--no-rdoc"</span>, <span class="string">"--no-ri"</span>, <span class="string">"--version"</span>, <span class="string">"1.9.7"</span>]</span></div></pre></td></tr></table></figure>
+<p>然后新建文件<code>fluentd/conf/fluent.conf</code>，编写Fluentd的配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># fluentd/conf/fluent.conf</div><div class="line">&lt;source&gt;</div><div class="line">  @type forward</div><div class="line">  port 24224</div><div class="line">  bind 0.0.0.0</div><div class="line">&lt;/source&gt;</div><div class="line">&lt;match *.**&gt;</div><div class="line">  @type copy</div><div class="line">  &lt;store&gt;</div><div class="line">    @type elasticsearch</div><div class="line">    host elasticsearch</div><div class="line">    port 9200</div><div class="line">    logstash_format true</div><div class="line">    logstash_prefix fluentd</div><div class="line">    logstash_dateformat %Y%m%d</div><div class="line">    include_tag_key true</div><div class="line">    type_name access_log</div><div class="line">    tag_key @log_name</div><div class="line">    flush_interval 1s</div><div class="line">  &lt;/store&gt;</div><div class="line">  &lt;store&gt;</div><div class="line">    @type stdout</div><div class="line">  &lt;/store&gt;</div><div class="line">&lt;/match&gt;</div></pre></td></tr></table></figure>
+<p>官方设置文档<a href="https://docs.fluentd.org/v0.12/articles/config-file" target="_blank" rel="external">config-file</a></p>
+<h1 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h1><p>在后台启动，使用<code>docker-compose up -d</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">➜ docker-compose up <span class="_">-d</span></div><div class="line">Recreating temp_elasticsearch_1 ... <span class="keyword">done</span></div><div class="line">Recreating temp_kibana_1        ... <span class="keyword">done</span></div><div class="line">Recreating temp_fluentd_1       ... <span class="keyword">done</span></div><div class="line">Recreating temp_web_1           ... <span class="keyword">done</span></div></pre></td></tr></table></figure>
+<p>查看所有容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜ docker ps</div><div class="line">CONTAINER ID        IMAGE                 COMMAND                  CREATED              STATUS              PORTS                                                          NAMES</div><div class="line">03d589afc2fd        httpd                 <span class="string">"httpd-foreground"</span>       About a minute ago   Up About a minute   0.0.0.0:1080-&gt;80/tcp                                           temp_web_1</div><div class="line">e84d0753ee58        kibana:5.3.0          <span class="string">"/docker-entrypoint.…"</span>   About a minute ago   Up About a minute   0.0.0.0:5601-&gt;5601/tcp                                         temp_kibana_1</div><div class="line">0f069b8b138f        temp_fluentd          <span class="string">"tini -- /bin/entryp…"</span>   About a minute ago   Up About a minute   5140/tcp, 0.0.0.0:24224-&gt;24224/tcp, 0.0.0.0:24224-&gt;24224/udp   temp_fluentd_1</div><div class="line">fb4c6255e7ed        elasticsearch:5.3.0   <span class="string">"/docker-entrypoint.…"</span>   2 minutes ago        Up About a minute   0.0.0.0:9200-&gt;9200/tcp, 9300/tcp                               temp_elasticsearch_1</div></pre></td></tr></table></figure>
+<h1 id="产生日志"><a href="#产生日志" class="headerlink" title="产生日志"></a>产生日志</h1><p>原文是<code>repeat 10 curl http://localhost:80/</code>，但是我在docker-compose.yml中修改了端口，所以我这里是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">➜  repeat 10 curl http://localhost:1080/</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div><div class="line">&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h1 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h1><p>打开<code>http://localhost:5601</code>，提示需要先建索引，输入<code>fluentd-*</code>刷新即可</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g28w82fugwj31c00u07gi.jpg" alt=""></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1g28w95rg94j31ij0u0dma.jpg" alt=""></p>
+<p>去<code>Discover</code>页面，然后就可以看到之前的日志了。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1g28w9pb14cj31c00u0nk7.jpg" alt=""></p>
+<h1 id="如何接入其他docker日志"><a href="#如何接入其他docker日志" class="headerlink" title="如何接入其他docker日志"></a>如何接入其他docker日志</h1><p>这里是以docker-compose形式启动的一个服务，如果还有别的任务需要将日志发送到<code>fluentd</code>，需要这几个步骤。</p>
+<p>默认情况下，docker-compose会为我们的应用创建一个网络，服务的每个容器都会加入该网络中。这样，容器就可被该网络中的其他容器访问，不仅如此，该容器还能以服务名称作为hostname被其他容器访问。</p>
+<p>所以我们首先需要找到我们现在创建的EFK的网络名，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">➜  docker network ls</div><div class="line">NETWORK ID          NAME                         DRIVER              SCOPE</div><div class="line">fd428cfa7264        bridge                       bridge              <span class="built_in">local</span></div><div class="line">e08505f7bfe6        docker-compose-efk_default   bridge              <span class="built_in">local</span></div><div class="line">650f2f690175        docker-efk_default           bridge              <span class="built_in">local</span></div><div class="line">35f17aeb61e9        docker-elk_elk               bridge              <span class="built_in">local</span></div><div class="line">db29d28aa5cc        esnet                        bridge              <span class="built_in">local</span></div><div class="line">56ea915974c9        host                         host                <span class="built_in">local</span></div><div class="line">4d0207065fb8        none                         null                <span class="built_in">local</span></div><div class="line">3dd60d8ddfce        temp_default                 bridge              <span class="built_in">local</span></div><div class="line">cf1a06702ae8        web_default                  bridge              <span class="built_in">local</span></div></pre></td></tr></table></figure>
+<p>我是在temp目录下创建的docker-compose.yml文件，所以这里默认的名字就是<code>temp_default</code>。</p>
+<p>再看看之前web的设置</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">web:</div><div class="line">  image: httpd</div><div class="line">  ports:</div><div class="line">    - <span class="string">"1080:80"</span> <span class="comment">#避免和默认的80端口冲突</span></div><div class="line">  links:</div><div class="line">    - fluentd</div><div class="line">  logging:</div><div class="line">    driver: <span class="string">"fluentd"</span></div><div class="line">    options:</div><div class="line">      fluentd-address: localhost:<span class="number">24224</span></div><div class="line">      tag: httpd.access</div></pre></td></tr></table></figure>
+<p>有几个关键设置是：links和logging，link 用于容器直接的互通，logging则是日志的输出设置。</p>
+<p>那我们这里再启动一个新docker需要这些设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">docker run</div><div class="line">    --link temp_fluentd_1 \</div><div class="line">    --net temp_default  \</div><div class="line">    --log-driver=fluentd \</div><div class="line">    --log-opt fluentd-address=localhost:24224 \</div><div class="line">    --log-opt tag=httpd.access \</div><div class="line">    <span class="_">-d</span> hello-world</div></pre></td></tr></table></figure>
+<p>我们去kibana看看，果然，日志已经发送到kibana了</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1g28wo5q9s5j31c00u0wui.jpg" alt=""></p>
+<blockquote>
+<p>将log添加到选择字段，日志阅读起来更佳</p>
+</blockquote>
+<h1 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h1><p>上面说到这里选择的是<code>5.3.0</code>，我们试试新版本<code>6.7.1</code>，再看看kibana。使用<code>docker-compose stop</code>停止服务，修改docker-compose文件再启动。</p>
+<p>但是已启动es就挂了，最</p>
+<p>后查看日志<code>docker-compose logs | grep elasticsearch_1</code>，发现如下错误：</p>
+<blockquote>
+<p>“Native controller process has stopped - no new native processes can be started”</p>
+</blockquote>
+<p>最后在giuhub上找到答案：<a href="https://github.com/elastic/elasticsearch/issues/25067" target="_blank" rel="external">es crashes with “Native controller process has stopped - no new native processes can be started”</a></p>
+<p>解决方法是，提高docker可用内存，mac上是这样设置，把内存从2G提高到4G，再启动就成功了。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g28xp9fmb1j30rs0pm0ux.jpg" alt=""></p>
+<p>这里是6.7.1的界面</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1g28xq6oyz5j31c00u0qly.jpg" alt=""></p>
+<p>最后想要做的就是如何在一台服务器上搜集所有的日志，理论上来说，只需要一台服务器部署上EFK，暴露端口，其他服务器去发送即可，实际上还没试过。</p>
+<p>如果有好的意见，欢迎来提。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/EFK/" rel="tag"># EFK</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/07/对第一份工作的总结/" rel="next" title="对第一份工作的总结">
+                <i class="fa fa-chevron-left"></i> 对第一份工作的总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/22/【面试高频问题】线程、进程、协程/" rel="prev" title="【面试高频问题】线程、进程、协程">
+                【面试高频问题】线程、进程、协程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker通过EFK（Elasticsearch-Fluentd-Kibana）查询日志"><span class="nav-number">1.</span> <span class="nav-text">Docker通过EFK（Elasticsearch + Fluentd + Kibana）查询日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境准备"><span class="nav-number">2.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写docker-compose-yml"><span class="nav-number">3.</span> <span class="nav-text">编写docker-compose.yml</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fluentd的配置和插件"><span class="nav-number">4.</span> <span class="nav-text">Fluentd的配置和插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动容器"><span class="nav-number">5.</span> <span class="nav-text">启动容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#产生日志"><span class="nav-number">6.</span> <span class="nav-text">产生日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看日志"><span class="nav-number">7.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何接入其他docker日志"><span class="nav-number">8.</span> <span class="nav-text">如何接入其他docker日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本选择"><span class="nav-number">9.</span> <span class="nav-text">版本选择</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1006 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="scrapy,post," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1这是崔斯特的第六十三篇原创文章
+使用scrapy发送post请求的坑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用scrapy发送post请求的坑">
+<meta property="og:url" content="https://zhangslob.github.io/2018/08/24/使用scrapy发送post请求的坑/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="1这是崔斯特的第六十三篇原创文章
+使用scrapy发送post请求的坑">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-4a7e42516aa3fc2ad8c5532d885e3c44_1200x500.jpg">
+<meta property="og:updated_time" content="2018-09-03T13:59:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用scrapy发送post请求的坑">
+<meta name="twitter:description" content="1这是崔斯特的第六十三篇原创文章
+使用scrapy发送post请求的坑">
+<meta name="twitter:image" content="https://pic1.zhimg.com/v2-4a7e42516aa3fc2ad8c5532d885e3c44_1200x500.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/08/24/使用scrapy发送post请求的坑/"/>
+
+
+
+
+
+  <title> 使用scrapy发送post请求的坑 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/08/24/使用scrapy发送post请求的坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用scrapy发送post请求的坑
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-24T21:54:28+08:00">
+                2018-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://pic1.zhimg.com/v2-4a7e42516aa3fc2ad8c5532d885e3c44_1200x500.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第六十三篇原创文章</div></pre></td></tr></table></figure>
+<p>使用scrapy发送post请求的坑</p>
+<a id="more"></a>
+<h1 id="使用requests发送post请求"><a href="#使用requests发送post请求" class="headerlink" title="使用requests发送post请求"></a>使用requests发送post请求</h1><p>先来看看使用requests来发送post请求是多少好用，发送请求</p>
+<p>Requests 简便的 API 意味着所有 HTTP 请求类型都是显而易见的。例如，你可以这样发送一个 HTTP POST 请求：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.post(<span class="string">'http://httpbin.org/post'</span>, data = &#123;<span class="string">'key'</span>:<span class="string">'value'</span>&#125;)</div></pre></td></tr></table></figure>
+<p>使用data可以传递字典作为参数，同时也可以传递元祖</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>payload = ((<span class="string">'key1'</span>, <span class="string">'value1'</span>), (<span class="string">'key1'</span>, <span class="string">'value2'</span>))</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.post(<span class="string">'http://httpbin.org/post'</span>, data=payload)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(r.text)</div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">  <span class="string">"form"</span>: &#123;</div><div class="line">    <span class="string">"key1"</span>: [</div><div class="line">      <span class="string">"value1"</span>,</div><div class="line">      <span class="string">"value2"</span></div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>传递json是这样</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> json</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>url = <span class="string">'https://api.github.com/some/endpoint'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>payload = &#123;<span class="string">'some'</span>: <span class="string">'data'</span>&#125;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.post(url, data=json.dumps(payload))</div></pre></td></tr></table></figure>
+<p>2.4.2 版的新加功能：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>url = <span class="string">'https://api.github.com/some/endpoint'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>payload = &#123;<span class="string">'some'</span>: <span class="string">'data'</span>&#125;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>r = requests.post(url, json=payload)</div></pre></td></tr></table></figure>
+<p>也就是说，你不需要对参数做什么变化，只需要关注使用data=还是json=，其余的requests都已经帮你做好了。</p>
+<h1 id="使用scrapy发送post请求"><a href="#使用scrapy发送post请求" class="headerlink" title="使用scrapy发送post请求"></a>使用scrapy发送post请求</h1><p>官方推荐的 Using FormRequest to send data via HTTP POST</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> [FormRequest(url=<span class="string">"http://www.example.com/post/action"</span>,</div><div class="line">                    formdata=&#123;<span class="string">'name'</span>: <span class="string">'John Doe'</span>, <span class="string">'age'</span>: <span class="string">'27'</span>&#125;,</div><div class="line">                    callback=self.after_post)]</div></pre></td></tr></table></figure>
+<p>这里使用的是FormRequest，并使用formdata传递参数，看到这里也是一个字典。</p>
+<p>但是，超级坑的一点来了，今天折腾了一下午，使用这种方法发送请求，怎么发都会出问题，返回的数据一直都不是我想要的</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> scrapy.FormRequest(url, formdata=(payload))</div></pre></td></tr></table></figure>
+<p>在网上找了很久，最终找到一种方法，使用scrapy.Request发送请求，就可以正常的获取数据。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> scrapy.Request(url, body=json.dumps(payload), method=<span class="string">'POST'</span>, headers=&#123;<span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>&#125;,)</div></pre></td></tr></table></figure>
+<p>参考：Send Post Request in Scrapy</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">my_data = &#123;<span class="string">'field1'</span>: <span class="string">'value1'</span>, <span class="string">'field2'</span>: <span class="string">'value2'</span>&#125;</div><div class="line">request = scrapy.Request( url, method=<span class="string">'POST'</span>, </div><div class="line">                          body=json.dumps(my_data), </div><div class="line">                          headers=&#123;<span class="string">'Content-Type'</span>:<span class="string">'application/json'</span>&#125; )</div></pre></td></tr></table></figure>
+<h1 id="FormRequest-与-Request-区别"><a href="#FormRequest-与-Request-区别" class="headerlink" title="FormRequest 与 Request 区别"></a>FormRequest 与 Request 区别</h1><p>在文档中，几乎看不到差别，</p>
+<blockquote>
+<p>The FormRequest class adds a new argument to the constructor. The remaining arguments are the same as for the Request class and are not documented here.</p>
+<p>Parameters:    formdata (dict or iterable of tuples) – is a dictionary (or iterable of (key, value) tuples) containing HTML Form data which will be url-encoded and assigned to the body of the request.</p>
+</blockquote>
+<p>说FormRequest新增加了一个参数formdata，接受包含表单数据的字典或者可迭代的元组，并将其转化为请求的body。并且FormRequest是继承Request的</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormRequest</span><span class="params">(Request)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        formdata = kwargs.pop(<span class="string">'formdata'</span>, <span class="keyword">None</span>)</div><div class="line">        <span class="keyword">if</span> formdata <span class="keyword">and</span> kwargs.get(<span class="string">'method'</span>) <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            kwargs[<span class="string">'method'</span>] = <span class="string">'POST'</span></div><div class="line"></div><div class="line">        super(FormRequest, self).__init__(*args, **kwargs)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> formdata:</div><div class="line">            items = formdata.items() <span class="keyword">if</span> isinstance(formdata, dict) <span class="keyword">else</span> formdata</div><div class="line">            querystr = _urlencode(items, self.encoding)</div><div class="line">            <span class="keyword">if</span> self.method == <span class="string">'POST'</span>:</div><div class="line">                self.headers.setdefault(<span class="string">b'Content-Type'</span>, <span class="string">b'application/x-www-form-urlencoded'</span>)</div><div class="line">                self._set_body(querystr)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                self._set_url(self.url + (<span class="string">'&amp;'</span> <span class="keyword">if</span> <span class="string">'?'</span> <span class="keyword">in</span> self.url <span class="keyword">else</span> <span class="string">'?'</span>) + querystr)</div><div class="line">            <span class="comment">###</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_urlencode</span><span class="params">(seq, enc)</span>:</span></div><div class="line">    values = [(to_bytes(k, enc), to_bytes(v, enc))</div><div class="line">              <span class="keyword">for</span> k, vs <span class="keyword">in</span> seq</div><div class="line">              <span class="keyword">for</span> v <span class="keyword">in</span> (vs <span class="keyword">if</span> is_listlike(vs) <span class="keyword">else</span> [vs])]</div><div class="line">    <span class="keyword">return</span> urlencode(values, doseq=<span class="number">1</span>)</div></pre></td></tr></table></figure>
+<p>最终我们传递的{‘key’: ‘value’, ‘k’: ‘v’}会被转化为’key=value&amp;k=v’ 并且默认的method是POST，再来看看Request</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Request</span><span class="params">(object_ref)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url, callback=None, method=<span class="string">'GET'</span>, headers=None, body=None,</span></span></div><div class="line">                 cookies=None, meta=None, encoding=<span class="string">'utf-8'</span>, priority=<span class="number">0</span>,</div><div class="line">                 dont_filter=False, errback=None, flags=None):</div><div class="line"></div><div class="line">        self._encoding = encoding  <span class="comment"># this one has to be set first</span></div><div class="line">        self.method = str(method).upper()</div></pre></td></tr></table></figure>
+<p>默认的方法是GET，其实并不影响。仍然可以发送post请求。这让我想起来requests中的request用法，这是定义请求的基础方法。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">request</span><span class="params">(method, url, **kwargs)</span>:</span></div><div class="line">    <span class="string">"""Constructs and sends a :class:`Request &lt;Request&gt;`.</span></div><div class="line"></div><div class="line">    :param method: method for the new :class:`Request` object.</div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param params: (optional) Dictionary or bytes to be sent in the query string for the :class:`Request`.</div><div class="line">    :param data: (optional) Dictionary or list of tuples ``[(key, value)]`` (will be form-encoded), bytes, or file-like object to send in the body of the :class:`Request`.</div><div class="line">    :param json: (optional) json data to send in the body of the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to send with the :class:`Request`.</div><div class="line">    :param cookies: (optional) Dict or CookieJar object to send with the :class:`Request`.</div><div class="line">    :param files: (optional) Dictionary of ``'name': file-like-objects`` (or ``&#123;'name': file-tuple&#125;``) for multipart encoding upload.</div><div class="line">        ``file-tuple`` can be a 2-tuple ``('filename', fileobj)``, 3-tuple ``('filename', fileobj, 'content_type')``</div><div class="line">        or a 4-tuple ``('filename', fileobj, 'content_type', custom_headers)``, where ``'content-type'`` is a string</div><div class="line">        defining the content type of the given file and ``custom_headers`` a dict-like object containing additional headers</div><div class="line">        to add for the file.</div><div class="line">    :param auth: (optional) Auth tuple to enable Basic/Digest/Custom HTTP Auth.</div><div class="line">    :param timeout: (optional) How many seconds to wait for the server to send data</div><div class="line">        before giving up, as a float, or a :ref:`(connect timeout, read</div><div class="line">        timeout) &lt;timeouts&gt;` tuple.</div><div class="line">    :type timeout: float or tuple</div><div class="line">    :param allow_redirects: (optional) Boolean. Enable/disable GET/OPTIONS/POST/PUT/PATCH/DELETE/HEAD redirection. Defaults to ``True``.</div><div class="line">    :type allow_redirects: bool</div><div class="line">    :param proxies: (optional) Dictionary mapping protocol to the URL of the proxy.</div><div class="line">    :param verify: (optional) Either a boolean, in which case it controls whether we verify</div><div class="line">            the server's TLS certificate, or a string, in which case it must be a path</div><div class="line">            to a CA bundle to use. Defaults to ``True``.</div><div class="line">    :param stream: (optional) if ``False``, the response content will be immediately downloaded.</div><div class="line">    :param cert: (optional) if String, path to ssl client cert file (.pem). If Tuple, ('cert', 'key') pair.</div><div class="line">    :return: :class:`Response &lt;Response&gt;` object</div><div class="line">    :rtype: requests.Response</div><div class="line"></div><div class="line">    Usage::</div><div class="line"></div><div class="line">      &gt;&gt;&gt; import requests</div><div class="line">      &gt;&gt;&gt; req = requests.request('GET', 'http://httpbin.org/get')</div><div class="line">      &lt;Response [200]&gt;</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="comment"># By using the 'with' statement we are sure the session is closed, thus we</span></div><div class="line">    <span class="comment"># avoid leaving sockets open which can trigger a ResourceWarning in some</span></div><div class="line">    <span class="comment"># cases, and look like a memory leak in others.</span></div><div class="line">    <span class="keyword">with</span> sessions.Session() <span class="keyword">as</span> session:</div><div class="line">        <span class="keyword">return</span> session.request(method=method, url=url, **kwargs)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/scrapy/" rel="tag"># scrapy</a>
+          
+            <a href="/tags/post/" rel="tag"># post</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/14/淘宝sign加密算法/" rel="next" title="淘宝sign加密算法">
+                <i class="fa fa-chevron-left"></i> 淘宝sign加密算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/01/Spark教程（一）为什么要学spark/" rel="prev" title="Spark教程（一）为什么要学spark">
+                Spark教程（一）为什么要学spark <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用requests发送post请求"><span class="nav-number">1.</span> <span class="nav-text">使用requests发送post请求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用scrapy发送post请求"><span class="nav-number">2.</span> <span class="nav-text">使用scrapy发送post请求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FormRequest-与-Request-区别"><span class="nav-number">3.</span> <span class="nav-text">FormRequest 与 Request 区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

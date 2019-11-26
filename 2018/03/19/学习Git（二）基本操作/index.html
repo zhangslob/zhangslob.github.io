@@ -1,0 +1,1100 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第三十七篇原创文章
+继续补基础  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习Git（二）基本操作">
+<meta property="og:url" content="https://zhangslob.github.io/2018/03/19/学习Git（二）基本操作/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第三十七篇原创文章
+继续补基础  (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/nSjj0lk.png">
+<meta property="og:image" content="http://wiki.jikexueyuan.com/project/git-tutorial/images/git13.png">
+<meta property="og:image" content="http://wiki.jikexueyuan.com/project/git-tutorial/images/git16.png">
+<meta property="og:image" content="https://zhangslob.github.io/Users/offer/Desktop/clone.jpg">
+<meta property="og:updated_time" content="2018-03-19T14:46:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习Git（二）基本操作">
+<meta name="twitter:description" content="这是崔斯特的第三十七篇原创文章
+继续补基础  (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/nSjj0lk.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/03/19/学习Git（二）基本操作/"/>
+
+
+
+
+
+  <title> 学习Git（二）基本操作 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/03/19/学习Git（二）基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                学习Git（二）基本操作
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T21:11:39+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第三十七篇原创文章
+</code></pre><p>继续补基础  (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/nSjj0lk.png" alt=""></p>
+<a id="more"></a>
+<h1 id="Git-基础操作"><a href="#Git-基础操作" class="headerlink" title="Git 基础操作"></a>Git 基础操作</h1><h2 id="1-创建版本库"><a href="#1-创建版本库" class="headerlink" title="1. 创建版本库"></a>1. 创建版本库</h2><p>什么是版本库呢？版本库又名仓库，英文名 repository，你可以简单理解成一个目录，这个目录里面的所有文件都可以被 Git 管理起来，每个文件的修改、删除，Git 都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可以“还原”。</p>
+<p>所以，创建一个版本库非常简单，首先，选择一个合适的地方，创建一个空目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ mkdir learngit</div><div class="line">$ cd learngit</div><div class="line">$ pwd</div><div class="line">/Users/learngit</div></pre></td></tr></table></figure>
+<p><code>pwd</code>命令用于显示当前目录。</p>
+<p>如果你使用 Windows 系统，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。</p>
+<p>第二步，通过<code>git init</code>命令把这个目录变成 Git 可以管理的仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git init</div><div class="line">Initialized empty Git repository in /Users/learngit/.git/</div></pre></td></tr></table></figure>
+<p>瞬间 Git 就把仓库建好了，而且告诉你是一个空的仓库（empty Git repository）</p>
+<p>用<code>ls -ah</code>命令就可以看见当前目录下多了一个<code>.git</code>的目录，这个目录是 Git 来跟踪管理版本库的，没事千万不要手动修改这个目录里面的文件，不然改乱了，就把 Git 仓库给破坏了。</p>
+<p>一定要放到 learngit 目录下或子目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git status # 随时用git status 查看文件状态</div></pre></td></tr></table></figure>
+<p>一个文件放到 Git 仓库只需要两步。</p>
+<ol>
+<li>用命令<code>git add</code>告诉 Git，把文件添加到仓库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git add .  # 把所有文件都添加到仓库</div></pre></td></tr></table></figure>
+<p>执行上面的命令，没有任何显示，这就对了，Unix 的哲学是“没有消息就是好消息”，说明添加成功。（因为没有添加任何文件，如果添加结果不同，可以使用 <code>git status</code> 随时查看 <code>Git</code> 状态）</p>
+<ol>
+<li>用命令<code>git commit</code>告诉 Git，把文件提交到仓库：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ git commit abc/aaa.py -m&quot;chore:wrote a readme file&quot;</div><div class="line">[master (root-commit) cb926e7] wrote a readme file</div><div class="line"> 1 file changed, 2 insertions(+)</div><div class="line"> create mode 100644 aaa.py</div></pre></td></tr></table></figure>
+<p>commit 必须遵循commit规范<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">**git commit规范**</div><div class="line"></div><div class="line">- feat：新功能（feature）</div><div class="line">- fix：修补bug</div><div class="line">- docs：文档（documentation）</div><div class="line">- style： 格式（不影响代码运行的变动）</div><div class="line">- refactor：重构（即不是新增功能，也不是修改bug的代码变动）</div><div class="line">- test：增加测试</div><div class="line">- chore：构建过程或辅助工具的变动</div></pre></td></tr></table></figure></p>
+<h2 id="2-新机器配置-Git"><a href="#2-新机器配置-Git" class="headerlink" title="2. 新机器配置 Git"></a>2. 新机器配置 Git</h2><ol>
+<li>创建 SSH Key。在用户主目录下，看看有没有<code>.ssh</code>目录，如果有，再看看这个目录下有没有<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件，如果已经有了，可直接跳到第2步。如果没有，打开 Shell（Windows 下打开 Git Bash），创建 SSH Key：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;你的github邮箱&quot;</div></pre></td></tr></table></figure>
+<p>把邮件地址换成你自己的邮件地址，一路回车，使用默认值即可，无需设置密码。</p>
+<p>如果一切顺利的话，可以在用户主目录里找到<code>.ssh</code>目录，里面有 id_rsa 和 id_rsa.pub 两个文件，这两个就是 SSH Key 的秘钥对，<code>id_rsa</code>是私钥，不能泄露出去，<code>id_rsa.pub</code>是公钥，可以放心地告诉任何人。</p>
+<ol>
+<li>登陆 GitHub，打开“Account settings”，“SSH Keys”页面：</li>
+</ol>
+<p>然后，点“Add SSH Key”，填上任意 Title，在 Key 文本框里粘贴<code>id_rsa.pub</code>文件的内容：</p>
+<p><img src="http://wiki.jikexueyuan.com/project/git-tutorial/images/git13.png" alt="img"></p>
+<p>点“Add Key”，你就应该看到已经添加的 Key</p>
+<p><img src="http://wiki.jikexueyuan.com/project/git-tutorial/images/git16.png" alt="img"></p>
+<p>当然，GitHub 允许你添加多个 Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的 Key 都添加到 GitHub，就可以在每台电脑上往 GitHub 推送了。</p>
+<h2 id="3-关联远程库"><a href="#3-关联远程库" class="headerlink" title="3. 关联远程库"></a>3. 关联远程库</h2><ol>
+<li><p>如果公司已创建该项目的远程库，本地还没有，clone 该项目地址: clone with ssh</p>
+<p> <img src="/Users/offer/Desktop/clone.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone git@github.com:xxxx/xxx.git</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>SSH 警告</strong></p>
+<p>   当你第一次使用 Git 的 clone 或者 push 命令连接 GitHub 时，会得到一个警告：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">The authenticity of host &apos;github.com (xx.xx.xx.xx)&apos; can&apos;t be established.</div><div class="line">RSA key fingerprint is xx.xx.xx.xx.xx.</div><div class="line">Are you sure you want to continue connecting (yes/no)?</div></pre></td></tr></table></figure>
+<p>   这是因为 Git 使用 SSH 连接，而 SSH 连接在第一次验证 GitHub 服务器的 Key 时，需要你确认 GitHub 的 Key 的指纹信息是否真的来自 GitHub 的服务器，输入 yes 回车即可。</p>
+<p>   Git 会输出一个警告，告诉你已经把 GitHub 的 Key 添加到本机的一个信任列表里了：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Warning: Permanently added &apos;github.com&apos; (RSA) to the list of known hosts.</div></pre></td></tr></table></figure>
+<p>   这个警告只会出现一次，后面的操作就不会有任何警告了。</p>
+<p>   ​</p>
+<ol>
+<li><p>如果已经在本地创建了一个 Git 仓库后，公司也已在 GitHub 创建一个 Git 仓库，</p>
+<ul>
+<li>实现让这两个仓库进行远程同步</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git remote add origin git@github.com:xxxx/xxxx.git</div></pre></td></tr></table></figure>
+<ul>
+<li><p>下一步，就可以把本地库的所有内容推送到远程库上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure>
+<p>把本地库的内容推送到远程，用<code>git push</code>命令，实际上是把当前分支 master 推送到远程。</p>
+<p>由于远程库是空的，我们第一次推送 master 分支时，加上了<code>-u</code>参数，Git 不但会把本地的 master 分支内容推送的远程新的 master 分支，还会把本地的 master 分支和远程的 master 分支关联起来，在以后的推送或者拉取时就可以简化命令。</p>
+<p>推送成功后，可以立刻在 GitHub 页面中看到远程库的内容已经和本地一模一样</p>
+<p>从现在起，只要本地作了提交，就可以通过命令：</p>
+<p>$ git push origin master 把本地master分支的最新修改推送至GitHub</p>
+</li>
+</ul>
+</li>
+<li><p>一般我们在develop分支开发</p>
+<ol>
+<li>如果github上<strong>没有develop分支</strong></li>
+</ol>
+<ul>
+<li><p>首先，我们在本地创建 develop 分支，然后切换到 develop 分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git checkout -b develop</div><div class="line">Switched to a new branch &apos;develop&apos;</div></pre></td></tr></table></figure>
+<p><code>git checkout</code>命令加上<code>-b</code>参数表示创建并切换，相当于以下两条命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git branch develop</div><div class="line">$ git checkout develop</div><div class="line">Switched to branch &apos;develop&apos;</div></pre></td></tr></table></figure>
+<p>然后，用<code>git branch</code>命令查看当前分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git branch</div><div class="line">* develop</div><div class="line">  master</div></pre></td></tr></table></figure>
+<p><code>git branch</code>命令会列出所有分支，当前分支前面会标一个<code>*</code>号</p>
+</li>
+<li><p>发布develop分支</p>
+<p>发布dev分支指的是同步develop分支的代码到远程服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git push origin develop:develop    # 这样远程仓库也有一个develop分支了 或者</div><div class="line">git push origin develop  # 这两种应该都可以</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>如果github已经<strong>有master分支和develop分支</strong></p>
+<p>在本地</p>
+<p><code>git checkout -b develop</code> 新建并切换到本地develop分支</p>
+<p><code>git pull origin develop</code>  本地develop分支与远程develop分支相关联</p>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h1 id="Git-总结"><a href="#Git-总结" class="headerlink" title="Git 总结"></a>Git 总结</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">git add .  # 添加所有改动的文件到仓库</div><div class="line">git commit 文件路径 -m&apos;fix:修复xx bug&apos;</div><div class="line"></div><div class="line"># github上已经有master分支 和dev分支在本地</div><div class="line">git checkout -b dev # 创建+切换分支dev</div><div class="line">git pull origin dev # 本地分支与远程分支相关联dev</div><div class="line"></div><div class="line"># github无dev分支，在本地新建分支并推送到远程</div><div class="line">git checkout -b dev</div><div class="line">git push origin dev:dev  # 这样远程仓库中也就创建了一个dev分支</div><div class="line"></div><div class="line">git branch  # 查看本地有多少分支</div><div class="line">git branch 分支名字 # 创建分支</div><div class="line">git checkout dev # 切换到dev分支进行开发</div><div class="line">git push # 提交到远程</div><div class="line">git branch -d dev # 删除本地dev分支</div><div class="line">git merge dev # 合并dev到当前分支(master)</div></pre></td></tr></table></figure>
+<h1 id="git-remote-深入研究"><a href="#git-remote-深入研究" class="headerlink" title="git remote 深入研究"></a>git remote 深入研究</h1><blockquote>
+<p>git-remote - Manage set of tracked repositories</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">git remote [-v | --verbose]</div><div class="line">git remote add [-t &lt;branch&gt;] [-m &lt;master&gt;] [-f] [--[no-]tags] [--mirror=&lt;fetch|push&gt;] &lt;name&gt; &lt;url&gt;</div><div class="line">git remote rename &lt;old&gt; &lt;new&gt;</div><div class="line">git remote remove &lt;name&gt;</div><div class="line">git remote set-head &lt;name&gt; (-a | --auto | -d | --delete | &lt;branch&gt;)</div><div class="line">git remote set-branches [--add] &lt;name&gt; &lt;branch&gt;…​</div><div class="line">git remote get-url [--push] [--all] &lt;name&gt;</div><div class="line">git remote set-url [--push] &lt;name&gt; &lt;newurl&gt; [&lt;oldurl&gt;]</div><div class="line">git remote set-url --add [--push] &lt;name&gt; &lt;newurl&gt;</div><div class="line">git remote set-url --delete [--push] &lt;name&gt; &lt;url&gt;</div><div class="line">git remote [-v | --verbose] show [-n] &lt;name&gt;…​</div><div class="line">git remote prune [-n | --dry-run] &lt;name&gt;…​</div><div class="line">git remote [-v | --verbose] update [-p | --prune] [(&lt;group&gt; | &lt;remote&gt;)…​]</div></pre></td></tr></table></figure>
+<h2 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h2><p>如果想查看你已经配置的远程仓库服务器，可以运行 <code>git remote</code> 命令。 它会列出你指定的每一个远程服务器的简写。 如果你已经克隆了自己的仓库，那么至少应该能看到 <code>origin -</code> 这是 <code>Git</code> 给你克隆的仓库服务器的默认名字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/schacon/ticgit</div><div class="line">Cloning into &apos;ticgit&apos;...</div><div class="line">remote: Reusing existing pack: 1857, done.</div><div class="line">remote: Total 1857 (delta 0), reused 0 (delta 0)</div><div class="line">Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.</div><div class="line">Resolving deltas: 100% (772/772), done.</div><div class="line">Checking connectivity... done.</div><div class="line">$ cd ticgit</div><div class="line">$ git remote</div><div class="line">origin</div></pre></td></tr></table></figure>
+<p>你也可以指定选项 <code>-v</code>，会显示需要读写远程仓库使用的 <code>Git</code> 保存的简写与其对应的 URL。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote -v</div><div class="line">origin	https://github.com/schacon/ticgit (fetch)</div><div class="line">origin	https://github.com/schacon/ticgit (push)</div></pre></td></tr></table></figure></p>
+<p>如果你的远程仓库不止一个，该命令会将它们全部列出。 例如，与几个协作者合作的，拥有多个远程仓库的仓库看起来像下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$ cd grit</div><div class="line">$ git remote -v</div><div class="line">bakkdoor  https://github.com/bakkdoor/grit (fetch)</div><div class="line">bakkdoor  https://github.com/bakkdoor/grit (push)</div><div class="line">cho45     https://github.com/cho45/grit (fetch)</div><div class="line">cho45     https://github.com/cho45/grit (push)</div><div class="line">defunkt   https://github.com/defunkt/grit (fetch)</div><div class="line">defunkt   https://github.com/defunkt/grit (push)</div><div class="line">koke      git://github.com/koke/grit.git (fetch)</div><div class="line">koke      git://github.com/koke/grit.git (push)</div><div class="line">origin    git@github.com:mojombo/grit.git (fetch)</div><div class="line">origin    git@github.com:mojombo/grit.git (push)</div></pre></td></tr></table></figure>
+<p>这样我们可以轻松拉取其中任何一个用户的贡献。 此外，我们大概还会有某些远程仓库的推送权限，虽然我们目前还不会在此介绍。</p>
+<p>注意这些远程仓库使用了不同的协议；我们将会在 <a href="https://git-scm.com/book/zh/v2/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%90%AD%E5%BB%BA-Git#r_git_on_the_server" target="_blank" rel="external">在服务器上搭建 Git</a> 中了解关于它们的更多信息。</p>
+<h2 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h2><p>运行 <code>git remote add &lt;shortname&gt; &lt;url&gt;</code> 添加一个新的远程 <code>Git</code> 仓库，同时指定一个你可以轻松引用的简写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ git remote</div><div class="line">origin</div><div class="line">$ git remote add pb https://github.com/paulboone/ticgit</div><div class="line">$ git remote -v</div><div class="line">origin	https://github.com/schacon/ticgit (fetch)</div><div class="line">origin	https://github.com/schacon/ticgit (push)</div><div class="line">pb	https://github.com/paulboone/ticgit (fetch)</div><div class="line">pb	https://github.com/paulboone/ticgit (push)</div></pre></td></tr></table></figure></p>
+<p>现在你可以在命令行中使用字符串 <code>pb</code> 来代替整个 <code>URL</code>。 例如，如果你想拉取 <code>Paul</code> 的仓库中有但你没有的信息，可以运行 <code>git fetch pb</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ git fetch pb</div><div class="line">remote: Counting objects: 43, done.</div><div class="line">remote: Compressing objects: 100% (36/36), done.</div><div class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</div><div class="line">Unpacking objects: 100% (43/43), done.</div><div class="line">From https://github.com/paulboone/ticgit</div><div class="line"> * [new branch]      master     -&gt; pb/master</div><div class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</div></pre></td></tr></table></figure></p>
+<p>现在 <code>Paul</code> 的 <code>master</code> 分支可以在本地通过 <code>pb/master</code> 访问到 - 你可以将它合并到自己的某个分支中，或者如果你想要查看它的话，可以检出一个指向该点的本地分支。 </p>
+<p>##从远程仓库中抓取与拉取<br>就如刚才所见，从远程仓库中获得数据，可以执行：</p>
+<p><code>$ git fetch [remote-name]</code><br>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
+<p>如果你使用 <code>clone</code> 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，<code>git fetch origin</code> 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 <code>git fetch</code> 命令会将数据拉取到你的本地仓库 - 它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</p>
+<p>如果你有一个分支设置为跟踪一个远程分支，可以使用 <code>git pull</code> 命令来自动的抓取然后合并远程分支到当前分支。 这对你来说可能是一个更简单或更舒服的工作流程；默认情况下，<code>git clone</code> 命令会自动设置本地 <code>master</code> 分支跟踪克隆的远程仓库的 <code>master</code> 分支（或不管是什么名字的默认分支）。 运行 <code>git pull</code> 通常会从最初克隆的服务器上抓取数据并自动尝试合并到当前所在的分支。</p>
+<h2 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h2><p>当你想分享你的项目时，必须将其推送到上游。 这个命令很简单：<code>git push [remote-name] [branch-name]</code>。 当你想要将 <code>master</code> 分支推送到 <code>origin</code> 服务器时（再次说明，克隆时通常会自动帮你设置好那两个名字），那么运行这个命令就可以将你所做的备份到服务器：</p>
+<p><code>$ git push origin master</code><br>只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。 当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。 你必须先将他们的工作拉取下来并将其合并进你的工作后才能推送。</p>
+<h2 id="查看远程仓库-1"><a href="#查看远程仓库-1" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h2><p>如果想要查看某一个远程仓库的更多信息，可以使用 <code>git remote show [remote-name]</code> 命令。 如果想以一个特定的缩写名运行这个命令，例如 <code>origin</code>，会得到像下面类似的信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$ git remote show origin</div><div class="line">* remote origin</div><div class="line">  Fetch URL: https://github.com/schacon/ticgit</div><div class="line">  Push  URL: https://github.com/schacon/ticgit</div><div class="line">  HEAD branch: master</div><div class="line">  Remote branches:</div><div class="line">    master                               tracked</div><div class="line">    dev-branch                           tracked</div><div class="line">  Local branch configured for &apos;git pull&apos;:</div><div class="line">    master merges with remote master</div><div class="line">  Local ref configured for &apos;git push&apos;:</div><div class="line">    master pushes to master (up to date)</div></pre></td></tr></table></figure></p>
+<p>它同样会列出远程仓库的 <code>URL</code> 与跟踪分支的信息。 这些信息非常有用，它告诉你正处于 <code>master</code> 分支，并且如果运行 <code>git pull</code>，就会抓取所有的远程引用，然后将远程 <code>master</code> 分支合并到本地 <code>master</code> 分支。 它也会列出拉取到的所有远程引用。</p>
+<p>这是一个经常遇到的简单例子。 如果你是 <code>Git</code> 的重度使用者，那么还可以通过 <code>git remote show</code> 看到更多的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$ git remote show origin</div><div class="line">* remote origin</div><div class="line">  URL: https://github.com/my-org/complex-project</div><div class="line">  Fetch URL: https://github.com/my-org/complex-project</div><div class="line">  Push  URL: https://github.com/my-org/complex-project</div><div class="line">  HEAD branch: master</div><div class="line">  Remote branches:</div><div class="line">    master                           tracked</div><div class="line">    dev-branch                       tracked</div><div class="line">    markdown-strip                   tracked</div><div class="line">    issue-43                         new (next fetch will store in remotes/origin)</div><div class="line">    issue-45                         new (next fetch will store in remotes/origin)</div><div class="line">    refs/remotes/origin/issue-11     stale (use &apos;git remote prune&apos; to remove)</div><div class="line">  Local branches configured for &apos;git pull&apos;:</div><div class="line">    dev-branch merges with remote dev-branch</div><div class="line">    master     merges with remote master</div><div class="line">  Local refs configured for &apos;git push&apos;:</div><div class="line">    dev-branch                     pushes to dev-branch                     (up to date)</div><div class="line">    markdown-strip                 pushes to markdown-strip                 (up to date)</div><div class="line">    master                         pushes to master                         (up to date)</div></pre></td></tr></table></figure></p>
+<p>这个命令列出了当你在特定的分支上执行 <code>git push</code> 会自动地推送到哪一个远程分支。 它也同样地列出了哪些远程分支不在你的本地，哪些远程分支已经从服务器上移除了，还有当你执行 <code>git pull</code> 时哪些分支会自动合并。</p>
+<h2 id="远程仓库的移除与重命名"><a href="#远程仓库的移除与重命名" class="headerlink" title="远程仓库的移除与重命名"></a>远程仓库的移除与重命名</h2><p>如果想要重命名引用的名字可以运行 <code>git remote rename</code> 去修改一个远程仓库的简写名。 例如，想要将 <code>pb</code> 重命名为 <code>paul</code>，可以用 <code>git remote rename</code> 这样做：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ git remote rename pb paul</div><div class="line">$ git remote</div><div class="line">origin</div><div class="line">paul</div></pre></td></tr></table></figure></p>
+<p>值得注意的是这同样也会修改你的远程分支名字。 那些过去引用 <code>pb/master</code> 的现在会引用 <code>paul/master</code>。</p>
+<p>如果因为一些原因想要移除一个远程仓库 - 你已经从服务器上搬走了或不再想使用某一个特定的镜像了，又或者某一个贡献者不再贡献了 - 可以使用 <code>git remote rm</code> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git remote rm paul</div><div class="line">$ git remote</div><div class="line">origin</div></pre></td></tr></table></figure></p>
+<h1 id="回顾：学习Git（一）起步"><a href="#回顾：学习Git（一）起步" class="headerlink" title="回顾：学习Git（一）起步"></a>回顾：<a href="https://zhangslob.github.io/2018/03/14/%E5%AD%A6%E4%B9%A0Git%EF%BC%88%E4%B8%80%EF%BC%89%E8%B5%B7%E6%AD%A5/">学习Git（一）起步</a></h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/14/学习Git（一）起步/" rel="next" title="学习Git（一）起步">
+                <i class="fa fa-chevron-left"></i> 学习Git（一）起步
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/25/Hi，这里是我的爬虫笔记/" rel="prev" title="Hi，这里是我的爬虫笔记">
+                Hi，这里是我的爬虫笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-基础操作"><span class="nav-number">1.</span> <span class="nav-text">Git 基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建版本库"><span class="nav-number">1.1.</span> <span class="nav-text">1. 创建版本库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-新机器配置-Git"><span class="nav-number">1.2.</span> <span class="nav-text">2. 新机器配置 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-关联远程库"><span class="nav-number">1.3.</span> <span class="nav-text">3. 关联远程库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-总结"><span class="nav-number">2.</span> <span class="nav-text">Git 总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-remote-深入研究"><span class="nav-number">3.</span> <span class="nav-text">git remote 深入研究</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看远程仓库"><span class="nav-number">3.1.</span> <span class="nav-text">查看远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加远程仓库"><span class="nav-number">3.2.</span> <span class="nav-text">添加远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送到远程仓库"><span class="nav-number">3.3.</span> <span class="nav-text">推送到远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看远程仓库-1"><span class="nav-number">3.4.</span> <span class="nav-text">查看远程仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程仓库的移除与重命名"><span class="nav-number">3.5.</span> <span class="nav-text">远程仓库的移除与重命名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾：学习Git（一）起步"><span class="nav-number">4.</span> <span class="nav-text">回顾：学习Git（一）起步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

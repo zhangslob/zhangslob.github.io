@@ -1,0 +1,994 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第一百零四篇原创文章
+
+努力、奋斗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode-581-最短无序连续子数组">
+<meta property="og:url" content="https://zhangslob.github.io/2019/11/26/Leetcode-581-最短无序连续子数组/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第一百零四篇原创文章
+
+努力、奋斗">
+<meta property="og:image" content="https://i.imgur.com/OEWbFEc.jpg">
+<meta property="og:updated_time" content="2019-11-26T13:07:59.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode-581-最短无序连续子数组">
+<meta name="twitter:description" content="这是崔斯特的第一百零四篇原创文章
+
+努力、奋斗">
+<meta name="twitter:image" content="https://i.imgur.com/OEWbFEc.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/11/26/Leetcode-581-最短无序连续子数组/"/>
+
+
+
+
+
+  <title> Leetcode-581-最短无序连续子数组 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/11/26/Leetcode-581-最短无序连续子数组/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Leetcode-581-最短无序连续子数组
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-26T10:41:36+08:00">
+                2019-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第一百零四篇原创文章
+</code></pre><p><img src="https://i.imgur.com/OEWbFEc.jpg" alt=""></p>
+<p><code>努力、奋斗</code><br><a id="more"></a></p>
+<h1 id="题目详述"><a href="#题目详述" class="headerlink" title="题目详述"></a>题目详述</h1><p>给定一个整数数组，你需要寻找一个<strong>连续的子数组</strong>，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</p>
+<p>你找到的子数组应是<strong>最短</strong>的，请输出它的长度。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">输入: [2, 6, 4, 8, 10, 9, 15]</div><div class="line">输出: 5</div><div class="line">解释: 你只需要对 [6, 4, 8, 10, 9] 进行升序排序，那么整个表都会变为升序排序。</div></pre></td></tr></table></figure>
+<p><strong>说明 :</strong></p>
+<ol>
+<li>输入的数组长度范围在 [1, 10,000]。</li>
+<li>输入的数组可能包含<strong>重复</strong>元素 ，所以<strong>升序</strong>的意思是<strong>&lt;=。</strong></li>
+</ol>
+<h1 id="题目详解"><a href="#题目详解" class="headerlink" title="题目详解"></a>题目详解</h1><h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><ul>
+<li>将原数组拷贝一份，然后对拷贝后的数组进行排序。</li>
+<li>对比原数组和排序后的数组，除去前面一部分和后面一部分相同的元素，剩余区间的长度就是结果。</li>
+<li>时间复杂度为 O(nlogn)。</li>
+</ul>
+<h3 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] sortedNums = Arrays.copyOf(nums, nums.length);</div><div class="line">        Arrays.sort(sortedNums);</div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> j = sortedNums.length - <span class="number">1</span>;</div><div class="line">        <span class="keyword">while</span> (i &lt;= j &amp;&amp; nums[i] == sortedNums[i]) &#123;</div><div class="line">            ++i;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (i &lt;= j &amp;&amp; nums[j] == sortedNums[j]) &#123;</div><div class="line">            --j;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> j - i + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] nums = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">15</span>&#125;;</div><div class="line">        <span class="keyword">int</span> i = <span class="keyword">new</span> Solution().findUnsortedSubarray(nums);</div><div class="line">        System.out.println(i);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">   <span class="string">"fmt"</span></div><div class="line">   <span class="string">"sort"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findUnsortedSubarray</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">   sortedNum := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(nums))</div><div class="line">   <span class="built_in">copy</span>(sortedNum, nums)</div><div class="line">   sort.Ints(sortedNum)</div><div class="line">   i, j := <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span></div><div class="line">   <span class="keyword">for</span> i &lt;= j &amp;&amp; nums[i] == sortedNum[i] &#123;</div><div class="line">      i++</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">for</span> i &lt;= j &amp;&amp; nums[j] == sortedNum[j] &#123;</div><div class="line">      j--</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span> i &gt;= j &#123;</div><div class="line">      <span class="keyword">return</span> <span class="number">0</span></div><div class="line">   &#125;</div><div class="line">   <span class="keyword">return</span> j - i + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">   nums := []<span class="keyword">int</span>&#123;<span class="number">2</span>, <span class="number">1</span>&#125;</div><div class="line">   n := findUnsortedSubarray(nums)</div><div class="line">   fmt.Println(n)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findUnsortedSubarray</span><span class="params">(self, nums)</span>:</span></div><div class="line">        sortedarray = sorted(nums)</div><div class="line">        i, j = <span class="number">0</span>, len(nums) - <span class="number">1</span></div><div class="line">        <span class="keyword">while</span> i &lt;= j <span class="keyword">and</span> nums[i] == sortedarray[i]:</div><div class="line">            i += <span class="number">1</span></div><div class="line">        <span class="keyword">while</span> i &lt;= j <span class="keyword">and</span> nums[j] == sortedarray[j]:</div><div class="line">            j -= <span class="number">1</span></div><div class="line">        <span class="keyword">return</span> j - i + <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    s = Solution().findUnsortedSubarray([<span class="number">2</span>, <span class="number">1</span>])</div><div class="line">    print(s)</div></pre></td></tr></table></figure>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><ol>
+<li>遍历数组，同时进行从头到尾，从尾到头的遍历，分别找出无序连续子数组区间的右边和左边节点；</li>
+<li>右边点，是从左到右不递增的点，</li>
+<li>左边点，是从右到左不递减的点，</li>
+<li>两点之间的距离就是所求值</li>
+</ol>
+<h3 id="JAVA-1"><a href="#JAVA-1" class="headerlink" title="JAVA"></a>JAVA</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> n = nums.length;</div><div class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> start = n - <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> end = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> max = nums[<span class="number">0</span>];</div><div class="line">        <span class="keyword">int</span> min = nums[n - <span class="number">1</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[i] &gt;= max) &#123;</div><div class="line">                max = nums[i];</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                end = i;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (nums[n - i - <span class="number">1</span>] &lt;= min) &#123;</div><div class="line">                min = nums[n - i - <span class="number">1</span>];</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                start = n - i - <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (start &gt;= end) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> end - start + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[] nums = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">15</span>&#125;;</div><div class="line">        <span class="keyword">int</span> i = <span class="keyword">new</span> Solution().findUnsortedSubarray(nums);</div><div class="line">        System.out.println(i);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Go-1"><a href="#Go-1" class="headerlink" title="Go"></a>Go</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findUnsortedSubarray</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	n := <span class="built_in">len</span>(nums)</div><div class="line">	<span class="keyword">if</span> n == <span class="number">0</span> &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	start, end := n<span class="number">-1</span>, <span class="number">0</span></div><div class="line">	max, min := nums[<span class="number">0</span>], nums[n<span class="number">-1</span>]</div><div class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; n; i++ &#123;</div><div class="line">		<span class="keyword">if</span> nums[i] &gt;= max &#123;</div><div class="line">			max = nums[i]</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			end = i</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> nums[n-i<span class="number">-1</span>] &lt;= min &#123;</div><div class="line">			min = nums[n-i<span class="number">-1</span>]</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			start = n - i - <span class="number">1</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> start &gt;= end &#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> end - start + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	nums := []<span class="keyword">int</span>&#123;<span class="number">2</span>, <span class="number">1</span>&#125;</div><div class="line">	n := findUnsortedSubarray(nums)</div><div class="line">	fmt.Println(n)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findUnsortedSubarray</span><span class="params">(self, nums)</span>:</span></div><div class="line">        n = len(nums)</div><div class="line">        start, end = <span class="number">0</span>, n - <span class="number">1</span></div><div class="line">        ma, mi = nums[start], nums[end]</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">            <span class="keyword">if</span> ma &lt;= nums[i]:</div><div class="line">                ma = nums[i]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                start = i</div><div class="line">            <span class="keyword">if</span> mi &gt;= nums[n - i - <span class="number">1</span>]:</div><div class="line">                mi = nums[n - i - <span class="number">1</span>]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                end = n - i - <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> start &lt;= end:</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span></div><div class="line">        <span class="keyword">return</span> start - end + <span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    s = Solution().findUnsortedSubarray([<span class="number">2</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">15</span>])</div><div class="line">    print(s)</div></pre></td></tr></table></figure>
+<p>等我提交之后，发现排在第一的解法比我快很多，我当时就呵呵呢</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findUnsortedSubarray</span><span class="params">(self, nums)</span>:</span></div><div class="line">        n = len(nums)</div><div class="line">        max_num = nums[<span class="number">0</span>]</div><div class="line">        right = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">            <span class="keyword">if</span> nums[i] &gt;= max_num:</div><div class="line">                max_num = nums[i]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                right = i</div><div class="line">        left = n</div><div class="line">        min_num = nums[<span class="number">-1</span>]</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</div><div class="line">            <span class="keyword">if</span> nums[i] &lt;= min_num:</div><div class="line">                min_num = nums[i]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                left = i</div><div class="line">        <span class="keyword">return</span> right - left + <span class="number">1</span> <span class="keyword">if</span> right - left &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/24/Flink介绍/" rel="next" title="Flink介绍">
+                <i class="fa fa-chevron-left"></i> Flink介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目详述"><span class="nav-number">1.</span> <span class="nav-text">题目详述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目详解"><span class="nav-number">2.</span> <span class="nav-text">题目详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一"><span class="nav-number">2.1.</span> <span class="nav-text">方法一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA"><span class="nav-number">2.1.1.</span> <span class="nav-text">JAVA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go"><span class="nav-number">2.1.2.</span> <span class="nav-text">Go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python"><span class="nav-number">2.1.3.</span> <span class="nav-text">Python</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法二"><span class="nav-number">2.2.</span> <span class="nav-text">方法二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">JAVA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">Go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">Python</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

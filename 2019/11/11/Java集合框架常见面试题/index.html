@@ -1,0 +1,1086 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百零一篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合框架常见面试题">
+<meta property="og:url" content="https://zhangslob.github.io/2019/11/11/Java集合框架常见面试题/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百零一篇原创文章">
+<meta property="og:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
+<meta property="og:image" content="https://camo.githubusercontent.com/7d452b4b9f1402669f346c243b4777cb1b9e032c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545392539332542452545382541312541382e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/cbb13185522a7d66d9419fada0715051778e867c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545352542452541412545372538452541462545392539332542452545382541312541382e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/04f7d7f070f31c50f3d09da26f9459fdea2a7b4a/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f6a646b312e382545342542392538422545352538392538442545372539412538342545352538362538352545392538332541382545372542422539332545362539452538342d486173684d61702e6a7067">
+<meta property="og:image" content="https://camo.githubusercontent.com/d166a0184320055811ed72e61ece4491b6d80af1/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f4a444b312e38254534254239253842254535253930253845254537253941253834486173684d61702545352542412539352545352542312538322545362539352542302545362538442541452545372542422539332545362539452538342e6a7067">
+<meta property="og:updated_time" content="2019-11-20T03:40:43.026Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java集合框架常见面试题">
+<meta name="twitter:description" content="java基础知识  (๑• . •๑)
+
+1这是崔斯特的第一百零一篇原创文章">
+<meta name="twitter:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/11/11/Java集合框架常见面试题/"/>
+
+
+
+
+
+  <title> Java集合框架常见面试题 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/11/11/Java集合框架常见面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java集合框架常见面试题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-11T16:21:46+08:00">
+                2019-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>java基础知识  (๑• . •๑)</p>
+<p><a href="http://vmpic.cn/image/7gdV" target="_blank" rel="external"><img src="https://u.vmpic.cn/2019/11/04/7gdV.jpg" alt="7gdV.jpg"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第一百零一篇原创文章</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="说说List-Set-Map三者的区别"><a href="#说说List-Set-Map三者的区别" class="headerlink" title="说说List,Set,Map三者的区别"></a>说说List,Set,Map三者的区别</h1><ul>
+<li><strong>List(对付顺序的好帮手)：</strong> List接口存储一组不唯一（可以有多个元素引用相同的对象），有序的对象</li>
+<li><strong>Set(注重独一无二的性质):</strong> 不允许重复的集合。不会有多个元素引用相同的对象。</li>
+<li><strong>Map(用Key来搜索的专家):</strong> 使用键值对存储。Map会维护与Key有关联的值。两个Key可以引用相同的对象，但Key不能重复，典型的Key是String类型，但也可以是任何对象。</li>
+</ul>
+<h1 id="Arraylist-与-LinkedList-区别"><a href="#Arraylist-与-LinkedList-区别" class="headerlink" title="Arraylist 与 LinkedList 区别"></a>Arraylist 与 LinkedList 区别</h1><ul>
+<li><strong>1. 是否保证线程安全：</strong> <code>ArrayList</code> 和 <code>LinkedList</code> 都是不同步的，也就是不保证线程安全；</li>
+<li><strong>2. 底层数据结构：</strong> <code>Arraylist</code> 底层使用的是 <strong>Object 数组</strong>；<code>LinkedList</code> 底层使用的是 <strong>双向链表</strong> 数据结构（JDK1.6之前为循环链表，JDK1.7取消了循环。注意双向链表和双向循环链表的区别，下面有介绍到！）</li>
+<li><strong>3. 插入和删除是否受元素位置的影响：</strong><ul>
+<li>① <strong>ArrayList 采用数组存储，所以插入和删除元素的时间复杂度受元素位置的影响。</strong> 比如：执行<code>add(E e)</code>方法的时候， <code>ArrayList</code> 会默认在将指定的元素追加到此列表的末尾，这种情况时间复杂度就是O(1)。但是如果要在指定位置 i 插入和删除元素的话（<code>add(int index, E element)</code>）时间复杂度就为 O(n-i)。因为在进行上述操作的时候集合中第 i 和第 i 个元素之后的(n-i)个元素都要执行向后位/向前移一位的操作。</li>
+<li>② <strong>LinkedList 采用链表存储，所以对于add(E e)方法的插入，删除元素时间复杂度不受元素位置的影响</strong>，近似 O（1），如果是要在指定位置i插入和删除元素的话（(add(int index, E element)） 时间复杂度应为o(n))因为需要新创立一个新的链表，复制前i-1个元素并在第i位加入新的元素，最后附上n-i个元素。</li>
+</ul>
+</li>
+<li><strong>4. 是否支持快速随机访问：</strong> <code>LinkedList</code> 不支持高效的随机元素访问，而 <code>ArrayList</code> 支持。快速随机访问就是通过元素的序号快速获取元素对象(对应于<code>get(int index)</code>方法)。</li>
+<li><strong>5. 内存空间占用：</strong> ArrayList的空间浪费主要体现在在list列表的结尾会预留一定的容量空间，而LinkedList的空间花费则体现在它的每一个元素都需要消耗比ArrayList更多的空间（因为要存放直接后继和直接前驱以及数据）。</li>
+</ul>
+<h3 id="补充内容-RandomAccess接口"><a href="#补充内容-RandomAccess接口" class="headerlink" title="补充内容:RandomAccess接口"></a><strong>补充内容:RandomAccess接口</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RandomAccess</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>查看源码我们发现实际上 <code>RandomAccess</code> 接口中什么都没有定义。所以，在我看来 <code>RandomAccess</code> 接口不过是一个标识罢了。标识什么？ 标识实现这个接口的类具有随机访问功能。</p>
+<p>在 <code>binarySearch（</code>）方法中，它要判断传入的list 是否 <code>RamdomAccess</code> 的实例，如果是，调用<code>indexedBinarySearch（）</code>方法，如果不是，那么调用<code>iteratorBinarySearch（）</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(List&lt;? extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; list, T key)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (list <span class="keyword">instanceof</span> RandomAccess || list.size()&lt;BINARYSEARCH_THRESHOLD)</div><div class="line">        <span class="keyword">return</span> Collections.indexedBinarySearch(list, key);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> Collections.iteratorBinarySearch(list, key);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>ArrayList</code> 实现了 <code>RandomAccess</code> 接口， 而 <code>LinkedList</code> 没有实现。为什么呢？我觉得还是和底层数据结构有关！<code>ArrayList</code> 底层是数组，而 <code>LinkedList</code> 底层是链表。数组天然支持随机访问，时间复杂度为 O（1），所以称为快速随机访问。链表需要遍历到特定位置才能访问特定位置的元素，时间复杂度为 O（n），所以不支持快速随机访问。，<code>ArrayList</code> 实现了 <code>RandomAccess</code> 接口，就表明了他具有快速随机访问功能。 <code>RandomAccess</code> 接口只是标识，并不是说 <code>ArrayList</code> 实现 <code>RandomAccess</code> 接口才具有快速随机访问功能的！</p>
+<p><strong>下面再总结一下 list 的遍历方式选择：</strong></p>
+<ul>
+<li>实现了 <code>RandomAccess</code> 接口的list，优先选择普通 for 循环 ，其次 foreach,</li>
+<li>未实现 <code>RandomAccess</code>接口的list，优先选择iterator遍历（foreach遍历底层也是通过iterator实现的,），大size的数据，千万不要使用普通for循环</li>
+</ul>
+<h1 id="双向链表和双向循环链表"><a href="#双向链表和双向循环链表" class="headerlink" title="双向链表和双向循环链表"></a>双向链表和双向循环链表</h1><p><strong>双向链表：</strong> 包含两个指针，一个prev指向前一个节点，一个next指向后一个节点。</p>
+<p><a href="https://camo.githubusercontent.com/7d452b4b9f1402669f346c243b4777cb1b9e032c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545392539332542452545382541312541382e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/7d452b4b9f1402669f346c243b4777cb1b9e032c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545392539332542452545382541312541382e706e67" alt="双向链表"></a></p>
+<p><strong>双向循环链表：</strong> 最后一个节点的 next 指向head，而 head 的prev指向最后一个节点，构成一个环。</p>
+<p><a href="https://camo.githubusercontent.com/cbb13185522a7d66d9419fada0715051778e867c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545352542452541412545372538452541462545392539332542452545382541312541382e706e67" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/cbb13185522a7d66d9419fada0715051778e867c/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f2545352538462538432545352539302539312545352542452541412545372538452541462545392539332542452545382541312541382e706e67" alt="双向循环链表"></a></p>
+<h1 id="ArrayList-与-Vector-区别"><a href="#ArrayList-与-Vector-区别" class="headerlink" title="ArrayList 与 Vector 区别"></a>ArrayList 与 Vector 区别</h1><p><code>Vector</code>类的所有方法都是同步的。可以由两个线程安全地访问一个Vector对象、但是一个线程访问Vector的话代码要在同步操作上耗费大量的时间。</p>
+<p><code>Arraylist</code>不是同步的，所以在不需要保证线程安全时建议使用Arraylist。</p>
+<h1 id="ArrayList-的扩容机制"><a href="#ArrayList-的扩容机制" class="headerlink" title="ArrayList 的扩容机制"></a>ArrayList 的扩容机制</h1><p>详见笔主的这篇文章:<a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/collection/ArrayList-Grow.md" target="_blank" rel="external">通过源码一步一步分析ArrayList 扩容机制</a></p>
+<p>#HashMap 和 Hashtable 的区别</p>
+<ol>
+<li><strong>线程是否安全：</strong> HashMap 是非线程安全的，HashTable 是线程安全的；HashTable 内部的方法基本都经过<code>synchronized</code> 修饰。（如果你要保证线程安全的话就使用 ConcurrentHashMap 吧！）；</li>
+<li><strong>效率：</strong> 因为线程安全的问题，HashMap 要比 HashTable 效率高一点。另外，HashTable 基本被淘汰，不要在代码中使用它；</li>
+<li><strong>对Null key 和Null value的支持：</strong> HashMap 中，null 可以作为键，这样的键只有一个，可以有一个或多个键所对应的值为 null。。但是在 HashTable 中 put 进的键值只要有一个 null，直接抛出 NullPointerException。</li>
+<li><strong>初始容量大小和每次扩充容量大小的不同 ：</strong> ①创建时如果不指定容量初始值，Hashtable 默认的初始大小为11，之后每次扩充，容量变为原来的2n+1。HashMap 默认的初始化大小为16。之后每次扩充，容量变为原来的2倍。②创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而 HashMap 会将其扩充为2的幂次方大小（HashMap 中的<code>tableSizeFor()</code>方法保证，下面给出了源代码）。也就是说 HashMap 总是使用2的幂作为哈希表的大小,后面会介绍到为什么是2的幂次方。</li>
+<li><strong>底层数据结构：</strong> JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。</li>
+</ol>
+<p><strong>HashMap 中带有初始容量的构造函数：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal initial capacity: "</span> +</div><div class="line">                                           initialCapacity);</div><div class="line">    <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</div><div class="line">        initialCapacity = MAXIMUM_CAPACITY;</div><div class="line">    <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal load factor: "</span> +</div><div class="line">                                           loadFactor);</div><div class="line">    <span class="keyword">this</span>.loadFactor = loadFactor;</div><div class="line">    <span class="keyword">this</span>.threshold = tableSizeFor(initialCapacity);</div><div class="line">&#125;</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>(initialCapacity, DEFAULT_LOAD_FACTOR);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面这个方法保证了 HashMap 总是使用2的幂作为哈希表的大小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Returns a power of two size for the given target capacity.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tableSizeFor</span><span class="params">(<span class="keyword">int</span> cap)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> n = cap - <span class="number">1</span>;</div><div class="line">    n |= n &gt;&gt;&gt; <span class="number">1</span>;</div><div class="line">    n |= n &gt;&gt;&gt; <span class="number">2</span>;</div><div class="line">    n |= n &gt;&gt;&gt; <span class="number">4</span>;</div><div class="line">    n |= n &gt;&gt;&gt; <span class="number">8</span>;</div><div class="line">    n |= n &gt;&gt;&gt; <span class="number">16</span>;</div><div class="line">    <span class="keyword">return</span> (n &lt; <span class="number">0</span>) ? <span class="number">1</span> : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="HashMap-和-HashSet区别"><a href="#HashMap-和-HashSet区别" class="headerlink" title="HashMap 和 HashSet区别"></a>HashMap 和 HashSet区别</h1><p>如果你看过 <code>HashSet</code> 源码的话就应该知道：HashSet 底层就是基于 HashMap 实现的。（HashSet 的源码非常非常少，因为除了 <code>clone()</code>、<code>writeObject()</code>、<code>readObject()</code>是 HashSet 自己不得不实现之外，其他方法都是直接调用 HashMap 中的方法。</p>
+<table>
+<thead>
+<tr>
+<th>HashMap</th>
+<th>HashSet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实现了Map接口</td>
+<td>实现Set接口</td>
+</tr>
+<tr>
+<td>存储键值对</td>
+<td>仅存储对象</td>
+</tr>
+<tr>
+<td>调用 <code>put（）</code>向map中添加元素</td>
+<td>调用 <code>add（）</code>方法向Set中添加元素</td>
+</tr>
+<tr>
+<td>HashMap使用键（Key）计算Hashcode</td>
+<td>HashSet使用成员对象来计算hashcode值，对于两个对象来说hashcode可能相同，所以equals()方法用来判断对象的相等性，</td>
+</tr>
+</tbody>
+</table>
+<h1 id="HashSet如何检查重复"><a href="#HashSet如何检查重复" class="headerlink" title="HashSet如何检查重复"></a>HashSet如何检查重复</h1><p>当你把对象加入<code>HashSet</code>时，HashSet会先计算对象的<code>hashcode</code>值来判断对象加入的位置，同时也会与其他加入的对象的hashcode值作比较，如果没有相符的hashcode，HashSet会假设对象没有重复出现。但是如果发现有相同hashcode值的对象，这时会调用<code>equals（）</code>方法来检查hashcode相等的对象是否真的相同。如果两者相同，HashSet就不会让加入操作成功。（摘自我的Java启蒙书《Head fist java》第二版）</p>
+<p><strong>hashCode（）与equals（）的相关规定：</strong></p>
+<ol>
+<li>如果两个对象相等，则hashcode一定也是相同的</li>
+<li>两个对象相等,对两个equals方法返回true</li>
+<li>两个对象有相同的hashcode值，它们也不一定是相等的</li>
+<li>综上，equals方法被覆盖过，则hashCode方法也必须被覆盖</li>
+<li>hashCode()的默认行为是对堆上的对象产生独特值。如果没有重写hashCode()，则该class的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）。</li>
+</ol>
+<p><strong>==与equals的区别</strong></p>
+<ol>
+<li>==是判断两个变量或实例是不是指向同一个内存空间 equals是判断两个变量或实例所指向的内存空间的值是不是相同</li>
+<li>==是指对内存地址进行比较 equals()是对字符串的内容进行比较</li>
+<li>==指引用是否相同 equals()指的是值是否相同</li>
+</ol>
+<h1 id="HashMap的底层实现"><a href="#HashMap的底层实现" class="headerlink" title="HashMap的底层实现"></a>HashMap的底层实现</h1><h3 id="JDK1-8之前"><a href="#JDK1-8之前" class="headerlink" title="JDK1.8之前"></a>JDK1.8之前</h3><p>JDK1.8 之前 <code>HashMap</code> 底层是 <strong>数组和链表</strong> 结合在一起使用也就是 <strong>链表散列</strong>。HashMap 通过 key 的 hashCode 经过扰动函数处理过后得到 hash 值，然后通过 (n - 1) &amp; hash 判断当前元素存放的位置（这里的 n 指的是数组的长度），如果当前位置存在元素的话，就判断该元素与要存入的元素的 hash 值以及 key 是否相同，如果相同的话，直接覆盖，不相同就通过拉链法解决冲突。</p>
+<p><strong>所谓扰动函数指的就是 HashMap 的 hash 方法。使用 hash 方法也就是扰动函数是为了防止一些实现比较差的 hashCode() 方法 换句话说使用扰动函数之后可以减少碰撞。</strong></p>
+<p>JDK 1.8 HashMap 的 hash 方法源码:</p>
+<p>JDK 1.8 的 hash方法 相比于 JDK 1.7 hash 方法更加简化，但是原理不变。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> h;</div><div class="line">    <span class="comment">// key.hashCode()：返回散列值也就是hashcode</span></div><div class="line">    <span class="comment">// ^ ：按位异或</span></div><div class="line">    <span class="comment">// &gt;&gt;&gt;:无符号右移，忽略符号位，空位都以0补齐</span></div><div class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对比一下 JDK1.7的 HashMap 的 hash 方法源码.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(<span class="keyword">int</span> h)</span> </span>&#123;</div><div class="line">    <span class="comment">// This function ensures that hashCodes that differ only by</span></div><div class="line">    <span class="comment">// constant multiples at each bit position have a bounded</span></div><div class="line">    <span class="comment">// number of collisions (approximately 8 at default load factor).</span></div><div class="line"></div><div class="line">    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</div><div class="line">    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>相比于 JDK1.8 的 hash 方法 ，JDK 1.7 的 hash 方法的性能会稍差一点点，因为毕竟扰动了 4 次。</p>
+<p>所谓 <strong>“拉链法”</strong> 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p>
+<p><a href="https://camo.githubusercontent.com/04f7d7f070f31c50f3d09da26f9459fdea2a7b4a/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f6a646b312e382545342542392538422545352538392538442545372539412538342545352538362538352545392538332541382545372542422539332545362539452538342d486173684d61702e6a7067" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/04f7d7f070f31c50f3d09da26f9459fdea2a7b4a/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f6a646b312e382545342542392538422545352538392538442545372539412538342545352538362538352545392538332541382545372542422539332545362539452538342d486173684d61702e6a7067" alt="jdk1.8之前的内部结构-HashMap"></a></p>
+<h3 id="JDK1-8之后"><a href="#JDK1-8之后" class="headerlink" title="JDK1.8之后"></a>JDK1.8之后</h3><p>相比于之前的版本， JDK1.8之后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。</p>
+<p><a href="https://camo.githubusercontent.com/d166a0184320055811ed72e61ece4491b6d80af1/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f4a444b312e38254534254239253842254535253930253845254537253941253834486173684d61702545352542412539352545352542312538322545362539352542302545362538442541452545372542422539332545362539452538342e6a7067" target="_blank" rel="external"><img src="https://camo.githubusercontent.com/d166a0184320055811ed72e61ece4491b6d80af1/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f4a444b312e38254534254239253842254535253930253845254537253941253834486173684d61702545352542412539352545352542312538322545362539352542302545362538442541452545372542422539332545362539452538342e6a7067" alt="jdk1.8之后的内部结构-HashMap"></a></p>
+<blockquote>
+<p>TreeMap、TreeSet以及JDK1.8之后的HashMap底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。</p>
+</blockquote>
+<p><strong>推荐阅读：</strong></p>
+<ul>
+<li>《Java 8系列之重新认识HashMap》 ：<a href="https://zhuanlan.zhihu.com/p/21673805" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/21673805</a></li>
+</ul>
+<h1 id="HashMap-的长度为什么是2的幂次方"><a href="#HashMap-的长度为什么是2的幂次方" class="headerlink" title="HashMap 的长度为什么是2的幂次方"></a>HashMap 的长度为什么是2的幂次方</h1><p>为了能让 HashMap 存取高效，尽量较少碰撞，也就是要尽量把数据分配均匀。我们上面也讲到了过了，Hash 值的范围值-2147483648到2147483647，前后加起来大概40亿的映射空间，只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个40亿长度的数组，内存是放不下的。所以这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来要存放的位置也就是对应的数组下标。这个数组下标的计算方法是“ <code>(n - 1) &amp; hash</code>”。（n代表数组长度）。这也就解释了 HashMap 的长度为什么是2的幂次方。</p>
+<p><strong>这个算法应该如何设计呢？</strong></p>
+<p>我们首先可能会想到采用%取余的操作来实现。但是，重点来了：<strong>“取余(%)操作中如果除数是2的幂次则等价于与其除数减一的与(&amp;)操作（也就是说 hash%length==hash&amp;(length-1)的前提是 length 是2的 n 次方；）。”</strong> 并且 <strong>采用二进制位操作 &amp;，相对于%能够提高运算效率，这就解释了 HashMap 的长度为什么是2的幂次方。</strong></p>
+<h1 id="HashMap-多线程操作导致死循环问题"><a href="#HashMap-多线程操作导致死循环问题" class="headerlink" title="HashMap 多线程操作导致死循环问题"></a>HashMap 多线程操作导致死循环问题</h1><p>主要原因在于 并发下的Rehash 会造成元素之间会形成一个循环链表。不过，jdk 1.8 后解决了这个问题，但是还是不建议在多线程下使用 HashMap,因为多线程下使用 HashMap 还是会存在其他问题比如数据丢失。并发环境下推荐使用 ConcurrentHashMap 。</p>
+<p>详情请查看：<a href="https://coolshell.cn/articles/9606.html" target="_blank" rel="external">https://coolshell.cn/articles/9606.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/11/Java疑难点/" rel="next" title="Java疑难点">
+                <i class="fa fa-chevron-left"></i> Java疑难点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/12/算法/" rel="prev" title="算法">
+                算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说说List-Set-Map三者的区别"><span class="nav-number">1.</span> <span class="nav-text">说说List,Set,Map三者的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Arraylist-与-LinkedList-区别"><span class="nav-number">2.</span> <span class="nav-text">Arraylist 与 LinkedList 区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补充内容-RandomAccess接口"><span class="nav-number">2.0.1.</span> <span class="nav-text">补充内容:RandomAccess接口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双向链表和双向循环链表"><span class="nav-number">3.</span> <span class="nav-text">双向链表和双向循环链表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ArrayList-与-Vector-区别"><span class="nav-number">4.</span> <span class="nav-text">ArrayList 与 Vector 区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ArrayList-的扩容机制"><span class="nav-number">5.</span> <span class="nav-text">ArrayList 的扩容机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap-和-HashSet区别"><span class="nav-number">6.</span> <span class="nav-text">HashMap 和 HashSet区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashSet如何检查重复"><span class="nav-number">7.</span> <span class="nav-text">HashSet如何检查重复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap的底层实现"><span class="nav-number">8.</span> <span class="nav-text">HashMap的底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK1-8之前"><span class="nav-number">8.0.1.</span> <span class="nav-text">JDK1.8之前</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK1-8之后"><span class="nav-number">8.0.2.</span> <span class="nav-text">JDK1.8之后</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap-的长度为什么是2的幂次方"><span class="nav-number">9.</span> <span class="nav-text">HashMap 的长度为什么是2的幂次方</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap-多线程操作导致死循环问题"><span class="nav-number">10.</span> <span class="nav-text">HashMap 多线程操作导致死循环问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

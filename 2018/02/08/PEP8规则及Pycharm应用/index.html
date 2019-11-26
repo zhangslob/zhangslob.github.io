@@ -1,0 +1,1114 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Pycharm,PEP8," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第三十一篇原创文章
+学习下 Python增强建议书  (๑• . •๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PEP8规则及Pycharm应用">
+<meta property="og:url" content="https://zhangslob.github.io/2018/02/08/PEP8规则及Pycharm应用/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第三十一篇原创文章
+学习下 Python增强建议书  (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/8HyHkph.png">
+<meta property="og:image" content="https://i.imgur.com/OrCItzF.png">
+<meta property="og:image" content="https://i.imgur.com/qK1iZVM.png">
+<meta property="og:image" content="https://i.imgur.com/kq4POwe.png">
+<meta property="og:image" content="https://i.imgur.com/0sVNGR9.png">
+<meta property="og:updated_time" content="2018-02-08T13:13:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PEP8规则及Pycharm应用">
+<meta name="twitter:description" content="这是崔斯特的第三十一篇原创文章
+学习下 Python增强建议书  (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/8HyHkph.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2018/02/08/PEP8规则及Pycharm应用/"/>
+
+
+
+
+
+  <title> PEP8规则及Pycharm应用 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/02/08/PEP8规则及Pycharm应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                PEP8规则及Pycharm应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T21:06:23+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <pre><code>这是崔斯特的第三十一篇原创文章
+</code></pre><p>学习下 Python增强建议书  (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/8HyHkph.png" alt=""></p>
+<a id="more"></a>
+<h1 id="PEP8"><a href="#PEP8" class="headerlink" title="PEP8"></a>PEP8</h1><blockquote>
+<p>PEP是 Python Enhancement Proposal 的缩写，翻译过来就是 Python增强建议书 </p>
+</blockquote>
+<p>PEP8 是什么呢，简单说就是一种编码规范，是为了让代码“更好看”，更容易被阅读。</p>
+<p>具体有这些规范，参考 <a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="external">PEP 8 – Style Guide for Python Code</a></p>
+<p>For example</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Yes: <span class="keyword">import</span> os</div><div class="line">     <span class="keyword">import</span> sys</div><div class="line"></div><div class="line">No:  <span class="keyword">import</span> sys, os</div><div class="line"></div><div class="line"></div><div class="line">Yes:</div><div class="line">i = i + <span class="number">1</span></div><div class="line">submitted += <span class="number">1</span></div><div class="line">x = x*<span class="number">2</span> - <span class="number">1</span></div><div class="line">hypot2 = x*x + y*y</div><div class="line">c = (a+b) * (a-b)</div><div class="line"></div><div class="line"></div><div class="line">No:</div><div class="line">i=i+<span class="number">1</span></div><div class="line">submitted +=<span class="number">1</span></div><div class="line">x = x * <span class="number">2</span> - <span class="number">1</span></div><div class="line">hypot2 = x * x + y * y</div><div class="line">c = (a + b) * (a - b)</div></pre></td></tr></table></figure>
+<p>对于初学者（例如我）来说，这些标准太多，在实际coding中可能很难记住所有的。之前招聘爬虫工程师，会PEP8也会加分，所以学习下PEP8还是有帮助的。</p>
+<h1 id="Pycharm-设置"><a href="#Pycharm-设置" class="headerlink" title="Pycharm 设置"></a>Pycharm 设置</h1><p>PyCharm 配置 PEP 8 代码提示<br> 直接在右下角调整 Highlighting Level 为 Inspections 就能自动 PEP 8提示 (一般默认就是这个)</p>
+<p><img src="https://i.imgur.com/OrCItzF.png" alt=""></p>
+<p>For example</p>
+<p><img src="https://i.imgur.com/qK1iZVM.png" alt=""></p>
+<p>鼠标移到上方会提示： <code>PEP 8: expected 2 blank lines, found 1</code>，我们再增加一个空格就好了，你的代码中有任何不符合 PEP8 规范的地方都会有“<del>~</del>”提示</p>
+<p><img src="https://i.imgur.com/kq4POwe.png" alt=""></p>
+<p>这是一个困扰了我很久的问题，我一直不知道是哪里出了错，看英文也不懂，最后去Google才知道，创建字典的写法不规范，应该这样写：</p>
+<p><code>item = dict()</code></p>
+<h1 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h1><p>除了Pycharm，还有其他工具可以提示</p>
+<ol>
+<li>Google 开源的 Python 文件格式化工具：<a href="https://github.com/google/yapf" target="_blank" rel="external">github.com/google/yapf</a></li>
+<li>pyflakes, pylint 等工具及各种编辑器的插件</li>
+</ol>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>好吧，这里才是正文，正确的规范如下：</p>
+<h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><ul>
+<li>不要使用 tab 缩进</li>
+<li>使用任何编辑器写 Python，请把一个 tab 展开为 4 个空格</li>
+<li>绝对不要混用 tab 和空格，否则容易出现 <code>IndentationError</code></li>
+</ul>
+<h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><ul>
+<li>在 list, dict, tuple, set, 参数列表的 , 后面加一个空格</li>
+<li>在 dict 的 : 后面加一个空格</li>
+<li>在注释符号 # 后面加一个空格，但是 <code>#!/usr/bin/python</code> 的 <code>#</code> 后不能有空格</li>
+<li>操作符两端加一个空格，如 +, -, *, /, |, &amp;, =</li>
+<li>接上一条，在参数列表里的 = 两端不需要空格</li>
+<li>括号（(), {}, []）内的两端不需要空格</li>
+</ul>
+<h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><ul>
+<li>function 和 class 顶上两个空行</li>
+<li>class 的 method 之间一个空行</li>
+<li>函数内逻辑无关的段落之间空一行，不要过度使用空行</li>
+<li>不要把多个语句写在一行，然后用 ; 隔开</li>
+<li><code>if/for/while</code> 语句中，即使执行语句只有一句，也要另起一行</li>
+</ul>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><ul>
+<li>每一行代码控制在 80 字符以内</li>
+<li>使用 \ 或 () 控制换行，举例：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(first, second, third, fourth, fifth,</span></span></div><div class="line">        sixth, and_some_other_very_long_param):</div><div class="line">    user = User.objects.filter_by(first=first, second=second, third=third) \</div><div class="line">        .skip(<span class="number">100</span>).limit(<span class="number">100</span>) \</div><div class="line">        .all()</div><div class="line"></div><div class="line">text = (<span class="string">'Long strings can be made up '</span></div><div class="line">        <span class="string">'of several shorter strings.'</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><ul>
+<li>使用有意义的，英文单词或词组，绝对不要使用汉语拼音</li>
+<li>package/module 名中不要出现 -</li>
+<li>各种类型的命名规范：</li>
+</ul>
+<p><img src="https://i.imgur.com/0sVNGR9.png" alt=""></p>
+<h2 id="import"><a href="#import" class="headerlink" title="import"></a>import</h2><ul>
+<li>所有 import 尽量放在文件开头，在 docstring 下面，其他变量定义的上面</li>
+<li>不要使用 from foo imort *</li>
+<li>import 需要分组，每组之间一个空行，每个分组内的顺序尽量采用字典序，分组顺序是：<ol>
+<li>标准库</li>
+<li>第三方库</li>
+<li>本项目的 package 和 module</li>
+</ol>
+</li>
+<li>不要使用隐式的相对导入（implicit relative imports），可是使用显示的相对导入（explicit relative imports），如 <code>from ..utils import parse</code>，最好使用全路径导入（absolute imports）</li>
+<li>对于不同的 package，一个 import 单独一行，同一个 package/module 下的内容可以写一起：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># bad</span></div><div class="line"><span class="keyword">import</span> sys, os, time</div><div class="line"></div><div class="line"><span class="comment"># good</span></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="comment"># ok</span></div><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, jsonify</div></pre></td></tr></table></figure>
+<ul>
+<li>为了避免可能出现的命名冲突，可以使用 as 或导入上一级命名空间</li>
+<li>不要出现循环导入(cyclic import)</li>
+</ul>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><ul>
+<li>文档字符串 docstring, 是 package, module, class, method, function 级别的注释，可以通过 <strong>doc</strong> 成员访问到，注释内容在一对 “”” 符号之间</li>
+<li>function, method 的文档字符串应当描述其功能、输入参数、返回值，如果有复杂的算法和实现，也需要写清楚</li>
+<li>不要写错误的注释，不要无谓的注释</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># bad 无谓的注释</span></div><div class="line">x = x + <span class="number">1</span>       <span class="comment"># increase x by 1</span></div><div class="line"></div><div class="line"><span class="comment"># bad 错误的注释</span></div><div class="line">x = x - <span class="number">1</span>       <span class="comment"># increase x by 1</span></div></pre></td></tr></table></figure>
+<ul>
+<li>优先使用英文写注释，英文不好全部写中文，否则更加看不懂</li>
+</ul>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><ul>
+<li>不要轻易使用 try/except</li>
+<li>except 后面需要指定捕捉的异常，裸露的 except 会捕捉所有异常，意味着会隐藏潜在的问题</li>
+<li>可以有多个 except 语句，捕捉多种异常，分别做异常处理</li>
+<li>使用 finally 子句来处理一些收尾操作</li>
+<li><p>try/except 里的内容不要太多，只在可能抛出异常的地方使用，如：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># bad</span></div><div class="line"><span class="keyword">try</span>:</div><div class="line">    user = User()</div><div class="line">    user.name = <span class="string">"leon"</span></div><div class="line">    user.age = int(age) <span class="comment"># 可能抛出异常</span></div><div class="line">    user.created_at = datetime.datetime.utcnow()</div><div class="line"></div><div class="line">    db.session.add(user)</div><div class="line">    db.session.commit() <span class="comment"># 可能抛出异常</span></div><div class="line"><span class="keyword">except</span>:</div><div class="line">    db.session.rollback()</div><div class="line"></div><div class="line"><span class="comment"># better</span></div><div class="line"><span class="keyword">try</span>:</div><div class="line">    age = int(age)</div><div class="line"><span class="keyword">except</span> (TypeError, ValueError):</div><div class="line">    <span class="keyword">return</span> <span class="comment"># 或别的操作</span></div><div class="line"></div><div class="line">user = User()</div><div class="line">user.name = <span class="string">"leon"</span></div><div class="line">user.age = age</div><div class="line">user.created_at = datetime.datetime.utcnow()</div><div class="line">db.session.add(user)</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line">    db.session.commit()</div><div class="line"><span class="keyword">except</span> sqlalchemy.exc.SQLAlchemyError: <span class="comment"># 或者更具体的异常</span></div><div class="line">    db.session.rollback()</div><div class="line"><span class="keyword">finally</span>:</div><div class="line">    db.session.close()</div></pre></td></tr></table></figure>
+</li>
+<li><p>从 <code>Exception</code> 而不是 <code>BaseException</code> 继承自定义的异常类</p>
+</li>
+</ul>
+<h2 id="Class（类）"><a href="#Class（类）" class="headerlink" title="Class（类）"></a>Class（类）</h2><ul>
+<li>显示的写明父类，如果不是继承自别的类，就继承自 object 类</li>
+<li>使用 super 调用父类的方法</li>
+<li>支持多继承，即同时有多个父类，建议使用 Mixin</li>
+</ul>
+<h2 id="编码建议"><a href="#编码建议" class="headerlink" title="编码建议"></a>编码建议</h2><hr>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><ul>
+<li>使用字符串的 <code>join</code> 方法拼接字符串</li>
+<li>使用字符串类型的方法，而不是 <code>string</code> 模块的方法</li>
+<li>使用 <code>startswith</code> 和 <code>endswith</code> 方法比较前缀和后缀</li>
+<li>使用 <code>format</code> 方法格式化字符串</li>
+</ul>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><ul>
+<li>空的 list, str, tuple, set, dict 和 0, 0.0, None 都是 False</li>
+<li>使用 if some_list 而不是 if len(some_list) 判断某个 list 是否为空，其他类型同理</li>
+<li>使用 is 和 is not 与单例（如 None）进行比较，而不是用 == 和 !=</li>
+<li>使用 if a is not None 而不是 if not a is None</li>
+<li>用 isinstance 而不是 type 判断类型</li>
+<li>不要用 == 和 != 与 True 和 False 比较（除非有特殊情况，如在 sqlalchemy 中可能用到）</li>
+<li><p>使用 in 操作：</p>
+<ol>
+<li><p>用 key in dict 而不是 dict.has_key()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># bad</span></div><div class="line"><span class="keyword">if</span> d.has_key(k):</div><div class="line">    do_something()</div><div class="line"></div><div class="line"><span class="comment"># good</span></div><div class="line"><span class="keyword">if</span> k <span class="keyword">in</span> d:</div><div class="line">    do_something()</div></pre></td></tr></table></figure>
+<p>2.用 set 加速 “存在性” 检查，list 的查找是线性的，复杂度 O(n)，set 底层是 hash table, 复杂度 O(1)，但用 set 需要比 list 更多内存空间</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>使用列表表达式（<a href="https://www.python.org/dev/peps/pep-0202/" target="_blank" rel="external">list comprehension</a>），字典表达式(<a href="https://www.python.org/dev/peps/pep-0274/" target="_blank" rel="external">dict comprehension</a>, Python 2.7+) 和生成器(generator)</li>
+<li>dict 的 get 方法可以指定默认值，但有些时候应该用 [] 操作，使得可以抛出 KeyError</li>
+<li>使用 for item in list 迭代 list, for index, item in enumerate(list) 迭代 list 并获取下标</li>
+<li>使用内建函数 sorted 和 list.sort 进行排序</li>
+<li>适量使用 map, reduce, filter 和 lambda，使用内建的 all, any 处理多个条件的判断</li>
+<li>使用 defaultdict (Python 2.5+), Counter(Python 2.7+) 等 “冷门” 但好用的标准库算法和数据结构</li>
+<li>使用装饰器(decorator)</li>
+<li>使用 with 语句处理上下文</li>
+<li>有些时候不要对类型做太过严格的限制，利用 Python 的鸭子类型（Duck Type）特性</li>
+<li>使用 logging 记录日志，配置好格式和级别</li>
+<li>了解 Python 的 Magic Method：<a href="https://github.com/RafeKettler/magicmethods" target="_blank" rel="external">A Guide to Python’s Magic Methods</a>, <a href="http://pycoders-weekly-chinese.readthedocs.io/en/latest/issue6/a-guide-to-pythons-magic-methods.html" target="_blank" rel="external">Python 魔术方法指南</a></li>
+<li>阅读优秀的开源代码，如 <a href="https://github.com/pallets/flask" target="_blank" rel="external">Flask</a> 框架, <a href="https://github.com/requests/requests" target="_blank" rel="external">Requests for Humans</a></li>
+<li>不要重复造轮子，查看标准库、PyPi、Github、Google 等使用现有的优秀的解决方案</li>
+</ul>
+<h1 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h1><p>写程序的好习惯在于理解、坚持，然后就是运用自如！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Pycharm/" rel="tag"># Pycharm</a>
+          
+            <a href="/tags/PEP8/" rel="tag"># PEP8</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/05/学点算法之栈的学习与应用/" rel="next" title="学点算法之栈的学习与应用">
+                <i class="fa fa-chevron-left"></i> 学点算法之栈的学习与应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/24/Scrapy源码（1）——爬虫流程概览/" rel="prev" title="Scrapy源码（1）——爬虫流程概览">
+                Scrapy源码（1）——爬虫流程概览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">107</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PEP8"><span class="nav-number">1.</span> <span class="nav-text">PEP8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pycharm-设置"><span class="nav-number">2.</span> <span class="nav-text">Pycharm 设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他工具"><span class="nav-number">3.</span> <span class="nav-text">其他工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">4.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缩进"><span class="nav-number">4.1.</span> <span class="nav-text">缩进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空格"><span class="nav-number">4.2.</span> <span class="nav-text">空格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空行"><span class="nav-number">4.3.</span> <span class="nav-text">空行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#换行"><span class="nav-number">4.4.</span> <span class="nav-text">换行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名"><span class="nav-number">4.5.</span> <span class="nav-text">命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import"><span class="nav-number">4.6.</span> <span class="nav-text">import</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-number">4.7.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">4.8.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class（类）"><span class="nav-number">4.9.</span> <span class="nav-text">Class（类）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码建议"><span class="nav-number">4.10.</span> <span class="nav-text">编码建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">4.11.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较"><span class="nav-number">4.12.</span> <span class="nav-text">比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.13.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反思"><span class="nav-number">5.</span> <span class="nav-text">反思</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
