@@ -101,7 +101,7 @@
 <meta name="description" content="数据采集、数据处理、机器学习。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小歪的博客">
-<meta property="og:url" content="https://zhangslob.github.io/categories/leetcode/index.html">
+<meta property="og:url" content="https://zhangslob.github.io/categories/Leetcode/index.html">
 <meta property="og:site_name" content="小歪的博客">
 <meta property="og:description" content="数据采集、数据处理、机器学习。">
 <meta name="twitter:card" content="summary">
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://zhangslob.github.io/categories/leetcode/"/>
+  <link rel="canonical" href="https://zhangslob.github.io/categories/Leetcode/"/>
 
 
 
 
 
-  <title> 分类: leetcode | 小歪的博客 </title>
+  <title> 分类: Leetcode | 小歪的博客 </title>
 </head>
 
 
@@ -308,7 +308,7 @@
   <section id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        leetcode
+        Leetcode
         <small>分类</small>
       </h2>
     </div>
@@ -321,9 +321,9 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/2019/11/26/Leetcode-581-最短无序连续子数组/" itemprop="url">
+            <a class="post-title-link" href="/2018/05/16/强大的异步爬虫-aiohttp/" itemprop="url">
               
-                <span itemprop="name">Leetcode-581-最短无序连续子数组</span>
+                <span itemprop="name">强大的异步爬虫 with aiohttp</span>
               
             </a>
         
@@ -331,9 +331,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-26T10:41:36+08:00"
-              content="2019-11-26" >
-          11-26
+              datetime="2018-05-16T17:00:07+08:00"
+              content="2018-05-16" >
+          05-16
         </time>
       </div>
 
@@ -349,37 +349,9 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/2019/11/21/Leetcode-287-寻找重复数/" itemprop="url">
+            <a class="post-title-link" href="/2018/05/15/Leetcode Solutions（一）/" itemprop="url">
               
-                <span itemprop="name">Leetcode 287. 寻找重复数</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-21T13:53:36+08:00"
-              content="2019-11-21" >
-          11-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/Leetcode-2-Add-Two-Numbers-1/" itemprop="url">
-              
-                <span itemprop="name">Leetcode: 2.Add Two Numbers</span>
+                <span itemprop="name">Leetcode Solutions（一） two-sum</span>
               
             </a>
         
@@ -387,37 +359,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2019-03-15T10:02:40+08:00"
-              content="2019-03-15" >
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/04/Leetcode-1-Two-Sum/" itemprop="url">
-              
-                <span itemprop="name">Leetcode：1.Two Sum</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-03-04T17:45:26+08:00"
-              content="2019-03-04" >
-          03-04
+              datetime="2018-05-15T18:22:26+08:00"
+              content="2018-05-15" >
+          05-15
         </time>
       </div>
 
@@ -471,7 +415,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -798,6 +742,71 @@
                     // cut out 100 characters
                     var start = first_occur - 20;
                     var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+         var end = first_occur + 80;
                     if(start < 0){
                       start = 0;
                     }
