@@ -1,0 +1,1052 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这是崔斯特的第一百零七篇原创文章
+努力、奋斗">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据学习路线">
+<meta property="og:url" content="https://zhangslob.github.io/2019/12/06/大数据学习路线/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="这是崔斯特的第一百零七篇原创文章
+努力、奋斗">
+<meta property="og:image" content="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%AE%80%E5%8C%96%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%AE%80%E5%8C%96%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/HADOOP-ECOSYSTEM-Edureka.png">
+<meta property="og:updated_time" content="2019-12-06T02:40:07.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据学习路线">
+<meta name="twitter:description" content="这是崔斯特的第一百零七篇原创文章
+努力、奋斗">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%AE%80%E5%8C%96%E6%B5%81%E7%A8%8B.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2019/12/06/大数据学习路线/"/>
+
+
+
+
+
+  <title> 大数据学习路线 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/12/06/大数据学习路线/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                大数据学习路线
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T10:34:57+08:00">
+                2019-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%AE%80%E5%8C%96%E6%B5%81%E7%A8%8B.png" alt=""></p>
+<pre><code>这是崔斯特的第一百零七篇原创文章
+</code></pre><p><code>努力、奋斗</code><br><a id="more"></a></p>
+<h1 id="大数据处理流程"><a href="#大数据处理流程" class="headerlink" title="大数据处理流程"></a>大数据处理流程</h1><p><img src="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E7%AE%80%E5%8C%96%E6%B5%81%E7%A8%8B.png" alt=""></p>
+<p>上图是一个简化的大数据处理流程图，大数据处理的主要流程包括数据收集、数据存储、数据处理、数据应用等主要环节。下面我们逐一对各个环节所需要的技术栈进行讲解：</p>
+<h2 id="1-1-数据收集"><a href="#1-1-数据收集" class="headerlink" title="1.1 数据收集"></a>1.1 数据收集</h2><p>大数据处理的第一步是数据的收集。现在的中大型项目通常采用微服务架构进行分布式部署，所以数据的采集需要在多台服务器上进行，且采集过程不能影响正常业务的开展。基于这种需求，就衍生了多种日志收集工具，如 Flume 、Logstash、Kibana 等，它们都能通过简单的配置完成复杂的数据收集和数据聚合。</p>
+<h2 id="1-2-数据存储"><a href="#1-2-数据存储" class="headerlink" title="1.2 数据存储"></a>1.2 数据存储</h2><p>收集到数据后，下一个问题就是：数据该如何进行存储？通常大家最为熟知是 MySQL、Oracle 等传统的关系型数据库，它们的优点是能够快速存储结构化的数据，并支持随机访问。但大数据的数据结构通常是半结构化（如日志数据）、甚至是非结构化的（如视频、音频数据），为了解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等分布式文件系统，它们都能够支持结构化、半结构和非结构化数据的存储，并可以通过增加机器进行横向扩展。</p>
+<p>分布式文件系统完美地解决了海量数据存储的问题，但是一个优秀的数据存储系统需要同时考虑数据存储和访问两方面的问题，比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 HBase、MongoDB。</p>
+<h2 id="1-3-数据分析"><a href="#1-3-数据分析" class="headerlink" title="1.3 数据分析"></a>1.3 数据分析</h2><p>大数据处理最重要的环节就是数据分析，数据分析通常分为两种：批处理和流处理。</p>
+<ul>
+<li><strong>批处理</strong>：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；</li>
+<li><strong>流处理</strong>：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。</li>
+</ul>
+<p>批处理和流处理各有其适用的场景，时间不敏感或者硬件资源有限，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，流处理越来越普遍，如股票价格预测和电商运营数据分析等。</p>
+<p>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，大数据是一个非常完善的生态圈，有需求就有解决方案。为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix 等。这些框架都能够使用标准的 SQL 或者 类 SQL 语法灵活地进行数据的查询分析。这些 SQL 经过解析优化后转换为对应的作业程序来运行，如 Hive 本质上就是将 SQL 转换为 MapReduce 作业，Spark SQL 将 SQL 转换为一系列的 RDDs 和转换关系（transformations），Phoenix 将 SQL 查询转换为一个或多个 HBase Scan。</p>
+<h2 id="1-4-数据应用"><a href="#1-4-数据应用" class="headerlink" title="1.4 数据应用"></a>1.4 数据应用</h2><p>数据分析完成后，接下来就是数据应用的范畴，这取决于你实际的业务需求。比如你可以将数据进行可视化展现，或者将数据用于优化你的推荐算法，这种运用现在很普遍，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的机器学习模型，这些都属于其他领域的范畴，都有着对应的框架和技术栈进行处理，这里就不一一赘述。</p>
+<h2 id="1-5-其他框架"><a href="#1-5-其他框架" class="headerlink" title="1.5 其他框架"></a>1.5 其他框架</h2><p>上面是一个标准的大数据处理流程所用到的技术框架。但是实际的大数据处理流程比上面复杂很多，针对大数据处理中的各种复杂问题分别衍生了各类框架：</p>
+<ul>
+<li>单机的处理能力都是存在瓶颈的，所以大数据框架都是采用集群模式进行部署，为了更方便的进行集群的部署、监控和管理，衍生了 Ambari、Cloudera Manager 等集群管理工具；</li>
+<li>想要保证集群高可用，需要用到 ZooKeeper ，ZooKeeper 是最常用的分布式协调服务，它能够解决大多数集群问题，包括首领选举、失败恢复、元数据存储及其一致性保证。同时针对集群资源管理的需求，又衍生了 Hadoop YARN ;</li>
+<li>复杂大数据处理的另外一个显著的问题是，如何调度多个复杂的并且彼此之间存在依赖关系的作业？基于这种需求，产生了 Azkaban 和 Oozie 等工作流调度框架；</li>
+<li>大数据流处理中使用的比较多的另外一个框架是 Kafka，它可以用于消峰，避免在秒杀等场景下并发数据对流处理程序造成冲击；</li>
+<li>另一个常用的框架是 Sqoop ，主要是解决了数据迁移的问题，它能够通过简单的命令将关系型数据库中的数据导入到 HDFS 、Hive 或 HBase 中，或者从 HDFS 、Hive 导出到关系型数据库上。</li>
+</ul>
+<h1 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h1><p>介绍完大数据框架，接着就可以介绍其对应的学习路线了，主要分为以下几个方面：</p>
+<h2 id="2-1-语言基础"><a href="#2-1-语言基础" class="headerlink" title="2.1 语言基础"></a>2.1 语言基础</h2><h3 id="1-Java"><a href="#1-Java" class="headerlink" title="1.  Java"></a>1.  Java</h3><p>大数据框架大多采用 Java 语言进行开发，并且几乎全部的框架都会提供 Java API 。Java 是目前比较主流的后台开发语言，所以网上免费的学习资源也比较多。如果你习惯通过书本进行学习，这里推荐以下入门书籍：</p>
+<ul>
+<li><a href="https://book.douban.com/subject/30133440/" target="_blank" rel="external">《Java 编程的逻辑》</a>：这里一本国人编写的系统入门 Java 的书籍，深入浅出，内容全面；</li>
+<li>《Java 核心技术》：目前最新的是第 10 版，有<a href="https://book.douban.com/subject/26880667/" target="_blank" rel="external">卷一</a> 和<a href="https://book.douban.com/subject/27165931/" target="_blank" rel="external">卷二</a> 两册，卷二可以选择性阅读，因为其中很多章节的内容在实际开发中很少用到。</li>
+</ul>
+<p>目前大多数框架要求 Java 版本至少是 1.8，这是由于 Java 1.8 提供了函数式编程，使得可以用更精简的代码来实现之前同样的功能，比如你调用 Spark API，使用 1.8 可能比 1.7 少数倍的代码，所以这里额外推荐阅读 <a href="https://book.douban.com/subject/26772632/" target="_blank" rel="external">《Java 8 实战》</a> 这本书籍。</p>
+<h3 id="2-Scala"><a href="#2-Scala" class="headerlink" title="2. Scala"></a>2. Scala</h3><p>Scala 是一门综合了面向对象和函数式编程概念的静态类型的编程语言，它运行在 Java 虚拟机上，可以与所有的 Java 类库无缝协作，著名的 Kafka 就是采用 Scala 语言进行开发的。</p>
+<p>为什么需要学习 Scala 语言 ？ 这是因为当前最火的计算框架 Flink 和 Spark 都提供了 Scala 语言的接口，使用它进行开发，比使用 Java 8 所需要的代码更少，且 Spark 就是使用 Scala 语言进行编写的，学习 Scala 可以帮助你更深入的理解 Spark。同样的，对于习惯书本学习的小伙伴，这里推荐两本入门书籍：</p>
+<ul>
+<li><a href="https://book.douban.com/subject/27093751/" target="_blank" rel="external">《快学 Scala(第 2 版)》</a> </li>
+<li><a href="https://book.douban.com/subject/27591387/" target="_blank" rel="external">《Scala 编程 (第 3 版)》</a> </li>
+</ul>
+<blockquote>
+<p>这里说明一下，如果你的时间有限，不一定要学完 Scala 才去学习大数据框架。Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解 Spark 后再去学习 Scala，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
+</blockquote>
+<h2 id="2-2-Linux-基础"><a href="#2-2-Linux-基础" class="headerlink" title="2.2 Linux 基础"></a>2.2 Linux 基础</h2><p>通常大数据框架都部署在 Linux 服务器上，所以需要具备一定的 Linux 知识。Linux 书籍当中比较著名的是 《鸟哥私房菜》系列，这个系列很全面也很经典。但如果你希望能够快速地入门，这里推荐<a href="https://www.linuxprobe.com/" target="_blank" rel="external">《Linux 就该这么学》</a>，其网站上有免费的电子书版本。</p>
+<h2 id="2-3-构建工具"><a href="#2-3-构建工具" class="headerlink" title="2.3  构建工具"></a>2.3  构建工具</h2><p>这里需要掌握的自动化构建工具主要是 Maven。Maven 在大数据场景中使用比较普遍，主要在以下三个方面：</p>
+<ul>
+<li>管理项目 JAR 包，帮助你快速构建大数据应用程序；</li>
+<li>不论你的项目是使用 Java 语言还是 Scala 语言进行开发，提交到集群环境运行时，都需要使用 Maven 进行编译打包；</li>
+<li>大部分大数据框架使用 Maven 进行源码管理，当你需要从其源码编译出安装包时，就需要使用到 Maven。</li>
+</ul>
+<h2 id="2-4-框架学习"><a href="#2-4-框架学习" class="headerlink" title="2.4 框架学习"></a>2.4 框架学习</h2><h3 id="1-框架分类"><a href="#1-框架分类" class="headerlink" title="1. 框架分类"></a>1. 框架分类</h3><p>上面我们介绍了很多大数据框架，这里进行一下分类总结：</p>
+<p><strong>日志收集框架</strong>：Flume 、Logstash、Kibana</p>
+<p><strong>分布式文件存储系统</strong>：Hadoop HDFS</p>
+<p><strong>数据库系统</strong>：Mongodb、HBase</p>
+<p><strong>分布式计算框架</strong>：</p>
+<ul>
+<li>批处理框架：Hadoop MapReduce</li>
+<li>流处理框架：Storm</li>
+<li>混合处理框架：Spark、Flink</li>
+</ul>
+<p><strong>查询分析框架</strong>：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix </p>
+<p><strong>集群资源管理器</strong>：Hadoop YARN</p>
+<p><strong>分布式协调服务</strong>：Zookeeper</p>
+<p><strong>数据迁移工具</strong>：Sqoop</p>
+<p><strong>任务调度框架</strong>：Azkaban、Oozie</p>
+<p><strong>集群部署和监控</strong>：Ambari、Cloudera Manager</p>
+<p>上面列出的都是比较主流的大数据框架，社区都很活跃，学习资源也比较丰富。建议从 Hadoop 开始入门学习，因为它是整个大数据生态圈的基石，其它框架都直接或者间接依赖于 Hadoop 。接着就可以学习计算框架，Spark 和 Flink 都是比较主流的混合处理框架，Spark 出现得较早，所以其应用也比较广泛。 Flink 是当下最火热的新一代的混合处理框架，其凭借众多优异的特性得到了众多公司的青睐。两者可以按照你个人喜好或者实际工作需要进行学习。</p>
+<p><img src="https://raw.githubusercontent.com/heibaiying/BigData-Notes/master/pictures/HADOOP-ECOSYSTEM-Edureka.png" alt=""></p>
+<blockquote>
+<p><em>图片引用自</em> ：<em><a href="https://www.edureka.co/blog/hadoop-ecosystem" target="_blank" rel="external">https://www.edureka.co/blog/hadoop-ecosystem</a></em></p>
+</blockquote>
+<p>至于其它框架，在学习上并没有特定的先后顺序，如果你的学习时间有限，建议初次学习时候，同一类型的框架掌握一种即可，比如日志收集框架就有很多种，初次学习时候只需要掌握一种，能够完成日志收集的任务即可，之后工作上有需要可以再进行针对性地学习。</p>
+<h3 id="2-学习资料"><a href="#2-学习资料" class="headerlink" title="2.  学习资料"></a>2.  学习资料</h3><p>大数据最权威和最全面的学习资料就是官方文档。热门的大数据框架社区都比较活跃、版本更新迭代也比较快，所以其出版物都明显滞后于其实际版本，基于这个原因采用书本学习不是一个最好的方案。比较庆幸的是，大数据框架的官方文档都写的比较好，内容完善，重点突出，同时都采用了大量配图进行辅助讲解。当然也有一些优秀的书籍历经时间的检验，至今依然很经典，这里列出部分个人阅读过的经典书籍：</p>
+<ul>
+<li><a href="https://book.douban.com/subject/27115351/" target="_blank" rel="external">《hadoop 权威指南 (第四版)》</a> 2017 年</li>
+<li><a href="https://book.douban.com/subject/27665114/" target="_blank" rel="external">《Kafka 权威指南》</a> 2017 年</li>
+<li><a href="https://book.douban.com/subject/26292004/" target="_blank" rel="external">《从 Paxos 到 Zookeeper  分布式一致性原理与实践》</a>  2015 年</li>
+<li><a href="https://book.douban.com/subject/26649141/" target="_blank" rel="external">《Spark 技术内幕  深入解析 Spark 内核架构设计与实现原理》</a> 2015 年</li>
+<li><a href="https://book.douban.com/subject/27035127/" target="_blank" rel="external">《Spark.The.Definitive.Guide》</a> 2018 年</li>
+<li><a href="https://book.douban.com/subject/10748460/" target="_blank" rel="external">《HBase 权威指南》</a> 2012 年</li>
+<li><a href="https://book.douban.com/subject/25791255/" target="_blank" rel="external">《Hive 编程指南》</a> 2013 年</li>
+</ul>
+<h3 id="3-视频学习资料"><a href="#3-视频学习资料" class="headerlink" title="3. 视频学习资料"></a>3. 视频学习资料</h3><p>上面我推荐的都是书籍学习资料，很少推荐视频学习资料，这里说明一下原因：因为书籍历经时间的考验，能够再版的或者豆瓣等平台评价高的证明都是被大众所认可的，从概率的角度上来说，其必然更加优秀，不容易浪费大家的学习时间和精力，所以我个人更倾向于官方文档或者书本的学习方式，而不是视频。因为视频学习资料，缺少一个公共的评价平台和完善的评价机制，所以其质量良莠不齐。但是视频任然有其不可替代的好处，学习起来更直观、印象也更深刻，所以对于习惯视频学习的小伙伴，这里我各推荐一个免费的和付费的视频学习资源，大家按需选择：</p>
+<ul>
+<li>免费学习资源：尚硅谷大数据学习路线 ——  <a href="http://www.atguigu.com/bigdata_video.shtml#bigdata" target="_blank" rel="external">下载链接</a> \ <a href="https://space.bilibili.com/302417610/" target="_blank" rel="external">在线观看链接</a></li>
+<li>付费学习资源：<a href="https://www.imooc.com/t/2781843" target="_blank" rel="external">慕课网 Michael PK 的系列课程</a></li>
+</ul>
+<h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><p>这里推荐一些大数据常用的开发工具：</p>
+<p><strong>Java IDE</strong>：IDEA  和 Eclipse 都可以。从个人使用习惯而言，更倾向于 IDEA ;</p>
+<p><strong>VirtualBox</strong>：在学习过程中，你可能经常要在虚拟机上搭建服务和集群。VirtualBox 是一款开源、免费的虚拟机管理软件，虽然是轻量级软件，但功能很丰富，基本能够满足日常的使用需求；</p>
+<p><strong>MobaXterm</strong>：大数据的框架通常都部署在服务器上，这里推荐使用 MobaXterm 进行连接。同样是免费开源的，支持多种连接协议，支持拖拽上传文件，支持使用插件扩展；</p>
+<p><strong>Translate Man</strong>：一款浏览器上免费的翻译插件 (谷歌和火狐均支持)。它采用谷歌的翻译接口，准确性非常高，支持划词翻译，可以辅助进行官方文档的阅读。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>以上就是个人关于大数据的学习心得和路线推荐。本片文章对大数据技术栈做了比较狭义的限定，随着学习的深入，大家也可以把 Python 语言、推荐系统、机器学习等逐步加入到自己的大数据技术栈中。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/Leetcode-394-字符串解码/" rel="next" title="Leetcode-394-字符串解码">
+                <i class="fa fa-chevron-left"></i> Leetcode-394-字符串解码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">110</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#大数据处理流程"><span class="nav-number">1.</span> <span class="nav-text">大数据处理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-数据收集"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 数据收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-数据存储"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 数据存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-数据分析"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 数据分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-数据应用"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 数据应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-其他框架"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 其他框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#学习路线"><span class="nav-number">2.</span> <span class="nav-text">学习路线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-语言基础"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 语言基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Java"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.  Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Scala"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. Scala</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Linux-基础"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Linux 基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-构建工具"><span class="nav-number">2.3.</span> <span class="nav-text">2.3  构建工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-框架学习"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 框架学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-框架分类"><span class="nav-number">2.4.1.</span> <span class="nav-text">1. 框架分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-学习资料"><span class="nav-number">2.4.2.</span> <span class="nav-text">2.  学习资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-视频学习资料"><span class="nav-number">2.4.3.</span> <span class="nav-text">3. 视频学习资料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发工具"><span class="nav-number">3.</span> <span class="nav-text">开发工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
