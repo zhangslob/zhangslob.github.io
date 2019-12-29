@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法,队列," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -98,23 +98,22 @@
 
 
 
-<meta name="description" content="这是崔斯特的第三十四篇原创文章
-从约瑟夫问题开始说起  (๑• . •๑)">
+<meta name="description" content="这是崔斯特的第一百零九篇原创文章
+努力、奋斗  (๑• . •๑)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学点算法之队列的学习及应用">
-<meta property="og:url" content="https://zhangslob.github.io/2018/03/06/学点算法之队列的学习及应用/index.html">
+<meta property="og:title" content="二维数组中的查找">
+<meta property="og:url" content="https://zhangslob.github.io/2019/12/29/二维数组中的查找/index.html">
 <meta property="og:site_name" content="小歪的博客">
-<meta property="og:description" content="这是崔斯特的第三十四篇原创文章
-从约瑟夫问题开始说起  (๑• . •๑)">
-<meta property="og:image" content="https://i.imgur.com/u6F1U4g.png">
-<meta property="og:image" content="https://i.imgur.com/KkagGoc.png">
-<meta property="og:image" content="https://i.imgur.com/83UUU6k.jpg">
-<meta property="og:updated_time" content="2018-03-06T14:00:52.000Z">
+<meta property="og:description" content="这是崔斯特的第一百零九篇原创文章
+努力、奋斗  (๑• . •๑)">
+<meta property="og:image" content="https://i.imgur.com/OEWbFEc.jpg">
+<meta property="og:image" content="https://i.imgur.com/2rt2LSr.png">
+<meta property="og:updated_time" content="2019-12-29T07:31:45.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学点算法之队列的学习及应用">
-<meta name="twitter:description" content="这是崔斯特的第三十四篇原创文章
-从约瑟夫问题开始说起  (๑• . •๑)">
-<meta name="twitter:image" content="https://i.imgur.com/u6F1U4g.png">
+<meta name="twitter:title" content="二维数组中的查找">
+<meta name="twitter:description" content="这是崔斯特的第一百零九篇原创文章
+努力、奋斗  (๑• . •๑)">
+<meta name="twitter:image" content="https://i.imgur.com/OEWbFEc.jpg">
 
 
 
@@ -142,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="https://zhangslob.github.io/2018/03/06/学点算法之队列的学习及应用/"/>
+  <link rel="canonical" href="https://zhangslob.github.io/2019/12/29/二维数组中的查找/"/>
 
 
 
 
 
-  <title> 学点算法之队列的学习及应用 | 小歪的博客 </title>
+  <title> 二维数组中的查找 | 小歪的博客 </title>
 </head>
 
 
@@ -323,7 +322,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2018/03/06/学点算法之队列的学习及应用/">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2019/12/29/二维数组中的查找/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="崔斯特">
@@ -344,7 +343,7 @@
             
             
               
-                学点算法之队列的学习及应用
+                二维数组中的查找
               
             
           </h1>
@@ -359,8 +358,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T20:54:00+08:00">
-                2018-03-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-29T14:32:25+08:00">
+                2019-12-29
               </time>
             
 
@@ -382,8 +381,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/剑指offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指offer</span>
                   </a>
                 </span>
 
@@ -417,48 +416,65 @@
       
 
       
-        <pre><code>这是崔斯特的第三十四篇原创文章
-</code></pre><p>从<code>约瑟夫问题</code>开始说起  (๑• . •๑)</p>
-<p><img src="https://i.imgur.com/u6F1U4g.png" alt=""></p>
+        <pre><code>这是崔斯特的第一百零九篇原创文章
+</code></pre><p>努力、奋斗  (๑• . •๑)</p>
+<p><img src="https://i.imgur.com/OEWbFEc.jpg" alt=""></p>
 <a id="more"></a>
-<h1 id="约瑟夫问题"><a href="#约瑟夫问题" class="headerlink" title="约瑟夫问题"></a>约瑟夫问题</h1><p><strong><a href="https://zh.wikipedia.org/wiki/%E7%BA%A6%E7%91%9F%E5%A4%AB%E6%96%AF%E9%97%AE%E9%A2%98" target="_blank" rel="external">约瑟夫问题</a></strong></p>
-<p>有 n 个囚犯站成一个圆圈，准备处决。首先从一个人开始，越过k-2个人（因为第一个人已经被越过），并杀掉第k个人。接着，再越过 k-1个人，并杀掉第k个人。这个过程沿着圆圈一直进行，直到最终只剩下一个人留下，这个人就可以继续活着。</p>
-<p>问题是，给定了n和k，一开始要站在什么地方才能避免被处决？</p>
-<blockquote>
-<p>这个问题是以弗拉维奥·约瑟夫命名的，它是1世纪的一名犹太历史学家。他在自己的日记中写道，他和他的40个战友被罗马军队包围在洞中。他们讨论是自杀还是被俘，最终决定自杀，并以抽签的方式决定谁杀掉谁。约瑟夫斯和另外一个人是最后两个留下的人。约瑟夫斯说服了那个人，<em>他们将向罗马军队投降，不再自杀</em>。约瑟夫斯把他的存活归因于运气或天意，<em>他不知道是哪一个</em>。</p>
-</blockquote>
-<h1 id="队列是什么"><a href="#队列是什么" class="headerlink" title="队列是什么"></a>队列是什么</h1><p>这道题有多种解法，这里先不说别的，要引出今天的主角——队列。队列的定义很好理解：</p>
-<blockquote>
-<p>队列是项的有序结合，其中添加新项的一端称为队尾，移除项的一端称为队首。当一个元素从队尾进入队列时，一直向队首移动，直到它成为下一个需要移除的元素为止。</p>
-</blockquote>
-<p>队列抽象数据类型由以下结构和操作定义。如上所述，队列被构造为在队尾添加项的有序集合，并且从队首移除。队列保持 FIFO 排序属性。 队列操作如下。</p>
+<h1 id="二维数组中的查找"><a href="#二维数组中的查找" class="headerlink" title="二维数组中的查找"></a>二维数组中的查找</h1><h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<p>例如下面的二维数组，如果查找7，返回true，查找5，返回false。</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>9</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4</td>
+<td>7</td>
+<td>10</td>
+<td>13</td>
+</tr>
+<tr>
+<td>6</td>
+<td>8</td>
+<td>11</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>寻找目标数字b，从数组中选一个数字a，如果<code>a=b</code>，结束查找；如果<code>a&gt;b</code>，那么接下来查找的范围就是a的左边或上边；如果<code>a&lt;b</code>，那么接下来搜索范围就是右边或下边。</p>
+<p>当我们需要解决一个复杂的问题时，一个很有效的方法就是从一个具体的问题入手。本题可以从查找数字7入手，一步步分析过程。如果我们在二维数组中间随机选一个数字，那么下次搜索范围就是两个区域，而且有重叠。如果从数组的某一个角上开始搜索，就不会遇到这个问题。</p>
+<p>比如从数组右上方开始，</p>
+<ol>
+<li>a=9，b=7，<code>a&gt;b</code>，接着查找左边和上边，由于没有上边，所以只能查找左边，也就是1、2、8这三列</li>
+<li>a=8，<code>a&gt;b</code>，接着查找左边和上边，因为没有上边，只能接着找左边，也就是1，2这两列</li>
+<li>a=2，<code>a&lt;b</code>，接着就是右边和下边，右边已经查找过，所以接下来就是一直往下查找，也就是1、2这两列的下方</li>
+<li>a=4，<code>a&lt;b</code>，接着查找1、2这两列的下面两行</li>
+<li>a=7，<code>a=b</code>，结束查找。</li>
+</ol>
+<p><img src="https://i.imgur.com/2rt2LSr.png" alt=""></p>
+<h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><p>从二维数组的右上方开始查找：</p>
 <ul>
-<li>Queue() 创建一个空的新队列。 它不需要参数，并返回一个空队列。</li>
-<li>enqueue(item) 将新项添加到队尾。 它需要 item 作为参数，并不返回任何内容。</li>
-<li>dequeue() 从队首移除项。它不需要参数并返回 item。 队列被修改。</li>
-<li>isEmpty() 查看队列是否为空。它不需要参数，并返回布尔值。</li>
-<li>size() 返回队列中的项数。它不需要参数，并返回一个整数。</li>
+<li>若元素值等于 <code>target</code>，返回 <code>true</code>；</li>
+<li>若元素值大于 <code>target</code>，砍掉这一列，即 <code>--j</code>；</li>
+<li>若元素值小于 <code>target</code>，砍掉这一行，即 <code>++i</code>。</li>
 </ul>
-<p><img src="https://i.imgur.com/KkagGoc.png" alt=""></p>
-<h1 id="队列的Python算法实现"><a href="#队列的Python算法实现" class="headerlink" title="队列的Python算法实现"></a>队列的Python算法实现</h1><p>为了实现队列抽象数据类型创建一个新类</p>
-<p><a href="https://github.com/bnmnetp/pythonds/blob/master/basic/queue.py" target="_blank" rel="external">pythonds/basic/queue.py</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Queue</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.items = []</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isEmpty</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.items == []</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enqueue</span><span class="params">(self, item)</span>:</span></div><div class="line">        self.items.insert(<span class="number">0</span>,item)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dequeue</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.items.pop()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">size</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> len(self.items)</div></pre></td></tr></table></figure>
-<p>想明白了其实就是对 list 的简单操作</p>
-<h1 id="如何活到最后"><a href="#如何活到最后" class="headerlink" title="如何活到最后"></a>如何活到最后</h1><p>那我们回到上面的问题，如果是你，你要如何选择并活到最后呢？</p>
-<p>我们的程序将输入名称列表和一个称为 <code>num</code> 常量用于报数。它将返回以 <code>num</code> 为单位重复报数后剩余的最后一个人的姓名。</p>
-<p>假设第一个人是<code>a</code>。从他开始计数，<code>a</code>将先出列再入队列，把他放在队列的最后。经过 <code>num</code> 次的出队入队后，前面的人将被永久移除队列。并且另一个周期开始，继续此过程，直到只剩下一个名字（队列的大小为 1）。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pythonds.basic.queue <span class="keyword">import</span> Queue</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hotPotato</span><span class="params">(namelist, num)</span>:</span></div><div class="line">    simqueue = Queue()</div><div class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> namelist:</div><div class="line">        simqueue.enqueue(name)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> simqueue.size() &gt; <span class="number">1</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</div><div class="line">            simqueue.enqueue(simqueue.dequeue())</div><div class="line">        simqueue.dequeue()</div><div class="line"></div><div class="line">    <span class="keyword">return</span> simqueue.dequeue()</div><div class="line"></div><div class="line"></div><div class="line">print(hotPotato([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>, <span class="string">'j'</span>], <span class="number">7</span>))</div><div class="line"></div><div class="line"><span class="comment"># output: f</span></div></pre></td></tr></table></figure>
-<h1 id="其他解法"><a href="#其他解法" class="headerlink" title="其他解法"></a>其他解法</h1><p>比较简单的做法是用循环单链表模拟整个过程，时间复杂度是O(n*m)。如果只是想求得最后剩下的人，则可以用数学推导的方式得出公式。先看看模拟过程的解法。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*- </span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></div><div class="line">		self.value = value </div><div class="line">		self.next = <span class="keyword">None</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_linkList</span><span class="params">(n)</span>:</span></div><div class="line">	head = Node(<span class="number">1</span>)</div><div class="line">	pre = head</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n+<span class="number">1</span>):</div><div class="line">		newNode = Node(i)</div><div class="line">		pre.next= newNode</div><div class="line">		pre = newNode</div><div class="line">	pre.next = head</div><div class="line">	<span class="keyword">return</span> head</div><div class="line"></div><div class="line">n = <span class="number">5</span> <span class="comment">#总的个数</span></div><div class="line">m = <span class="number">2</span> <span class="comment">#数的数目</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> m == <span class="number">1</span>: <span class="comment">#如果是1的话，特殊处理，直接输出</span></div><div class="line">	print(n)  </div><div class="line"><span class="keyword">else</span>:</div><div class="line">	head = create_linkList(n)</div><div class="line">	pre = <span class="keyword">None</span></div><div class="line">	cur = head</div><div class="line">	<span class="keyword">while</span> cur.next != cur: <span class="comment">#终止条件是节点的下一个节点指向本身</span></div><div class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(m<span class="number">-1</span>):</div><div class="line">			pre =  cur</div><div class="line">			cur = cur.next</div><div class="line">		print(cur.value)</div><div class="line">		pre.next = cur.next</div><div class="line">		cur.next = <span class="keyword">None</span></div><div class="line">		cur = pre.next</div><div class="line">	print(cur.value)</div></pre></td></tr></table></figure>
-<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><p>假设实验室里有一台打印机供学生共性。当学生向共享打印机发送打印任务时，任务被放置在队列中以便以先来先服务的方式被处理。如何才能通过python程序模拟的方式得到每次提交任务的平均等待时间呢？（平均等待时间不包括打印本身的时间，仅指在队列中排队的时间。）<br>我们假定：</p>
-<ul>
-<li>学生们每次打印的页数在1到20页之间。</li>
-<li>打印机平均每小时会收到20个打印请求，即平均每180秒1个请求。</li>
-<li>每秒新增任务的可能性相等，即任务的产生为独立同分布</li>
-<li>打印机的打印速度恒定。</li>
-</ul>
-<p>挖坑，要一起来填吗？</p>
-<p><img src="https://i.imgur.com/83UUU6k.jpg" alt=""></p>
+<p>也可以从二维数组的左下方开始查找，以下代码使用左下方作为查找的起点。</p>
+<p>注意，不能选择左上方或者右下方的数字，因为这样无法缩小查找的范围。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> target, <span class="keyword">int</span>[][] array)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (array == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> rows = array.length;</div><div class="line">        <span class="keyword">int</span> columns = array[<span class="number">0</span>].length;</div><div class="line">        <span class="keyword">int</span> i = rows - <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> j = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; j &lt; columns) &#123;</div><div class="line">            <span class="keyword">if</span> (array[i][j] == target) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (array[i][j] &lt; target) &#123;</div><div class="line">                ++j;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                --i;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span>[][] arr = <span class="keyword">new</span> <span class="keyword">int</span>[][]&#123;</div><div class="line">                &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">9</span>&#125;,</div><div class="line">                &#123;<span class="number">2</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">12</span>&#125;,</div><div class="line">                &#123;<span class="number">4</span>, <span class="number">7</span>, <span class="number">10</span>, <span class="number">13</span>&#125;,</div><div class="line">                &#123;<span class="number">6</span>, <span class="number">8</span>, <span class="number">11</span>, <span class="number">15</span>&#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">boolean</span> res = <span class="keyword">new</span> Solution().find(<span class="number">7</span>, arr);</div><div class="line">        System.out.println(res);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果是我自己去写这道题的话，肯定想不出这样的方法，可能就是遍历所有数字，这肯定不是面试官要问的。看了书中介绍的方法，分析过程确实很重要，一步步去寻找规律。我想起了高中数学的<code>数列</code>，老师常说“数列就是列数，如果不知道规律，就多写几个例子”。对于现在的这种算法题，一定要多试几个例子，从中找到规律。</p>
+</blockquote>
 
       
     </div>
@@ -480,14 +496,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/算法/" rel="tag"># 算法</a>
-          
-            <a href="/tags/队列/" rel="tag"># 队列</a>
-          
-        </div>
-      
 
       
         
@@ -497,8 +505,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/26/Scrapy源码（2）——爬虫开始的地方/" rel="next" title="Scrapy源码（2）——爬虫开始的地方">
-                <i class="fa fa-chevron-left"></i> Scrapy源码（2）——爬虫开始的地方
+              <a href="/2019/12/26/找出数组中重复的数字/" rel="next" title="找出数组中重复的数字">
+                <i class="fa fa-chevron-left"></i> 找出数组中重复的数字
               </a>
             
           </div>
@@ -506,10 +514,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/13/大佬，我代码哪错了？/" rel="prev" title="大佬，我代码哪错了？">
-                大佬，我代码哪错了？ <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -701,7 +705,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#约瑟夫问题"><span class="nav-number">1.</span> <span class="nav-text">约瑟夫问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#队列是什么"><span class="nav-number">2.</span> <span class="nav-text">队列是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#队列的Python算法实现"><span class="nav-number">3.</span> <span class="nav-text">队列的Python算法实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何活到最后"><span class="nav-number">4.</span> <span class="nav-text">如何活到最后</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他解法"><span class="nav-number">5.</span> <span class="nav-text">其他解法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作业"><span class="nav-number">5.1.</span> <span class="nav-text">作业</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二维数组中的查找"><span class="nav-number">1.</span> <span class="nav-text">二维数组中的查找</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">2.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解法"><span class="nav-number">4.</span> <span class="nav-text">解法</span></a></li></ol></div>
             
 
           </div>
