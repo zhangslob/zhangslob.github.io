@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhangslob.github.io/"/>
-  <updated>2020-01-09T13:33:23.013Z</updated>
+  <updated>2020-02-23T07:00:07.701Z</updated>
   <id>https://zhangslob.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Leetcode-136-只出现一次的数字</title>
+    <link href="https://zhangslob.github.io/2020/02/23/Leetcode-136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/"/>
+    <id>https://zhangslob.github.io/2020/02/23/Leetcode-136-只出现一次的数字/</id>
+    <published>2020-02-23T06:28:19.620Z</published>
+    <updated>2020-02-23T07:00:07.701Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>这是崔斯特的第一百一十四篇原创文章</code></pre><p><img src="https://i.imgur.com/OEWbFEc.jpg" alt=""></p><p><code>努力、奋斗</code><br><a id="more"></a></p><h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p><p>说明：</p><p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p><p>示例 1:</p><p>输入: [2,2,1]<br>输出: 1<br>示例 2:</p><p>输入: [4,1,2,1,2]<br>输出: 4</p><p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/single-number" target="_blank" rel="external">https://leetcode-cn.com/problems/single-number</a></p><h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><h2 id="粗暴解法"><a href="#粗暴解法" class="headerlink" title="粗暴解法"></a>粗暴解法</h2><p>使用map保存每个元素在数组中出现的次数，key是元素，value是出现次数。</p><p>这种方法显然不符合题目需求，不使用额外空间。</p><h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><p>按位异或：<strong>参与运算的两个值，如果两个相应bit位相同，则结果为0，否则为1。</strong></p><p>如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0^0 = 0，</div><div class="line">1^0 = 1，</div><div class="line">0^1 = 1，</div><div class="line">1^1 = 0</div></pre></td></tr></table></figure><p>异或运算的符号是<code>^</code>，其定义如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a xor b = (a &amp; ^b) | (^a &amp; b)</div></pre></td></tr></table></figure><p>真值表：</p><table><thead><tr><th style="text-align:center">a</th><th style="text-align:center">b</th><th style="text-align:center">a xor b</th></tr></thead><tbody><tr><td style="text-align:center">0</td><td style="text-align:center">0</td><td style="text-align:center">0</td></tr><tr><td style="text-align:center">0</td><td style="text-align:center">1</td><td style="text-align:center">1</td></tr><tr><td style="text-align:center">1</td><td style="text-align:center">0</td><td style="text-align:center">1</td></tr><tr><td style="text-align:center">1</td><td style="text-align:center">1</td><td style="text-align:center">0</td></tr></tbody></table><p>因为有定律<code>a ^ b ^ a = b</code>，所以我们这里就可以使用异或来做。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">single_number</span><span class="params">(numbers)</span>:</span></div><div class="line">    tmp = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</div><div class="line">        tmp ^= n</div><div class="line">    <span class="keyword">return</span> tmp</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> num : nums) &#123;</div><div class="line">        result ^= num;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p>可以看到非常简单。</p><p>这些全都是计算机基础知识，但是自己不知道，只能说明自己基础差，以后补得起来吗。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;这是崔斯特的第一百一十四篇原创文章
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/OEWbFEc.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;努力、奋斗&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="leetcode" scheme="https://zhangslob.github.io/categories/leetcode/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Kafka 消费者 Java 实现</title>
@@ -448,29 +471,6 @@
       &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhangslob/oss/master/B1sbbM.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;这是崔斯特的第九十七篇原创文章&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;25岁总结 (๑• . •๑)&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="总结" scheme="https://zhangslob.github.io/categories/%E6%80%BB%E7%BB%93/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>来拼多多的第一个月</title>
-    <link href="https://zhangslob.github.io/2019/07/27/%E6%9D%A5%E6%8B%BC%E5%A4%9A%E5%A4%9A%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%9C%88/"/>
-    <id>https://zhangslob.github.io/2019/07/27/来拼多多的第一个月/</id>
-    <published>2019-07-27T13:01:21.858Z</published>
-    <updated>2019-07-27T13:58:06.868Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://cdn.pinduoduo.com/home/static/img/common/pdd_logo.png" alt=""></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第九十六篇原创文章</div></pre></td></tr></table></figure><p>七月总结 (๑• . •๑)</p><a id="more"></a><p>2019年下半年，也就是7月1日，我入职了拼多多。算起来到现在已经4周了，想记录下现在到这边来的感受。</p><h1 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h1><p>先说下在这边的工作，爬虫只是一方面，数据下游还有很长的应用链，用同事的话说，爬虫是大动脉，挂了就完了。就目前我做的一个月来说，有开发爬虫，提供数据，也有改进一些业务代码。语言的话，大环境是JAVA，爬虫有一部分是Python，我有部分业务也需要使用JAVA，然后就开始 <strong>JAVA7天从入门到精通</strong>，照着别人的代码一步步写。如何声明一个数组、Map，如何添加变量，函数返回的是什么，JSON解析的类型是什么，这种基础问题，全是一步步Google下来的，就这样下来，也算是完成了其中一个小模块，这周上线了，很有成就感😯。</p><p>工作内容确实会比较多，每天都会有做不完的事情，只要自己在其中能感受到成就感，能发挥自己的价值，每天能学到新东西，感觉就还好。只是刚来会有些不适应，慢慢就好了。</p><h1 id="团队"><a href="#团队" class="headerlink" title="团队"></a>团队</h1><p>就团队来说的话，我算是其中履历最差的，这里有阿里、腾讯、百度等等大厂来的，应届生也是985的，还有位5年经验的爬虫大佬带我。很多问题都可以问他们找到答案，是一个可以快速成长的地方。</p><p>拼多多现在好像有五千多号员工了，我入职那天来了几百号新员工。大佬们没有独立的办公室，所以经常会见到大佬，曾经每天上厕所都要路过一位创始人的工位。</p><h1 id="工作时间"><a href="#工作时间" class="headerlink" title="工作时间"></a>工作时间</h1><p>这个在来之前就问能不能接受“11116”，也就是早上11点到晚上11点，一周上六天班，来之前觉得挺吓人的，但是现在觉得还是OK的。</p><p>自己本来就是一个夜猫子，我的一天作息基本是这样：</p><ul><li>凌晨1点之前睡觉，早上9点起床，保证每天8个小时以上</li><li>10点到公司吃个早餐，学一个小时，现在是在看JAVA，11点正式开始工作</li><li>12点吃午饭，吃完会睡半小时，1点半开始工作</li><li>6点吃晚餐，吃完了会下去走走，7点半上来工作</li><li>晚上11点下班（有些团队是10点下班）</li></ul><p>毕竟晚上11点才能下班，所以现在也没时间写博客了，也就每周六放假了可以写点。以后爬虫的可能会少一点，会写一写JAVA基础。最近也有朋友在问怎么学爬虫，我的建议是，如果爬虫只是你的副业，掌握多线程就可以了，如果你要转行学爬虫的话，并不建议，学JAVA前景会很好，Python岗位太少。国内的话，还是JAVA第一。</p><h1 id="关于拼多多"><a href="#关于拼多多" class="headerlink" title="关于拼多多"></a>关于拼多多</h1><p>在我来之前，我也像你们一样，内心是非常抵触拼多多的，全是假货，坚决不会在上面买的。面了拼多多之后，下载了拼多多App，领了一张5元券，买了一个小风扇，最后花了<strong>0.09</strong>元。挺好用的，真香。</p><p><img src="https://s2.ax1x.com/2019/07/27/eMfbTg.md.png" alt=""></p><p>之后会经常在上面买一些小东西，确实很便宜，有个同事在拼多多上买的2019款的MBP，没啥问题。以一个内部员工的身份告诉你，拼多多里的“百亿补贴”和“品牌馆”是没有假货的，大家买买买。</p><p>最后，我们这个团队还在招人，爬虫、JAVA、算法都要，3~5年经验，这边社招的话会问很多底层的东西，不止要求你会用，还会要求你知道其中的原理。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;https://cdn.pinduoduo.com/home/static/img/common/pdd_logo.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;这是崔斯特的第九十六篇原创文章&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;七月总结 (๑• . •๑)&lt;/p&gt;
     
     </summary>
     
