@@ -1,0 +1,1035 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1这是崔斯特的第一百一十七篇原创文章
+面试必问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 和 I/O 多路复用">
+<meta property="og:url" content="https://zhangslob.github.io/2020/03/24/Redis-和-I-O-多路复用/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="1这是崔斯特的第一百一十七篇原创文章
+面试必问">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-blocking-io.png-1000width">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-blocking-io.png-1000width">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-I:O-Multiplexing-Model.png-1000width">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-redis-reactor-pattern.png-1000width">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-ae-module.jpg-1000width">
+<meta property="og:image" content="https://img.draveness.me/2016-11-26-redis-choose-io-function.jpg-1000width">
+<meta property="og:updated_time" content="2020-03-24T02:46:32.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 和 I/O 多路复用">
+<meta name="twitter:description" content="1这是崔斯特的第一百一十七篇原创文章
+面试必问">
+<meta name="twitter:image" content="https://img.draveness.me/2016-11-26-blocking-io.png-1000width">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2020/03/24/Redis-和-I-O-多路复用/"/>
+
+
+
+
+
+  <title> Redis 和 I/O 多路复用 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2020/03/24/Redis-和-I-O-多路复用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis 和 I/O 多路复用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-24T10:37:50+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://img.draveness.me/2016-11-26-blocking-io.png-1000width" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第一百一十七篇原创文章</div></pre></td></tr></table></figure>
+<p>面试必问</p>
+<a id="more"></a>
+<p>最近在看 UNIX 网络编程并研究了一下 Redis 的实现，感觉 Redis 的源代码十分适合阅读和分析，其中 I/O 多路复用（mutiplexing）部分的实现非常干净和优雅，在这里想对这部分的内容进行简单的整理。</p>
+<h1 id="几种-I-O-模型"><a href="#几种-I-O-模型" class="headerlink" title="几种 I/O 模型"></a>几种 I/O 模型</h1><p>为什么 Redis 中要使用 I/O 多路复用这种技术呢？</p>
+<p>首先，Redis 是跑在单线程中的，所有的操作都是按照顺序线性执行的，但是由于读写操作等待用户输入或输出都是阻塞的，所以 I/O 操作在一般情况下往往不能直接返回，这会导致某一文件的 I/O 阻塞导致整个进程无法对其它客户提供服务，而 I/O 多路复用就是为了解决这个问题而出现的。</p>
+<h1 id="Blocking-I-O"><a href="#Blocking-I-O" class="headerlink" title="Blocking I/O"></a>Blocking I/O</h1><p>先来看一下传统的阻塞 I/O 模型到底是如何工作的：当使用 read 或者 write 对某一个文件描述符（File Descriptor 以下简称 FD)进行读写时，如果当前 FD 不可读或不可写，整个 Redis 服务就不会对其它的操作作出响应，导致整个服务不可用。</p>
+<p>这也就是传统意义上的，也就是我们在编程中使用最多的阻塞模型：</p>
+<p><img src="https://img.draveness.me/2016-11-26-blocking-io.png-1000width" alt=""></p>
+<p>阻塞模型虽然开发中非常常见也非常易于理解，但是由于它会影响其他 FD 对应的服务，所以在需要处理多个客户端任务的时候，往往都不会使用阻塞模型。</p>
+<h1 id="I-O-多路复用"><a href="#I-O-多路复用" class="headerlink" title="I/O 多路复用"></a>I/O 多路复用</h1><p>虽然还有很多其它的 I/O 模型，但是在这里都不会具体介绍。</p>
+<p>阻塞式的 I/O 模型并不能满足这里的需求，我们需要一种效率更高的 I/O 模型来支撑 Redis 的多个客户（redis-cli），这里涉及的就是 I/O 多路复用模型了：</p>
+<p><img src="https://img.draveness.me/2016-11-26-I:O-Multiplexing-Model.png-1000width" alt=""></p>
+<p>在 I/O 多路复用模型中，最重要的函数调用就是 select，该方法的能够同时监控多个文件描述符的可读可写情况，当其中的某些文件描述符可读或者可写时，select 方法就会返回可读以及可写的文件描述符个数。</p>
+<p>关于 select 的具体使用方法，在网络上资料很多，这里就不过多展开介绍了；</p>
+<p>与此同时也有其它的 I/O 多路复用函数 epoll/kqueue/evport，它们相比 select 性能更优秀，同时也能支撑更多的服务。</p>
+<h1 id="Reactor-设计模式"><a href="#Reactor-设计模式" class="headerlink" title="Reactor 设计模式"></a>Reactor 设计模式</h1><p>Redis 服务采用 Reactor 的方式来实现文件事件处理器（每一个网络连接其实都对应一个文件描述符）</p>
+<p><img src="https://img.draveness.me/2016-11-26-redis-reactor-pattern.png-1000width" alt=""></p>
+<p>文件事件处理器使用 I/O 多路复用模块同时监听多个 FD，当 accept、read、write 和 close 文件事件产生时，文件事件处理器就会回调 FD 绑定的事件处理器。</p>
+<p>虽然整个文件事件处理器是在单线程上运行的，但是通过 I/O 多路复用模块的引入，实现了同时对多个 FD 读写的监控，提高了网络通信模型的性能，同时也可以保证整个 Redis 服务实现的简单。</p>
+<h1 id="I-O-多路复用模块"><a href="#I-O-多路复用模块" class="headerlink" title="I/O 多路复用模块"></a>I/O 多路复用模块</h1><p>I/O 多路复用模块封装了底层的 select、epoll、avport 以及 kqueue 这些 I/O 多路复用函数，为上层提供了相同的接口。</p>
+<p><img src="https://img.draveness.me/2016-11-26-ae-module.jpg-1000width" alt=""></p>
+<p>在这里我们简单介绍 Redis 是如何包装 select 和 epoll 的，简要了解该模块的功能，整个 I/O 多路复用模块抹平了不同平台上 I/O 多路复用函数的差异性，提供了相同的接口：</p>
+<ul>
+<li>static int  aeApiCreate(aeEventLoop *eventLoop)</li>
+<li>static int  aeApiResize(aeEventLoop *eventLoop, int setsize)</li>
+<li>static void aeApiFree(aeEventLoop *eventLoop)</li>
+<li>static int  aeApiAddEvent(aeEventLoop *eventLoop, int fd, int mask)</li>
+<li>static void aeApiDelEvent(aeEventLoop *eventLoop, int fd, int mask) </li>
+<li>static int  aeApiPoll(aeEventLoop <em>eventLoop, struct timeval </em>tvp)</li>
+</ul>
+<p>同时，因为各个函数所需要的参数不同，我们在每一个子模块内部通过一个 aeApiState 来存储需要的上下文信息：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// select</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> aeApiState &#123;</div><div class="line">    fd_set rfds, wfds;</div><div class="line">    fd_set _rfds, _wfds;</div><div class="line">&#125; aeApiState;</div><div class="line"></div><div class="line"><span class="comment">// epoll</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> aeApiState &#123;</div><div class="line">    <span class="keyword">int</span> epfd;</div><div class="line">    <span class="keyword">struct</span> epoll_event *events;</div><div class="line">&#125; aeApiState;</div></pre></td></tr></table></figure>
+<p>这些上下文信息会存储在 eventLoop 的 void *state 中，不会暴露到上层，只在当前子模块中使用。</p>
+<h1 id="封装-select-函数"><a href="#封装-select-函数" class="headerlink" title="封装 select 函数"></a>封装 select 函数</h1><p>select 可以监控 FD 的可读、可写以及出现错误的情况。</p>
+<p>在介绍 I/O 多路复用模块如何对 select 函数封装之前，先来看一下 select 函数使用的大致流程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> fd = <span class="comment">/* file descriptor */</span></div><div class="line"></div><div class="line">fd_set rfds;</div><div class="line">FD_ZERO(&amp;rfds);</div><div class="line">FD_SET(fd, &amp;rfds)</div><div class="line"></div><div class="line"><span class="keyword">for</span> ( ; ; ) &#123;</div><div class="line">    select(fd+<span class="number">1</span>, &amp;rfds, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">if</span> (FD_ISSET(fd, &amp;rfds)) &#123;</div><div class="line">        <span class="comment">/* file descriptor `fd` becomes readable */</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>初始化一个可读的 fd_set 集合，保存需要监控可读性的 FD；</li>
+<li>使用 FD_SET 将 fd 加入 rfds；</li>
+<li>调用 select 方法监控 rfds 中的 FD 是否可读；</li>
+<li>当 select 返回时，检查 FD 的状态并完成对应的操作。</li>
+</ol>
+<p>而在 Redis 的 ae_select 文件中代码的组织顺序也是差不多的，首先在 aeApiCreate 函数中初始化 rfds 和 wfds：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiCreate</span><span class="params">(aeEventLoop *eventLoop)</span> </span>&#123;</div><div class="line">    aeApiState *state = zmalloc(<span class="keyword">sizeof</span>(aeApiState));</div><div class="line">    <span class="keyword">if</span> (!state) <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    FD_ZERO(&amp;state-&gt;rfds);</div><div class="line">    FD_ZERO(&amp;state-&gt;wfds);</div><div class="line">    eventLoop-&gt;apidata = state;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而 aeApiAddEvent 和 aeApiDelEvent 会通过 FD_SET 和 FD_CLR 修改 fd_set 中对应 FD 的标志位：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiAddEvent</span><span class="params">(aeEventLoop *eventLoop, <span class="keyword">int</span> fd, <span class="keyword">int</span> mask)</span> </span>&#123;</div><div class="line">    aeApiState *state = eventLoop-&gt;apidata;</div><div class="line">    <span class="keyword">if</span> (mask &amp; AE_READABLE) FD_SET(fd,&amp;state-&gt;rfds);</div><div class="line">    <span class="keyword">if</span> (mask &amp; AE_WRITABLE) FD_SET(fd,&amp;state-&gt;wfds);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>整个 ae_select 子模块中最重要的函数就是 aeApiPoll，它是实际调用 select 函数的部分，其作用就是在 I/O 多路复用函数返回时，将对应的 FD 加入 aeEventLoop 的 fired 数组中，并返回事件的个数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiPoll</span><span class="params">(aeEventLoop *eventLoop, <span class="keyword">struct</span> timeval *tvp)</span> </span>&#123;</div><div class="line">    aeApiState *state = eventLoop-&gt;apidata;</div><div class="line">    <span class="keyword">int</span> retval, j, numevents = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(&amp;state-&gt;_rfds,&amp;state-&gt;rfds,<span class="keyword">sizeof</span>(fd_set));</div><div class="line">    <span class="built_in">memcpy</span>(&amp;state-&gt;_wfds,&amp;state-&gt;wfds,<span class="keyword">sizeof</span>(fd_set));</div><div class="line"></div><div class="line">    retval = select(eventLoop-&gt;maxfd+<span class="number">1</span>,</div><div class="line">                &amp;state-&gt;_rfds,&amp;state-&gt;_wfds,<span class="literal">NULL</span>,tvp);</div><div class="line">    <span class="keyword">if</span> (retval &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt;= eventLoop-&gt;maxfd; j++) &#123;</div><div class="line">            <span class="keyword">int</span> mask = <span class="number">0</span>;</div><div class="line">            aeFileEvent *fe = &amp;eventLoop-&gt;events[j];</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (fe-&gt;mask == AE_NONE) <span class="keyword">continue</span>;</div><div class="line">            <span class="keyword">if</span> (fe-&gt;mask &amp; AE_READABLE &amp;&amp; FD_ISSET(j,&amp;state-&gt;_rfds))</div><div class="line">                mask |= AE_READABLE;</div><div class="line">            <span class="keyword">if</span> (fe-&gt;mask &amp; AE_WRITABLE &amp;&amp; FD_ISSET(j,&amp;state-&gt;_wfds))</div><div class="line">                mask |= AE_WRITABLE;</div><div class="line">            eventLoop-&gt;fired[numevents].fd = j;</div><div class="line">            eventLoop-&gt;fired[numevents].mask = mask;</div><div class="line">            numevents++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> numevents;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="封装-epoll-函数"><a href="#封装-epoll-函数" class="headerlink" title="封装 epoll 函数"></a>封装 epoll 函数</h1><p>Redis 对 epoll 的封装其实也是类似的，使用 epoll_create 创建 epoll 中使用的 epfd：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiCreate</span><span class="params">(aeEventLoop *eventLoop)</span> </span>&#123;</div><div class="line">    aeApiState *state = zmalloc(<span class="keyword">sizeof</span>(aeApiState));</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!state) <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    state-&gt;events = zmalloc(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> epoll_event)*eventLoop-&gt;setsize);</div><div class="line">    <span class="keyword">if</span> (!state-&gt;events) &#123;</div><div class="line">        zfree(state);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    state-&gt;epfd = epoll_create(<span class="number">1024</span>); <span class="comment">/* 1024 is just a hint for the kernel */</span></div><div class="line">    <span class="keyword">if</span> (state-&gt;epfd == <span class="number">-1</span>) &#123;</div><div class="line">        zfree(state-&gt;events);</div><div class="line">        zfree(state);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    eventLoop-&gt;apidata = state;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在 aeApiAddEvent 中使用 epoll_ctl 向 epfd 中添加需要监控的 FD 以及监听的事件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiAddEvent</span><span class="params">(aeEventLoop *eventLoop, <span class="keyword">int</span> fd, <span class="keyword">int</span> mask)</span> </span>&#123;</div><div class="line">    aeApiState *state = eventLoop-&gt;apidata;</div><div class="line">    <span class="keyword">struct</span> epoll_event ee = &#123;<span class="number">0</span>&#125;; <span class="comment">/* avoid valgrind warning */</span></div><div class="line">    <span class="comment">/* If the fd was already monitored for some event, we need a MOD</span></div><div class="line">     * operation. Otherwise we need an ADD operation. */</div><div class="line">    <span class="keyword">int</span> op = eventLoop-&gt;events[fd].mask == AE_NONE ?</div><div class="line">            EPOLL_CTL_ADD : EPOLL_CTL_MOD;</div><div class="line"></div><div class="line">    ee.events = <span class="number">0</span>;</div><div class="line">    mask |= eventLoop-&gt;events[fd].mask; <span class="comment">/* Merge old events */</span></div><div class="line">    <span class="keyword">if</span> (mask &amp; AE_READABLE) ee.events |= EPOLLIN;</div><div class="line">    <span class="keyword">if</span> (mask &amp; AE_WRITABLE) ee.events |= EPOLLOUT;</div><div class="line">    ee.data.fd = fd;</div><div class="line">    <span class="keyword">if</span> (epoll_ctl(state-&gt;epfd,op,fd,&amp;ee) == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于 epoll 相比 select 机制略有不同，在 epoll_wait 函数返回时并不需要遍历所有的 FD 查看读写情况；在 epoll_wait 函数返回时会提供一个 epoll_event 数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> epoll_data &#123;</div><div class="line">    <span class="keyword">void</span>    *ptr;</div><div class="line">    <span class="keyword">int</span>      fd; <span class="comment">/* 文件描述符 */</span></div><div class="line">    <span class="keyword">uint32_t</span> u32;</div><div class="line">    <span class="keyword">uint64_t</span> u64;</div><div class="line">&#125; <span class="keyword">epoll_data_t</span>;</div><div class="line"></div><div class="line"><span class="keyword">struct</span> epoll_event &#123;</div><div class="line">    <span class="keyword">uint32_t</span>     events; <span class="comment">/* Epoll 事件 */</span></div><div class="line">    <span class="keyword">epoll_data_t</span> data;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>其中保存了发生的 epoll 事件（EPOLLIN、EPOLLOUT、EPOLLERR 和 EPOLLHUP）以及发生该事件的 FD。</p>
+<p>aeApiPoll 函数只需要将 epoll_event 数组中存储的信息加入 eventLoop 的 fired 数组中，将信息传递给上层模块：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">aeApiPoll</span><span class="params">(aeEventLoop *eventLoop, <span class="keyword">struct</span> timeval *tvp)</span> </span>&#123;</div><div class="line">    aeApiState *state = eventLoop-&gt;apidata;</div><div class="line">    <span class="keyword">int</span> retval, numevents = <span class="number">0</span>;</div><div class="line"></div><div class="line">    retval = epoll_wait(state-&gt;epfd,state-&gt;events,eventLoop-&gt;setsize,</div><div class="line">            tvp ? (tvp-&gt;tv_sec*<span class="number">1000</span> + tvp-&gt;tv_usec/<span class="number">1000</span>) : <span class="number">-1</span>);</div><div class="line">    <span class="keyword">if</span> (retval &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">int</span> j;</div><div class="line"></div><div class="line">        numevents = retval;</div><div class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; numevents; j++) &#123;</div><div class="line">            <span class="keyword">int</span> mask = <span class="number">0</span>;</div><div class="line">            <span class="keyword">struct</span> epoll_event *e = state-&gt;events+j;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (e-&gt;events &amp; EPOLLIN) mask |= AE_READABLE;</div><div class="line">            <span class="keyword">if</span> (e-&gt;events &amp; EPOLLOUT) mask |= AE_WRITABLE;</div><div class="line">            <span class="keyword">if</span> (e-&gt;events &amp; EPOLLERR) mask |= AE_WRITABLE;</div><div class="line">            <span class="keyword">if</span> (e-&gt;events &amp; EPOLLHUP) mask |= AE_WRITABLE;</div><div class="line">            eventLoop-&gt;fired[j].fd = e-&gt;data.fd;</div><div class="line">            eventLoop-&gt;fired[j].mask = mask;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> numevents;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="子模块的选择"><a href="#子模块的选择" class="headerlink" title="子模块的选择"></a>子模块的选择</h1><p>因为 Redis 需要在多个平台上运行，同时为了最大化执行的效率与性能，所以会根据编译平台的不同选择不同的 I/O 多路复用函数作为子模块，提供给上层统一的接口；在 Redis 中，我们通过宏定义的使用，合理的选择不同的子模块：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> HAVE_EVPORT</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ae_evport.c"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">else</span></span></div><div class="line">    <span class="meta">#<span class="meta-keyword">ifdef</span> HAVE_EPOLL</span></div><div class="line">    <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ae_epoll.c"</span></span></div><div class="line">    <span class="meta">#<span class="meta-keyword">else</span></span></div><div class="line">        <span class="meta">#<span class="meta-keyword">ifdef</span> HAVE_KQUEUE</span></div><div class="line">        <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ae_kqueue.c"</span></span></div><div class="line">        <span class="meta">#<span class="meta-keyword">else</span></span></div><div class="line">        <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ae_select.c"</span></span></div><div class="line">        <span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>因为 select 函数是作为 POSIX 标准中的系统调用，在不同版本的操作系统上都会实现，所以将其作为保底方案：</p>
+<p><img src="https://img.draveness.me/2016-11-26-redis-choose-io-function.jpg-1000width" alt=""></p>
+<p>Redis 会优先选择时间复杂度为 𝑂(1) 的 I/O 多路复用函数作为底层实现，包括 Solaries 10 中的 evport、Linux 中的 epoll 和 macOS/FreeBSD 中的 kqueue，上述的这些函数都使用了内核内部的结构，并且能够服务几十万的文件描述符。</p>
+<p>但是如果当前编译环境没有上述函数，就会选择 select 作为备选方案，由于其在使用时会扫描全部监听的描述符，所以其时间复杂度较差 𝑂(𝑛)，并且只能同时服务 1024 个文件描述符，所以一般并不会以 select 作为第一方案使用。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Redis 对于 I/O 多路复用模块的设计非常简洁，通过宏保证了 I/O 多路复用模块在不同平台上都有着优异的性能，将不同的 I/O 多路复用函数封装成相同的 API 提供给上层使用。</p>
+<p>整个模块使 Redis 能以单进程运行的同时服务成千上万个文件描述符，避免了由于多进程应用的引入导致代码实现复杂度的提升，减少了出错的可能性。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://man7.org/linux/man-pages/man2/select.2.html" target="_blank" rel="external">Select-Man-Pages</a><br><a href="https://en.wikipedia.org/wiki/Reactor_pattern" target="_blank" rel="external">Reactor-Pattern</a><br><a href="https://people.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html" target="_blank" rel="external">epoll vs kqueue</a></p>
+<p>原文链接：<a href="https://draveness.me/redis-io-multiplexing" target="_blank" rel="external">Redis 和 I/O 多路复用 · 面向信仰编程</a></p>
+<p>Follow: <a href="https://github.com/Draveness" target="_blank" rel="external">Draveness · GitHub</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/13/我为什么很久没写博客了/" rel="next" title="我为什么很久没写博客了">
+                <i class="fa fa-chevron-left"></i> 我为什么很久没写博客了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">121</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">84</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#几种-I-O-模型"><span class="nav-number">1.</span> <span class="nav-text">几种 I/O 模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Blocking-I-O"><span class="nav-number">2.</span> <span class="nav-text">Blocking I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O-多路复用"><span class="nav-number">3.</span> <span class="nav-text">I/O 多路复用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reactor-设计模式"><span class="nav-number">4.</span> <span class="nav-text">Reactor 设计模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O-多路复用模块"><span class="nav-number">5.</span> <span class="nav-text">I/O 多路复用模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封装-select-函数"><span class="nav-number">6.</span> <span class="nav-text">封装 select 函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封装-epoll-函数"><span class="nav-number">7.</span> <span class="nav-text">封装 epoll 函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#子模块的选择"><span class="nav-number">8.</span> <span class="nav-text">子模块的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">10.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
