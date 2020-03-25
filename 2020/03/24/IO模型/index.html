@@ -118,7 +118,7 @@
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/mulio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/sigio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/aio.png">
-<meta property="og:updated_time" content="2020-03-24T12:28:15.041Z">
+<meta property="og:updated_time" content="2020-03-25T06:09:16.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IO模型">
 <meta name="twitter:description" content="IO模型介绍 (๑• . •๑)
@@ -482,29 +482,25 @@
 <li>数据就绪，生成sigio信号，通过信号回调通知应用来读取数据。</li>
 </ul>
 <p>此种io方式存在的一个很大的问题：Linux中信号队列是有限制的，如果超过这个数字问题就无法读取数据。</p>
-<p>##异步非阻塞</p>
-<p>之前的就餐方式，到最后总是需要你自己去把饭菜端到餐桌。这下你也不耐烦了，于是就告诉老板，能不能饭好了直接端到你的面前或者送到你的家里(外卖)。这就是异步非阻塞IO了。</p>
+<h2 id="异步非阻塞"><a href="#异步非阻塞" class="headerlink" title="异步非阻塞"></a>异步非阻塞</h2><p>之前的就餐方式，到最后总是需要你自己去把饭菜端到餐桌。这下你也不耐烦了，于是就告诉老板，能不能饭好了直接端到你的面前或者送到你的家里(外卖)。这就是异步非阻塞IO了。</p>
 <p><img src="https://www.rowkey.me/images/blog_images/io/aio.png" alt="bio"></p>
 <p>对比信号驱动IO，异步IO的主要区别在于：信号驱动由内核告诉我们何时可以开始一个IO操作(数据在内核缓冲区中)，而异步IO则由内核通知IO操作何时已经完成(数据已经在用户空间中)。</p>
 <p>异步IO又叫做事件驱动IO，在Unix中，POSIX1003.1标准为异步方式访问文件定义了一套库函数，定义了AIO的一系列接口。使用aio_read或者aio_write发起异步IO操作，使用aio_error检查正在运行的IO操作的状态。但是其实现没有通过内核而是使用了多线程阻塞。此外，还有Linux自己实现的Native AIO，依赖两个函数：io_submit和io_getevents，虽然io是非阻塞的，但仍需要主动去获取读写的状态。</p>
 <p>需要特别注意的是：AIO是I/O处理模式，是一种接口标准，各家操作系统可以实现也可以不实现。目前Linux中AIO的内核实现只对文件IO有效，如果要实现真正的AIO，需要用户自己来实现。</p>
-<p>#网络编程模型</p>
-<p>上文讲述了UNIX环境的五种IO模型。基于这五种模型，在Java中，随着NIO和NIO2.0(AIO)的引入，一般具有以下几种网络编程模型：</p>
+<h1 id="网络编程模型"><a href="#网络编程模型" class="headerlink" title="网络编程模型"></a>网络编程模型</h1><p>上文讲述了UNIX环境的五种IO模型。基于这五种模型，在Java中，随着NIO和NIO2.0(AIO)的引入，一般具有以下几种网络编程模型：</p>
 <ul>
 <li>BIO</li>
 <li>NIO</li>
 <li>AIO</li>
 </ul>
-<p>##BIO</p>
-<p>BIO是一个典型的网络编程模型，是通常我们实现一个服务端程序的过程，步骤如下：</p>
+<h2 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h2><p>BIO是一个典型的网络编程模型，是通常我们实现一个服务端程序的过程，步骤如下：</p>
 <ul>
 <li>主线程accept请求阻塞</li>
 <li>请求到达，创建新的线程来处理这个套接字，完成对客户端的响应。</li>
 <li>主线程继续accept下一个请求</li>
 </ul>
 <p>这种模型有一个很大的问题是：当客户端连接增多时，服务端创建的线程也会暴涨，系统性能会急剧下降。因此，在此模型的基础上，类似于 tomcat的bio connector，采用的是线程池来避免对于每一个客户端都创建一个线程。有些地方把这种方式叫做伪异步IO(把请求抛到线程池中异步等待处理)。</p>
-<p>##NIO</p>
-<p>JDK1.4开始引入了NIO类库，这里的NIO指的是Non-blcok IO，主要是使用Selector多路复用器来实现。Selector在Linux等主流操作系统上是通过epoll实现的。</p>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p>JDK1.4开始引入了NIO类库，这里的NIO指的是Non-blcok IO，主要是使用Selector多路复用器来实现。Selector在Linux等主流操作系统上是通过epoll实现的。</p>
 <p>NIO的实现流程，类似于select：</p>
 <ul>
 <li>创建ServerSocketChannel监听客户端连接并绑定监听端口，设置为非阻塞模式。</li>
@@ -566,8 +562,7 @@
 </tr>
 </tbody>
 </table>
-<p>#参考资料</p>
-<ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li><a href="http://book.douban.com/subject/3924175/" target="_blank" rel="external">构建高性能Web站点</a></li>
 <li><a href="http://book.douban.com/subject/26373138/" target="_blank" rel="external">Netty权威指南</a></li>
 </ul>
@@ -801,7 +796,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO模型"><span class="nav-number">2.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步阻塞"><span class="nav-number">2.1.</span> <span class="nav-text">同步阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步非阻塞"><span class="nav-number">2.2.</span> <span class="nav-text">同步非阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO复用"><span class="nav-number">2.3.</span> <span class="nav-text">IO复用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号驱动"><span class="nav-number">2.4.</span> <span class="nav-text">信号驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AIO"><span class="nav-number">2.5.</span> <span class="nav-text">AIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对比"><span class="nav-number">2.6.</span> <span class="nav-text">对比</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO模型"><span class="nav-number">2.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#同步阻塞"><span class="nav-number">2.1.</span> <span class="nav-text">同步阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步非阻塞"><span class="nav-number">2.2.</span> <span class="nav-text">同步非阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO复用"><span class="nav-number">2.3.</span> <span class="nav-text">IO复用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号驱动"><span class="nav-number">2.4.</span> <span class="nav-text">信号驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步非阻塞"><span class="nav-number">2.5.</span> <span class="nav-text">异步非阻塞</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络编程模型"><span class="nav-number">3.</span> <span class="nav-text">网络编程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BIO"><span class="nav-number">3.1.</span> <span class="nav-text">BIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO"><span class="nav-number">3.2.</span> <span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AIO"><span class="nav-number">3.3.</span> <span class="nav-text">AIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对比"><span class="nav-number">3.4.</span> <span class="nav-text">对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
