@@ -101,8 +101,7 @@
 <meta name="description" content="IO模型介绍 (๑• . •๑)
 
 1这是崔斯特的第一百一十八篇原创文章
-前言说到IO模型，都会牵扯到同步、异步、阻塞、非阻塞这几个词。从词的表面上看，很多人都觉得很容易理解。但是细细一想，却总会发现有点摸不着头脑。自己也曾被这几个词弄的迷迷糊糊的，每次看相关资料弄明白了，然后很快又给搞混了。
-经历过这么几次之后，发现这东西必须得有所总结提炼才不至于再次混为一谈。尤其是最近看到好几篇讲这个的文章，">
+基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IO模型">
 <meta property="og:url" content="https://zhangslob.github.io/2020/03/24/IO模型/index.html">
@@ -110,22 +109,20 @@
 <meta property="og:description" content="IO模型介绍 (๑• . •๑)
 
 1这是崔斯特的第一百一十八篇原创文章
-前言说到IO模型，都会牵扯到同步、异步、阻塞、非阻塞这几个词。从词的表面上看，很多人都觉得很容易理解。但是细细一想，却总会发现有点摸不着头脑。自己也曾被这几个词弄的迷迷糊糊的，每次看相关资料弄明白了，然后很快又给搞混了。
-经历过这么几次之后，发现这东西必须得有所总结提炼才不至于再次混为一谈。尤其是最近看到好几篇讲这个的文章，">
+基础">
 <meta property="og:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/bio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/nio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/mulio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/sigio.png">
 <meta property="og:image" content="https://www.rowkey.me/images/blog_images/io/aio.png">
-<meta property="og:updated_time" content="2020-03-25T06:09:16.931Z">
+<meta property="og:updated_time" content="2020-03-27T11:31:32.667Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IO模型">
 <meta name="twitter:description" content="IO模型介绍 (๑• . •๑)
 
 1这是崔斯特的第一百一十八篇原创文章
-前言说到IO模型，都会牵扯到同步、异步、阻塞、非阻塞这几个词。从词的表面上看，很多人都觉得很容易理解。但是细细一想，却总会发现有点摸不着头脑。自己也曾被这几个词弄的迷迷糊糊的，每次看相关资料弄明白了，然后很快又给搞混了。
-经历过这么几次之后，发现这东西必须得有所总结提炼才不至于再次混为一谈。尤其是最近看到好几篇讲这个的文章，">
+基础">
 <meta name="twitter:image" content="https://u.vmpic.cn/2019/11/04/7gdV.jpg">
 
 
@@ -432,6 +429,8 @@
         <p>IO模型介绍 (๑• . •๑)</p>
 <p><a href="http://vmpic.cn/image/7gdV" target="_blank" rel="external"><img src="https://u.vmpic.cn/2019/11/04/7gdV.jpg" alt="7gdV.jpg"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第一百一十八篇原创文章</div></pre></td></tr></table></figure>
+<p>基础</p>
+<a id="more"></a>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>说到IO模型，都会牵扯到同步、异步、阻塞、非阻塞这几个词。从词的表面上看，很多人都觉得很容易理解。但是细细一想，却总会发现有点摸不着头脑。自己也曾被这几个词弄的迷迷糊糊的，每次看相关资料弄明白了，然后很快又给搞混了。</p>
 <p>经历过这么几次之后，发现这东西必须得有所总结提炼才不至于再次混为一谈。尤其是最近看到好几篇讲这个的文章，很多都有谬误，很容易把本来就搞不清楚的人弄的更加迷糊。</p>
 <p>最适合IO模型的例子应该是咱们平常生活中的去餐馆吃饭这个场景，下文就结合这个来讲解一下经典的几个IO模型。在此之前，先需要说明以下几点：</p>
