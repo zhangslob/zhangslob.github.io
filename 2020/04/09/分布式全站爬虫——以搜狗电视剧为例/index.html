@@ -1,0 +1,1039 @@
+<!doctype html>
+
+
+
+  
+
+<!-- Google AdSense start -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9028627160282216",
+    enable_page_level_ads: true
+  });
+</script>
+
+<!-- Google AdSense end -->
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小歪的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="全站抓取的技巧
+
+1这是崔斯特的第一百一十九篇原创文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式全站爬虫——以搜狗电视剧为例">
+<meta property="og:url" content="https://zhangslob.github.io/2020/04/09/分布式全站爬虫——以搜狗电视剧为例/index.html">
+<meta property="og:site_name" content="小歪的博客">
+<meta property="og:description" content="全站抓取的技巧
+
+1这是崔斯特的第一百一十九篇原创文章">
+<meta property="og:image" content="https://i.loli.net/2020/04/09/epol2P1EfHrZLQa.png">
+<meta property="og:updated_time" content="2020-04-09T11:46:19.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式全站爬虫——以搜狗电视剧为例">
+<meta name="twitter:description" content="全站抓取的技巧
+
+1这是崔斯特的第一百一十九篇原创文章">
+<meta name="twitter:image" content="https://i.loli.net/2020/04/09/epol2P1EfHrZLQa.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zhangslob.github.io/2020/04/09/分布式全站爬虫——以搜狗电视剧为例/"/>
+
+
+
+
+
+  <title> 分布式全站爬虫——以搜狗电视剧为例 | 小歪的博客 </title>
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <!-- <a href="https://github.com/zhangslob"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a> -->
+    <a target="_blank" href="https://github.com/zhangslob"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小歪的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我学Python</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-leetcode">
+          <a href="/leetcode/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            menu.leetcode
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://zhangslob.github.io/2020/04/09/分布式全站爬虫——以搜狗电视剧为例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="崔斯特">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小歪的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                分布式全站爬虫——以搜狗电视剧为例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-09T19:40:39+08:00">
+                2020-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>全站抓取的技巧</p>
+<p><img src="https://i.loli.net/2020/04/09/epol2P1EfHrZLQa.png" alt="carbon.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这是崔斯特的第一百一十九篇原创文章</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="分布式全站爬虫——以”搜狗电视剧”为例"><a href="#分布式全站爬虫——以”搜狗电视剧”为例" class="headerlink" title="分布式全站爬虫——以”搜狗电视剧”为例"></a>分布式全站爬虫——以”搜狗电视剧”为例</h1><p>先看看<a href="http://kan.sogou.com/robots.txt" target="_blank" rel="external">robots协议</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">User-agent: *</div><div class="line">Allow: / </div><div class="line">Sitemap: http://kan.sogou.com/sitemap/sitemap.xml</div></pre></td></tr></table></figure>
+<p>牛皮！</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>打开一个具体的影视：<code>http://kan.sogou.com/player/181171191/</code>，网址中有具体数字ID，我们假设数字ID就是递增的，即从1开始，那么我们可以拼接url：</p>
+<ul>
+<li><a href="http://kan.sogou.com/player/1/" target="_blank" rel="external">http://kan.sogou.com/player/1/</a></li>
+<li><a href="http://kan.sogou.com/player/2/" target="_blank" rel="external">http://kan.sogou.com/player/2/</a></li>
+<li><a href="http://kan.sogou.com/player/3/" target="_blank" rel="external">http://kan.sogou.com/player/3/</a></li>
+<li><a href="http://kan.sogou.com/player/4/" target="_blank" rel="external">http://kan.sogou.com/player/4/</a></li>
+<li>…</li>
+</ul>
+<p>有两个问题：</p>
+<ol>
+<li>ID上限是多少，我不可能永不止境的往上加吧</li>
+<li>抓取效率问题，如果有10亿，那么我就需要发送10亿个HTTP请求，如果你开启了1000个线程，0.3秒能处理完一个ID，一天可以抓取：<code>1000 * 0.3 * 60 * 60 * 24</code> = 25920000 个，需要约38天才能抓完，这肯定是不合乎要求的</li>
+</ol>
+<p>针对这两个问题，可以用如下方法：</p>
+<ol>
+<li>使用采样，比如我们确定间隔是1000，我们在1~1000中随机取数，在1001~2000中再随机取一个数，这样10亿数就被缩短为一百万了，这个数字就小多了</li>
+<li>凭什么说上限是10亿呢，我们在真正爬虫之前还需要一次调研，调研的时候可以把间隔调大，比如5000，这次抓取只是为了评估ID分布范围，比如第一段是[1, 10000]，第二段是[1000000, 9000000]，最后一段是[10000000000, 10090000000]。确定ID分布范围后就可以在指定区间内采样抓取</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>核心代码参考：<a href="https://github.com/zhangslob/awesome_crawl/blob/master/kan_sogou/kan_sogou/generate_uid.py" target="_blank" rel="external">generate_uid.py</a>，该函数是主节点开启的一个线程，该线程会监控redis中爬虫start_urls队列，如果小于预期，调用生成器生成ID列表，加入到队列中，同时更新此时的ID到redis。</p>
+<p>运行爬虫，命令是：<code>scrapy crawl sougou -a master=True</code>，日志样例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">2020-04-07 22:05:06 [scrapy.core.engine] INFO: Spider opened</div><div class="line">2020-04-07 22:05:06 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)</div><div class="line">2020-04-07 22:05:06 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023</div><div class="line">2020-04-07 22:05:09 [sougou] INFO: spider sougou gen uid 40000001</div><div class="line">2020-04-07 22:06:06 [scrapy.extensions.logstats] INFO: Crawled 3569 pages (at 3569 pages/min), scraped 0 items (at 0 items/min)</div><div class="line">2020-04-07 22:07:06 [scrapy.extensions.logstats] INFO: Crawled 7034 pages (at 3465 pages/min), scraped 0 items (at 0 items/min)</div><div class="line">2020-04-07 22:08:06 [scrapy.extensions.logstats] INFO: Crawled 10521 pages (at 3487 pages/min), scraped 0 items (at 0 items/min)</div><div class="line">2020-04-07 22:09:06 [scrapy.extensions.logstats] INFO: Crawled 13849 pages (at 3328 pages/min), scraped 0 items (at 0 items/min)</div><div class="line">2020-04-07 22:09:39 [sougou] INFO: success get useful id http://kan.sogou.com/updown.php?gid=181159677&amp;op=get</div><div class="line">2020-04-07 22:10:06 [scrapy.extensions.logstats] INFO: Crawled 17292 pages (at 3443 pages/min), scraped 0 items (at 0 items/min)</div></pre></td></tr></table></figure>
+<h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><p>这是MS设计，master负责去向队列里添加任务，slave负责消费。（这里的master同样有消费）</p>
+<p>开启master只需要向启动命令添加额外参数，slave启动方式正常即可。</p>
+<p>注意：master只能开启一个，否则会有重复任务，slave开启多少个取决于机器、网络、代理条件。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>这种全量抓取方式只适合ID是数字的，这种网站还挺多的，淘宝、京东、知乎、美团等等。这些ID并不是递增，而是分布在一块块区域，先宏观上调查出大体范围，再缩小ID间隔。</p>
+<p>但是有些网站，比如优酷的：<code>https://v.youku.com/v_show/id_XNDU4OTM3NzM0NA==.html</code>，id明显就是混淆过的，想要全量抓取只能通过分类接口去抓。这个有时间再聊聊。</p>
+<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>我们想想，这样设计会不会有线程安全？</p>
+<p>先看看slave端，对redis的操作只有一个就是获取redis里的id，我们看看代码，<code>scrapy_redis.spiders.RedisMixin.next_requests</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">next_requests</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="string">"""Returns a request to be scheduled or none."""</span></div><div class="line">    use_set = self.settings.getbool(<span class="string">'REDIS_START_URLS_AS_SET'</span>, defaults.START_URLS_AS_SET)</div><div class="line">    fetch_one = self.server.spop <span class="keyword">if</span> use_set <span class="keyword">else</span> self.server.lpop</div><div class="line">    <span class="comment"># <span class="doctag">XXX:</span> Do we need to use a timeout here?</span></div><div class="line">    found = <span class="number">0</span></div><div class="line">    <span class="comment"># <span class="doctag">TODO:</span> Use redis pipeline execution.</span></div><div class="line">    <span class="keyword">while</span> found &lt; self.redis_batch_size:</div><div class="line">        data = fetch_one(self.redis_key)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> data:</div><div class="line">            <span class="comment"># Queue empty.</span></div><div class="line">            <span class="keyword">break</span></div><div class="line">        req = self.make_request_from_data(data)</div><div class="line">        <span class="keyword">if</span> req:</div><div class="line">            <span class="keyword">yield</span> req</div><div class="line">            found += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            self.logger.debug(<span class="string">"Request not made from data: %r"</span>, data)</div></pre></td></tr></table></figure>
+<p>scrapy-redis使用使用list结构，所以这里我们用到的是<code>lpop</code>命令，多次去redis中获取request，直到<code>found = self.redis_batch_size</code>，每次从redis中获取request的数量如果没有设置，默认就是settings中的<code>CONCURRENT_REQUESTS</code>，一般就是16。</p>
+<pre><code class="python"><span class="keyword">if</span> self.redis_batch_size <span class="keyword">is</span> <span class="keyword">None</span>:
+    <span class="comment"># <span class="doctag">TODO:</span> Deprecate this setting (REDIS_START_URLS_BATCH_SIZE).</span>
+    self.redis_batch_size = settings.getint(
+        <span class="string">'REDIS_START_URLS_BATCH_SIZE'</span>,
+        settings.getint(<span class="string">'CONCURRENT_REQUESTS'</span>),
+    )
+</code></pre>
+<p>每次从redis中获取到request后，会直接调用<code>self.make_request_from_data(data)</code>方法。作者在注释里也说到了这里的两个改进方法：</p>
+<ol>
+<li>Use timeout。redis的<code>lpop</code>是阻塞操作，所以理论上需要加上超时</li>
+<li>Use redis pipeline。如果不了解的可以看看文档，<a href="http://www.redis.cn/topics/pipelining.html" target="_blank" rel="external">Redis 管道（Pipelining）</a>，</li>
+</ol>
+<blockquote>
+<p>有心可以去提个pr，以后就可以吹牛说自己是scrapy-redis的contributors了，有人已经行动了，<a href="https://github.com/rmax/scrapy-redis/pull/159" target="_blank" rel="external">read start_urls use redis pipeline</a></p>
+</blockquote>
+<p>因为<code>lpop</code>是原子操作，任何时候只会有单一线程从redis中拿到request，所以在获取request这一步是线程安全的。对这块不熟悉的可以阅读<a href="https://zhangslob.github.io/2020/03/24/Redis-%E5%92%8C-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">Redis 和 I/O 多路复用</a></p>
+<p>再看看master端，有两个redis操作，</p>
+<ol>
+<li>查询spider种子数量，使用<code>llen</code></li>
+<li>如果数量小于预期，生成任务ID，使用<code>lpush</code>插入数据</li>
+</ol>
+<p>线程安全一般出现多线程之间的共享变量，这个场景下共享变量是什么，redis中的request列表吗，我仔细想了下，因为我们对redis的操作都保证原子性，并且插入的id保证不重复，所以不会出现问题。可以改进的地方，就是在master端使用redis pipeline操作。</p>
+<p>欢迎交流想法。</p>
+<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><p>这两天看到一个新闻：</p>
+<blockquote>
+<p>　“卖空”研究公司Wolfpack Research今日在其网站上发布报告称，爱奇艺早在2018年IPO（首次公开招股）之前就存在欺诈行为，而且此后也一直在这样做。</p>
+<p>　　该机构表示，我们估计爱奇艺将其2019年的营收夸大了约80―130亿元人民币（27%―44%），将其用户数量夸大了约42%―60%。</p>
+</blockquote>
+<p>别的不说，就用户数，现在这个分布式爬虫就可以抓取用户数据。用户主页是：<code>https://www.iqiyi.com/u/1416657079/feeds</code>，也是数字的，同样可以使用采样的办法去抓取用户数据。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/IO模型/" rel="next" title="IO模型">
+                <i class="fa fa-chevron-left"></i> IO模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+  <!-- 下一行是要添加的代码 start  -->
+  <!-- Link Gitalk 的支持文件  -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+    <script src="/js/src/md5.min.js"></script>
+    <div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: '5ec2f8855d35458a8251',
+        clientSecret: 'bba153b77a0beb4c104a1eefc4132cf2b794f44f',
+        repo: 'zhangslob.github.io',
+        owner: 'zhangslob',
+        admin: ['zhangslob'],
+        id: md5(location.pathname),
+
+    });
+    gitalk.render('gitalk-container');
+  </script> 
+  <!-- Gitalk end -->
+  <!-- 到一上行结束 end  -->
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+      <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    
+  </div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1488291259&di=9b54b1ab9a4a02ec51e4344e960692d6&src=http://ni.ppsrc.com/aR24MryiGC7HFCEJTB-wgQ@640w_640h_75Q.jpeg"
+               alt="崔斯特" />
+          <p class="site-author-name" itemprop="name">崔斯特</p>
+           
+              <p class="site-description motion-element" itemprop="description">数据采集、数据处理、机器学习。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">84</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhangslob" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:zhangslob@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  E-Mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cuishite" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.quora.com/profile/Zhangslob" target="_blank" title="Quora">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Quora
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式全站爬虫——以”搜狗电视剧”为例"><span class="nav-number">1.</span> <span class="nav-text">分布式全站爬虫——以”搜狗电视剧”为例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">1.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式"><span class="nav-number">1.3.</span> <span class="nav-text">分布式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考"><span class="nav-number">1.4.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全"><span class="nav-number">1.5.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际应用"><span class="nav-number">1.6.</span> <span class="nav-text">实际应用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+一共来了 <span id="busuanzi_value_site_pv"></span> 位朋友啦~
+您是崔斯特的第<span id="busuanzi_value_site_uv"></span>个小伙伴(๑• . •๑)
+
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">崔斯特</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="local-search-pop-overlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
